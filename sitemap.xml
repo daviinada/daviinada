@@ -14,8 +14,7 @@
     
     <url>
     
-      <loc>/</loc>
-      <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+      <loc>/publication_types/</loc>
       <priority>0</priority>
     </url>
     
@@ -24,7 +23,8 @@
     
     <url>
     
-      <loc>/publication_types/</loc>
+      <loc>/</loc>
+      <lastmod>2016-04-20T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
