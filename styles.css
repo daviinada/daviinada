@@ -24,14 +24,11 @@
   display: table;
 }
 
-/* I changed the padding of html */
-
 html {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   color: rgba(0,0,0,0.8);
   line-height: 1.65;
-  padding: 0 50px 0 50px;
 }
 @media screen and (min-width: 58em) {
   html {
@@ -44,6 +41,7 @@ body {
   font-size: 1rem;
   line-height: inherit;
   color: inherit;
+  background-color: <no value>;
   margin-top: 71px; /* Offset body content by navbar height. */
   padding-top: 0;
   counter-reset: captions;
@@ -52,6 +50,19 @@ body {
   body {
     margin-top: 51px; /* Offset body content by navbar height. */
   }
+}
+
+.max-width-640 {
+  max-width: 640px;
+}
+
+.margin-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-text {
+  text-align: center;
 }
 
 /* Body text */
@@ -118,6 +129,12 @@ video {
   height: auto;
   max-width: 100%;
   display: block;
+}
+
+video {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
 }
 
 .img-responsive {
@@ -233,6 +250,68 @@ small,
 }
 
 /*************************************************
+ *  Gallery.
+ **************************************************/
+
+.gallery {
+  margin: 0.5em -4px 1.5em -4px;
+  font-size: 0;
+}
+
+a[data-fancybox] {
+  text-decoration: none;
+}
+
+a[data-fancybox] img {
+  height: 250px;
+  max-width: inherit;
+  display: inherit;
+  margin: 0;
+  padding: 4px;
+  box-shadow: none;
+  vertical-align: inherit;
+}
+
+.fancybox-caption {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  text-align: center;
+}
+
+/*************************************************
+ *  Pager.
+ **************************************************/
+
+.post-nav {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+}
+
+.post-nav-item {
+  hyphens: auto;
+  word-wrap: break-word;
+  padding: 11px 0 12px;
+  width: 100%;
+}
+
+.post-nav-item a {
+  color: #2b2b2b;
+  line-height: 1.7;
+  text-transform: none;
+}
+
+.post-nav-item .meta-nav {
+  color: #767676;
+  font-weight: 900;
+  line-height: 2;
+  text-transform: uppercase;
+}
+
+.dark .post-nav-item a {
+  color: #ddd;
+}
+
+/*************************************************
  *  Home Sections
  **************************************************/
 
@@ -247,7 +326,7 @@ small,
 
 .home-section {
   background-color: rgb(255, 255, 255);
-  padding: 50px 0 50px 0;
+  padding: 60px 0 60px 0; /** diminiu ou aumenta o espaco em branco para cima  e para baixo**/
   animation: intro 0.3s both;
   animation-delay: 0.15s;
 }
@@ -262,7 +341,7 @@ small,
 
 @media screen and (max-width: 768px) {
   .home-section {
-    padding: 70px 0 70px 0;
+    padding: 60px 0 60px 0;
   }
   .home-section:first-of-type {
     padding-top: 40px;
@@ -327,6 +406,37 @@ small,
 }
 
 /*************************************************
+ *  Featurette Widget
+ **************************************************/
+
+.featurette {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #555;
+  text-align: center;
+}
+
+.featurette h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-weight: 400;
+  color: #333;
+}
+
+.dark .featurette,
+.dark .featurette h3 {
+  color: #fff;
+}
+
+.featurette-icon {
+  display: block;
+  width: 100%;
+  color: #3f51b5;
+  font-size: 3rem;
+  text-align: center;
+}
+
+/*************************************************
  *  Biography
  **************************************************/
 
@@ -363,6 +473,7 @@ small,
   display: inline-flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   list-style: none;
   padding: 0;
   margin-top: 30px;
@@ -519,12 +630,17 @@ article {
 }
 
 .article-metadata {
-  margin-bottom: 20px;
-  line-height: 30px; /* Match share bar line height. */
+  margin-bottom: 15px;
   overflow: hidden;
   font-size: 14px;
   letter-spacing: 0.03em;
   color: #888;
+}
+
+/* For article page only, not lists. */
+article .article-metadata {
+  margin-bottom: 20px;
+  line-height: 30px; /* Match share bar line height. */
 }
 
 .article-metadata a {
@@ -533,18 +649,6 @@ article {
 
 .article-metadata a:hover {
   color: #3f51b5;
-}
-
-.article-list-item {
-  margin-bottom: 40px;
-}
-
-.article-list-item:last-child {
-  margin-bottom: 0 !important;
-}
-
-.article-list-item .article-metadata {
-  margin-bottom: 5px;
 }
 
 .middot-divider {
@@ -559,13 +663,11 @@ article {
 
 .article-style img,
 .article-style video {
-  box-shadow: 1px 1px 0px #edefed, -1px -1px 0px #edefed, 1px -1px 0px #edefed, -1px 1px 0px #edefed;
   margin-left: auto;
   margin-right: auto;
   margin-top: 60px;
   margin-bottom: 60px;
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
 }
 
 .article-style td img,
@@ -619,10 +721,6 @@ article {
   margin-right: auto;
 }
 
-.pub .pub-title {
-  margin-bottom: 5px;
-}
-
 .pub .pub-authors {
   font-style: italic;
   line-height: 30px; /* Match share bar line height. */
@@ -630,10 +728,6 @@ article {
 
 .pub .pub-row-heading {
   font-weight: bold;
-}
-
-.pub-list-item {
-  margin-bottom: 40px;
 }
 
 .pub-list-item .pub-abstract {
@@ -723,6 +817,29 @@ article {
 /*************************************************
  *  Card component
  **************************************************/
+
+.card-simple {
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  border: 1px solid rgba(0,0,0,.09);
+  border-radius: 3px;
+  margin-top: 20px;
+  padding: 15px 20px 15px 20px;
+}
+
+.card-simple:first-of-type {
+  margin-top: 0;
+}
+
+.card-simple p.read-more {
+  margin: 0;
+}
+
+.dark .card-simple {
+  background: rgb(40, 42, 54);
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  border: 1px solid rgb(68, 71, 90);
+}
 
 .card {
   margin-bottom: 1.5rem;
@@ -1319,7 +1436,6 @@ div.alert a:hover {
  **************************************************/
 
 body.dark {
-  background-color: rgb(40, 42, 54);
   color: rgb(248, 248, 242);
 }
 
@@ -1419,271 +1535,6 @@ body.dark {
 .dark select {
   background: rgb(40, 42, 54);
   color: rgb(248, 248, 242);
-}
-
-/* Make sure that padding behaves as expected */
-* {box-sizing:border-box}
-
-/* Container for skill bars */
-.container {
-    width: 100%; /* Full width */
-    background-color: wite; /* Grey background */
-}
-
-.skills {
-    text-align: right; /* Right-align text */
-    padding-right: 20px; /* Add some right padding */
-    line-height: 40px; /* Set the line-height to center the text inside the skill bar, and to expand the height of the container */
-    color: white; /* White text color */
-}
-
-
-
-.fixed_left {
-  position: left;
-  bottom: 0;
-  right: 0;
-  width: 450px;
-}
-
-/* Skillbar */
-/* Skillbar */
-
-.r {width: 90%; background-color: #253494;} 
-.rmarkdown {width: 75%; background-color: #2c7fb8;} 
-.shinyapp {width: 85%; background-color: #41b6c4;} 
-.shell {width: 65%; background-color: #1b9e77;} 
-.exel {width: 60%; background-color: #d95f02;}
-.powerpoint {width: 60%; background-color: #7570b3;} 
-
-
-/* Circle progress */
-@import url(https://fonts.googleapis.com/css?family=Lato:700);
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
-.set-size {
-  font-size: 10em;
-}
-.charts-container:after {
-  clear: both;
-  content: "";
-  display: table;
-}
-.pie-wrapper {
-  height: 1em;
-  width: 1em;
-  float: left;
-  margin: 15px;
-  position: relative;
-}
-.pie-wrapper:nth-child(3n+1) {
-  clear: both;
-}
-.pie-wrapper .pie {
-  height: 100%;
-  width: 100%;
-  clip: rect(0, 1em, 1em, 0.5em);
-  left: 0;
-  position: absolute;
-  top: 0;
-}
-.pie-wrapper .pie .half-circle {
-  height: 100%;
-  width: 100%;
-  border: 0.1em solid #3498db;
-  border-radius: 50%;
-  clip: rect(0, 0.5em, 1em, 0);
-  left: 0;
-  position: absolute;
-  top: 0;
-}
-.pie-wrapper .label {
-  background: #34495e;
-  border-radius: 50%;
-  bottom: 0.4em;
-  color: #ecf0f1;
-  cursor: default;
-  display: block;
-  font-size: 0.25em;
-  left: 0.4em;
-  line-height: 2.6em;
-  position: absolute;
-  right: 0.4em;
-  text-align: center;
-  top: 0.4em;
-}
-.pie-wrapper .label .smaller {
-  color: #bdc3c7;
-  font-size: .45em;
-  padding-bottom: 20px;
-  vertical-align: super;
-}
-.pie-wrapper .shadow {
-  height: 100%;
-  width: 100%;
-  border: 0.1em solid #bdc3c7;
-  border-radius: 50%;
-}
-.pie-wrapper.style-2 .label {
-  background: none;
-  color: #7f8c8d;
-}
-.pie-wrapper.style-2 .label .smaller {
-  color: #bdc3c7;
-}
-.pie-wrapper.progress-30 .pie .right-side {
-  display: none;
-}
-.pie-wrapper.progress-30 .pie .half-circle {
-  border-color: #3498db;
-}
-.pie-wrapper.progress-30 .pie .left-side {
-  -webkit-transform: rotate(108deg);
-          transform: rotate(108deg);
-}
-.pie-wrapper.progress-60 .pie {
-  clip: rect(auto, auto, auto, auto);
-}
-.pie-wrapper.progress-60 .pie .right-side {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
-}
-.pie-wrapper.progress-60 .pie .half-circle {
-  border-color: #9b59b6;
-}
-.pie-wrapper.progress-60 .pie .left-side {
-  -webkit-transform: rotate(216deg);
-          transform: rotate(216deg);
-}
-.pie-wrapper.progress-90 .pie {
-  clip: rect(auto, auto, auto, auto);
-}
-.pie-wrapper.progress-90 .pie .right-side {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
-}
-.pie-wrapper.progress-90 .pie .half-circle {
-  border-color: #fdae61;
-}
-.pie-wrapper.progress-90 .pie .left-side {
-  -webkit-transform: rotate(324deg);
-          transform: rotate(324deg);
-}
-.pie-wrapper.progress-45 .pie .right-side {
-  display: none;
-}
-.pie-wrapper.progress-45 .pie .half-circle {
-  border-color: #1abc9c;
-}
-.pie-wrapper.progress-45 .pie .left-side {
-  -webkit-transform: rotate(162deg);
-          transform: rotate(162deg);
-}
-.pie-wrapper.progress-75 .pie {
-  clip: rect(auto, auto, auto, auto);
-}
-.pie-wrapper.progress-75 .pie .right-side {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
-}
-.pie-wrapper.progress-75 .pie .half-circle {
-  border-color: #abd9e9;
-}
-.pie-wrapper.progress-75 .pie .left-side {
-  -webkit-transform: rotate(270deg);
-          transform: rotate(270deg);
-}
-
-
-.pie-wrapper.progress-95 .pie .left-side {
-  -webkit-transform: rotate(342deg);
-          transform: rotate(342deg);
-}
-
-.pie-wrapper.progress-95 .pie {
-  clip: rect(auto, auto, auto, auto);
-}
-.pie-wrapper.progress-95 .pie .right-side {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
-}
-.pie-wrapper.progress-95 .pie .half-circle {
-  border-color: #d7191c;
-}
-
-.pie-wrapper.progress-95 .pie .left-side {
-  -webkit-transform: rotate(342deg);
-          transform: rotate(342deg);
-}
-
-
-.pie-wrapper.progress-95-2 .pie .left-side {
-  -webkit-transform: rotate(342deg);
-          transform: rotate(342deg);
-}
-
-.pie-wrapper.progress-95-2 .pie {
-  clip: rect(auto, auto, auto, auto);
-}
-.pie-wrapper.progress-95-2 .pie .right-side {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
-}
-.pie-wrapper.progress-95-2 .pie .half-circle {
-  border-color: #2c7bb6;
-}
-
-.pie-wrapper.progress-95-2 .pie .left-side {
-  -webkit-transform: rotate(342deg);
-          transform: rotate(342deg);
-}
-
-.pie-wrapper--solid {
-  border-radius: 50%;
-  overflow: hidden;
-}
-.pie-wrapper--solid:before {
-  border-radius: 0 100% 100% 0%;
-  content: '';
-  display: block;
-  height: 100%;
-  margin-left: 50%;
-  -webkit-transform-origin: left;
-          transform-origin: left;
-}
-.pie-wrapper--solid .label {
-  background: transparent;
-}
-.pie-wrapper--solid.progress-65 {
-  background: -webkit-linear-gradient(left, #e67e22 50%, #34495e 50%);
-  background: linear-gradient(to right, #e67e22 50%, #34495e 50%);
-}
-.pie-wrapper--solid.progress-65:before {
-  background: #e67e22;
-  -webkit-transform: rotate(126deg);
-          transform: rotate(126deg);
-}
-.pie-wrapper--solid.progress-25 {
-  background: -webkit-linear-gradient(left, #9b59b6 50%, #34495e 50%);
-  background: linear-gradient(to right, #9b59b6 50%, #34495e 50%);
-}
-.pie-wrapper--solid.progress-25:before {
-  background: #34495e;
-  -webkit-transform: rotate(-270deg);
-          transform: rotate(-270deg);
-}
-.pie-wrapper--solid.progress-88 {
-  background: -webkit-linear-gradient(left, #3498db 50%, #34495e 50%);
-  background: linear-gradient(to right, #3498db 50%, #34495e 50%);
-}
-.pie-wrapper--solid.progress-88:before {
-  background: #3498db;
-  -webkit-transform: rotate(43.2deg);
-          transform: rotate(43.2deg);
 }
 
 /* Professional timeline */
@@ -2044,3 +1895,6 @@ header p {
     text-align: left;
   }
 }
+
+
+
