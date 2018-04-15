@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.31" />
+  <meta name="author" content="Davi Toshio Inada">
+  <meta name="description" content="Analista de dados, Bioinformata">
+
+  
+  <link rel="alternate" hreflang="pt-br" href="/project/titanic/">
+
+  
+  
+
+
+  
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-110300289-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Davi Toshio">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Davi Toshio">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/project/titanic/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Davi Toshio">
+  <meta property="og:url" content="/project/titanic/">
+  <meta property="og:title" content="Titanic, quem sobreviveu? | Davi Toshio">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="pt-br">
+  
+  
+  
+  
+
+  
+
+  <title>Titanic, quem sobreviveu? | Davi Toshio</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Alterar navegação</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Davi Toshio</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Sobre</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#skills">
+            
+            <span>Perfil profissional</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#experience">
+            
+            <span>Experiência</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#publications">
+            
+            <span>Publicações</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#aplicacoes">
+            
+            <span>Aplicações</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contato</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article article-project" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+
+    <div class="pub-title">
+      <h1 itemprop="name">Titanic, quem sobreviveu?</h1>
+      <span class="pub-authors" itemprop="author">&nbsp;</span>
+      <span class="pull-right">
+        
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Titanic%2c%20quem%20sobreviveu%3f&amp;url=%2fproject%2ftitanic%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fproject%2ftitanic%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fproject%2ftitanic%2f&amp;title=Titanic%2c%20quem%20sobreviveu%3f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fproject%2ftitanic%2f&amp;title=Titanic%2c%20quem%20sobreviveu%3f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Titanic%2c%20quem%20sobreviveu%3f&amp;body=%2fproject%2ftitanic%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+      </span>
+    </div>
+
+    
+
+    <div class="article-style" itemprop="articleBody">
+      <style type='text/css'>
+body{ /* Normal  */
+  font-size: 14px;
+  
+td {  /* Table  */
+  font-size: 14px;
+}
+h1.title {
+  font-size: 24px;
+
+}
+h1 { /* Header 1 */
+  font-size: 24px;
+
+}
+h2 { /* Header 2 */
+    font-size: 16px;
+}
+h3 { /* Header 3 */
+  font-size: 14px;
+
+}
+code.r{ /* Code block */
+    font-size: 14px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+</style>
+<pre class="r"><code>library(caret)
+library(mice)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(purrr)
+library(corrplot)
+library(viridis)
+library(RColorBrewer)</code></pre>
+<div id="tratamento-inicial-dos-dados" class="section level1">
+<h1>1.Tratamento inicial dos dados</h1>
+<p>Unindo o conjunto de treino e teste para estimar pseudo valores. Existem muitos dados faltantes, e para estimar um valor mais próximo do real para os mesmos, precisaremos do máximo de informação possível.</p>
+<pre class="r"><code>setwd(&#39;/home/davi/Desktop/titanic&#39;)
+train &lt;- read.csv(file=&#39;train.csv&#39;, sep=&#39;,&#39;, stringsAsFactors = FALSE) 
+train$dataTag &lt;- &#39;train&#39;
+
+test &lt;-  read.csv(file=&#39;test.csv&#39;, sep=&#39;,&#39;, stringsAsFactors = FALSE) 
+test$dataTag  &lt;- &#39;test&#39;
+test$Survived &lt;- NA
+
+concat_data &lt;- train %&gt;% bind_rows(test)
+
+head(concat_data)</code></pre>
+<pre><code>##   PassengerId Survived Pclass
+## 1           1        0      3
+## 2           2        1      1
+## 3           3        1      3
+## 4           4        1      1
+## 5           5        0      3
+## 6           6        0      3
+##                                                  Name    Sex Age SibSp
+## 1                             Braund, Mr. Owen Harris   male  22     1
+## 2 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female  38     1
+## 3                              Heikkinen, Miss. Laina female  26     0
+## 4        Futrelle, Mrs. Jacques Heath (Lily May Peel) female  35     1
+## 5                            Allen, Mr. William Henry   male  35     0
+## 6                                    Moran, Mr. James   male  NA     0
+##   Parch           Ticket    Fare Cabin Embarked dataTag
+## 1     0        A/5 21171  7.2500              S   train
+## 2     0         PC 17599 71.2833   C85        C   train
+## 3     0 STON/O2. 3101282  7.9250              S   train
+## 4     0           113803 53.1000  C123        S   train
+## 5     0           373450  8.0500              S   train
+## 6     0           330877  8.4583              Q   train</code></pre>
+<pre class="r"><code>summary(concat_data)</code></pre>
+<pre><code>##   PassengerId      Survived          Pclass          Name          
+##  Min.   :   1   Min.   :0.0000   Min.   :1.000   Length:1309       
+##  1st Qu.: 328   1st Qu.:0.0000   1st Qu.:2.000   Class :character  
+##  Median : 655   Median :0.0000   Median :3.000   Mode  :character  
+##  Mean   : 655   Mean   :0.3838   Mean   :2.295                     
+##  3rd Qu.: 982   3rd Qu.:1.0000   3rd Qu.:3.000                     
+##  Max.   :1309   Max.   :1.0000   Max.   :3.000                     
+##                 NA&#39;s   :418                                        
+##      Sex                 Age            SibSp            Parch      
+##  Length:1309        Min.   : 0.17   Min.   :0.0000   Min.   :0.000  
+##  Class :character   1st Qu.:21.00   1st Qu.:0.0000   1st Qu.:0.000  
+##  Mode  :character   Median :28.00   Median :0.0000   Median :0.000  
+##                     Mean   :29.88   Mean   :0.4989   Mean   :0.385  
+##                     3rd Qu.:39.00   3rd Qu.:1.0000   3rd Qu.:0.000  
+##                     Max.   :80.00   Max.   :8.0000   Max.   :9.000  
+##                     NA&#39;s   :263                                     
+##     Ticket               Fare            Cabin          
+##  Length:1309        Min.   :  0.000   Length:1309       
+##  Class :character   1st Qu.:  7.896   Class :character  
+##  Mode  :character   Median : 14.454   Mode  :character  
+##                     Mean   : 33.295                     
+##                     3rd Qu.: 31.275                     
+##                     Max.   :512.329                     
+##                     NA&#39;s   :1                           
+##    Embarked           dataTag         
+##  Length:1309        Length:1309       
+##  Class :character   Class :character  
+##  Mode  :character   Mode  :character  
+##                                       
+##                                       
+##                                       
+## </code></pre>
+<p>Formatando os dados. Precisamos marcas as regiões com dados faltantes e também definir os tipos de cada variável (categórico, numérico ou string) do nosso conjunto de dados.</p>
+<pre class="r"><code>concat_data$Cabin[which(concat_data$Cabin == &#39;&#39;)] &lt;- NA
+concat_data$Embarked[which(concat_data$Embarked == &#39;&#39;)] &lt;- NA
+
+concat_data$Survived &lt;- as.factor(concat_data$Survived) 
+concat_data$Pclass  &lt;- as.factor(concat_data$Pclass)
+concat_data$Sex &lt;- as.factor(concat_data$Sex)
+concat_data$Ticket &lt;- as.factor(concat_data$Ticket)
+concat_data$Cabin &lt;- as.factor(concat_data$Cabin)
+concat_data$Embarked &lt;- as.factor(concat_data$Embarked)
+concat_data$dataTag  &lt;- as.factor(concat_data$dataTag)</code></pre>
+<pre class="r"><code># Tem um NA tambem, pertence a Pclass 3, vou substituir pela media dessa classe 
+which(is.na(concat_data$Fare))</code></pre>
+<pre><code>## [1] 1044</code></pre>
+<pre class="r"><code>concat_data[1044, ]</code></pre>
+<pre><code>##      PassengerId Survived Pclass               Name  Sex  Age SibSp Parch
+## 1044        1044     &lt;NA&gt;      3 Storey, Mr. Thomas male 60.5     0     0
+##      Ticket Fare Cabin Embarked dataTag
+## 1044   3701   NA  &lt;NA&gt;        S    test</code></pre>
+<pre class="r"><code># Substituindo
+concat_data$Fare[1044] &lt;- mean( concat_data$Fare[which(concat_data$Pclass == 3)], na.rm = TRUE)
+
+# Observei 2 NA&#39;s em Embarked
+concat_data[ which(is.na(concat_data$Embarked)), ]</code></pre>
+<pre><code>##     PassengerId Survived Pclass                                      Name
+## 62           62        1      1                       Icard, Miss. Amelie
+## 830         830        1      1 Stone, Mrs. George Nelson (Martha Evelyn)
+##        Sex Age SibSp Parch Ticket Fare Cabin Embarked dataTag
+## 62  female  38     0     0 113572   80   B28     &lt;NA&gt;   train
+## 830 female  62     0     0 113572   80   B28     &lt;NA&gt;   train</code></pre>
+<pre class="r"><code># Onde sera que eles embarcaram?
+# Por serem classe 1, provavelmente embarcaram em S ou C
+
+table(concat_data$Embarked, concat_data$Pclass)</code></pre>
+<pre><code>##    
+##       1   2   3
+##   C 141  28 101
+##   Q   3   7 113
+##   S 177 242 495</code></pre>
+<pre class="r"><code>concat_data$Embarked[ which(is.na(concat_data$Embarked)) ] &lt;- factor(&quot;S&quot;)</code></pre>
+</div>
+<div id="definindo-novas-variaveis" class="section level1">
+<h1>2.Definindo novas variáveis</h1>
+<p>A partir dos nomes, irei separar o sobrenome e o pronome de tratamento para ajudar a indentificar melhor todos os subgrupos de passageiros.</p>
+<pre class="r"><code>length(concat_data$Name) # n nomes</code></pre>
+<pre><code>## [1] 1309</code></pre>
+<pre class="r"><code># preciso tratar melhor, fazer split na virgula e no ponto para capturar o sobrenome e o pronome de tratamento
+names &lt;- strsplit(concat_data$Name, &#39;,&#39;)
+names_no_space &lt;- lapply(names, function(x) gsub(&#39; &#39;, &#39;&#39;,x))
+
+# Sobrenpome
+surname &lt;- lapply(names_no_space , function(x) x[[1]] )
+surname &lt;- unlist(surname)
+
+treat_pron &lt;- lapply(names_no_space , function(x) x[[2]])
+treat_pron &lt;- lapply(treat_pron, function(x) strsplit(x, &#39;\\.&#39;, perl = TRUE)[[1]]) 
+treat_pron &lt;- map(treat_pron, 1) %&gt;% unlist()
+
+# Adicionando as novas colunas
+
+concat_data$surname &lt;- as.factor(surname)
+concat_data$treat_pron &lt;- as.factor(treat_pron)
+
+head(concat_data)</code></pre>
+<pre><code>##   PassengerId Survived Pclass
+## 1           1        0      3
+## 2           2        1      1
+## 3           3        1      3
+## 4           4        1      1
+## 5           5        0      3
+## 6           6        0      3
+##                                                  Name    Sex Age SibSp
+## 1                             Braund, Mr. Owen Harris   male  22     1
+## 2 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female  38     1
+## 3                              Heikkinen, Miss. Laina female  26     0
+## 4        Futrelle, Mrs. Jacques Heath (Lily May Peel) female  35     1
+## 5                            Allen, Mr. William Henry   male  35     0
+## 6                                    Moran, Mr. James   male  NA     0
+##   Parch           Ticket    Fare Cabin Embarked dataTag   surname
+## 1     0        A/5 21171  7.2500  &lt;NA&gt;        S   train    Braund
+## 2     0         PC 17599 71.2833   C85        C   train   Cumings
+## 3     0 STON/O2. 3101282  7.9250  &lt;NA&gt;        S   train Heikkinen
+## 4     0           113803 53.1000  C123        S   train  Futrelle
+## 5     0           373450  8.0500  &lt;NA&gt;        S   train     Allen
+## 6     0           330877  8.4583  &lt;NA&gt;        Q   train     Moran
+##   treat_pron
+## 1         Mr
+## 2        Mrs
+## 3       Miss
+## 4        Mrs
+## 5         Mr
+## 6         Mr</code></pre>
+<p>Vamos ver a distribuição da idade. Menores de idade possuem o pronome de tratamento Master.</p>
+<pre class="r"><code> colorRampPalette(brewer.pal(9, &quot;Set1&quot;))</code></pre>
+<pre><code>## function (n) 
+## {
+##     x &lt;- ramp(seq.int(0, 1, length.out = n))
+##     if (ncol(x) == 4L) 
+##         rgb(x[, 1L], x[, 2L], x[, 3L], x[, 4L], maxColorValue = 255)
+##     else rgb(x[, 1L], x[, 2L], x[, 3L], maxColorValue = 255)
+## }
+## &lt;bytecode: 0x67e2768&gt;
+## &lt;environment: 0x67e1450&gt;</code></pre>
+<pre class="r"><code>concat_data %&gt;%
+    select(Age, treat_pron) %&gt;%
+    na.omit() %&gt;%
+    ggplot(aes(y=Age, x=treat_pron)) +
+    geom_boxplot( fill= &#39;deepskyblue3&#39;) +
+    theme(legend.text = element_text(size=12),
+                          axis.text.x  = element_text(size=10, angle = 0),
+                          axis.title=element_text(size=12),
+                          axis.text = element_text(size=12),
+                          axis.line = element_line(colour = &quot;black&quot;),
+                          panel.border = element_blank()) +
+    theme_bw()</code></pre>
+<p><img src="/project/titanic_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="estimando-pseudo-valores-para-idade" class="section level1">
+<h1>3.Estimando pseudo valores para idade</h1>
+<div id="metodo-ii" class="section level2">
+<h2>3.1.Método II</h2>
+<p>Minha primeira estrategia será utilizar a idade média de cada classe para preencher os dados faltantes, ao invés de simplesmente usar uma média global.</p>
+<pre class="r"><code>class_with_na &lt;- concat_data$treat_pron[is.na(concat_data$Age)]  
+
+as.character(class_with_na) %&gt;% table()</code></pre>
+<pre><code>## .
+##     Dr Master   Miss     Mr    Mrs     Ms 
+##      1      8     50    176     27      1</code></pre>
+<pre class="r"><code>mean_age_by_class &lt;- concat_data %&gt;%
+    filter(str_detect(treat_pron, &quot;Dr|Miss|Mr|Mrs|Ms|Master&quot;)) %&gt;%
+    dplyr::group_by(treat_pron) %&gt;%
+    dplyr::summarize(mean_age = mean(Age, na.rm = TRUE))
+
+mean_age_by_class</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   treat_pron mean_age
+##   &lt;fctr&gt;        &lt;dbl&gt;
+## 1 Dr            43.6 
+## 2 Master         5.48
+## 3 Miss          21.8 
+## 4 Mr            32.3 
+## 5 Mrs           37.0 
+## 6 Ms            28.0</code></pre>
+<pre class="r"><code>for(i in 1:nrow(concat_data)){
+    
+    if(is.na(concat_data$Age[i]) &amp; concat_data$treat_pron[i] == &#39;Dr&#39;){
+        concat_data$Age[i] &lt;- 43.6
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp; concat_data$treat_pron[i] == &#39;Miss&#39;){
+        concat_data$Age[i] &lt;- 21.8
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp; concat_data$treat_pron[i] == &#39;Mr&#39;){
+        concat_data$Age[i] &lt;- 32.3
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp; concat_data$treat_pron[i] == &#39;Mrs&#39;){
+        concat_data$Age[i] &lt;- 37.0
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp; concat_data$treat_pron[i] == &#39;Ms&#39;){
+        concat_data$Age[i] &lt;- 28.0
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp; concat_data$treat_pron[i] == &#39;Master&#39;){
+        concat_data$Age[i] &lt;- 5.48
+    }
+    
+}
+
+summary(concat_data)</code></pre>
+<pre><code>##   PassengerId   Survived   Pclass      Name               Sex     
+##  Min.   :   1   0   :549   1:323   Length:1309        female:466  
+##  1st Qu.: 328   1   :342   2:277   Class :character   male  :843  
+##  Median : 655   NA&#39;s:418   3:709   Mode  :character               
+##  Mean   : 655                                                     
+##  3rd Qu.: 982                                                     
+##  Max.   :1309                                                     
+##                                                                   
+##       Age            SibSp            Parch            Ticket    
+##  Min.   : 0.17   Min.   :0.0000   Min.   :0.000   CA. 2343:  11  
+##  1st Qu.:21.80   1st Qu.:0.0000   1st Qu.:0.000   1601    :   8  
+##  Median :30.00   Median :0.0000   Median :0.000   CA 2144 :   8  
+##  Mean   :29.90   Mean   :0.4989   Mean   :0.385   3101295 :   7  
+##  3rd Qu.:36.00   3rd Qu.:1.0000   3rd Qu.:0.000   347077  :   7  
+##  Max.   :80.00   Max.   :8.0000   Max.   :9.000   347082  :   7  
+##                                                   (Other) :1261  
+##       Fare                     Cabin      Embarked  dataTag   
+##  Min.   :  0.000   C23 C25 C27    :   6   C:270    test :418  
+##  1st Qu.:  7.896   B57 B59 B63 B66:   5   Q:123    train:891  
+##  Median : 14.454   G6             :   5   S:916               
+##  Mean   : 33.280   B96 B98        :   4                       
+##  3rd Qu.: 31.275   C22 C26        :   4                       
+##  Max.   :512.329   (Other)        : 271                       
+##                    NA&#39;s           :1014                       
+##       surname       treat_pron 
+##  Andersson:  11   Mr     :757  
+##  Sage     :  11   Miss   :260  
+##  Asplund  :   8   Mrs    :197  
+##  Goodwin  :   8   Master : 61  
+##  Davies   :   7   Dr     :  8  
+##  Brown    :   6   Rev    :  8  
+##  (Other)  :1258   (Other): 18</code></pre>
+</div>
+<div id="metodo-ii-1" class="section level2">
+<h2>3.2.Método II</h2>
+<p>A segunda estratégia consiste em realizar uma regressão da idade usando random forest.</p>
+<pre class="r"><code># Ordenar por sobrenome
+concat_data &lt;- concat_data %&gt;%
+    arrange(surname)
+
+train_na &lt;- concat_data %&gt;%
+    select(Age, Pclass, SibSp, Parch, Fare, treat_pron,Sex) %&gt;%
+    na.omit()
+
+age_model &lt;- train(Age ~ Pclass + Sex  + SibSp + Parch +
+                         Fare + surname + treat_pron , 
+                     data = train_na,
+                     method = &#39;rf&#39;,
+                     tuneGrid = data.frame(mtry = c(2,3,4,5,6,8,10)),
+                     trControl = trainControl(method = &#39;cv&#39;, number = 10,
+                                             verboseIter = TRUE))
+
+plot(age_model)
+print(age_model)
+summary(age_model)
+
+pred_age &lt;- predict(age_model, concat_data)
+concat_data$Age[which(is.na(concat_data$Age))] &lt;- pred_age[which(is.na(concat_data$Age))]</code></pre>
+</div>
+<div id="metodo-iii" class="section level2">
+<h2>3.3.Método III</h2>
+<p>Terceira tentativa: fazer regressão linear multipla</p>
+<pre class="r"><code>age_model2 &lt;- lm(Age ~ Pclass  + SibSp + Parch + treat_pron, 
+                   data = train_na)
+summary(age_model2)
+plot(age)
+
+pred_age &lt;- predict(age_model2, concat_data)
+concat_data$Age[which(is.na(concat_data$Age))] &lt;- pred_age[which(is.na(concat_data$Age))]</code></pre>
+</div>
+</div>
+<div id="explorando-os-dados" class="section level1">
+<h1>4.Explorando os dados</h1>
+<p>Com os valores faltantes estimados, podemos analisar melhor os dados.</p>
+<p>Idade x morte x sexo</p>
+<p>Do total de homens, a maioria morreu. Do total de mulheres, a maioria sobreviveu.</p>
+<pre class="r"><code>concat_data %&gt;%
+    select(Age, Sex, Survived) %&gt;%
+    na.omit()%&gt;%
+    ggplot(aes(y=Age, x=Sex , fill=Survived, size= Age)) +
+    geom_boxplot(alpha = 1) +
+    scale_fill_manual(values = c(&#39;#330033&#39;, &#39;#008080&#39;)) +
+    theme_bw()</code></pre>
+<p><img src="/project/titanic_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Dos que sobreviveram, boa parte tinha entre 20 a 30 anos, seja homem ou mulher</p>
+<pre class="r"><code>concat_data %&gt;%
+    select(Age, Sex, Survived, treat_pron) %&gt;%
+    na.omit()%&gt;%
+    ggplot(aes(y=Age, x=treat_pron , fill=Survived)) +
+    geom_boxplot(alpha = 0.8)+
+    geom_hline(yintercept  = c(20, 30, 40), color = &#39;red&#39;, linetype= 3) +
+    scale_fill_manual(values = c(&#39;#330033&#39;, &#39;#008080&#39;)) +
+    theme_bw() </code></pre>
+<p><img src="/project/titanic_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>concat_data %&gt;%
+    select(Age, Sex, Survived, treat_pron) %&gt;%
+    na.omit()%&gt;%
+    ggplot(aes(y=Age, x=treat_pron , col=Survived) ) +
+    geom_point(alpha = 0.5, size=3, position = position_jitterdodge()) +
+    scale_color_manual(values = c(&#39;#330033&#39;, &#39;#008080&#39;)) + 
+    theme_bw() </code></pre>
+<p><img src="/project/titanic_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code># Classe vs Tarifa
+# A classe 1 ten yna tarifa consideravelmente mais cara (sao os passageiros ricos)
+concat_data %&gt;%
+    ggplot(aes(x=Pclass, y=Fare)) +
+    geom_boxplot(fill=&#39;cornflowerblue&#39;) +
+    theme_bw()</code></pre>
+<p><img src="/project/titanic_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Os mais privilegiados morreram menos que os demais?</p>
+<p>Com os dados observados até então, parece que as pessoas da classe 3 morreram mais (50%). Seria uma questao de localizacao do navio?</p>
+<pre class="r"><code>concat_data %&gt;%
+    na.omit() %&gt;%
+    ggplot(aes(x=Pclass, fill=Survived)) +
+    geom_bar(position = &#39;fill&#39;, alpha=0.8) +
+    scale_fill_manual(values = c(&#39;#330033&#39;, &#39;#008080&#39;)) +
+    theme_bw()</code></pre>
+<p><img src="/project/titanic_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>Conforme a figura, podemos ver que a classe 1, se situa mais ao centro das classes 2 e 3. A classe 3 se situa na ponta traseira do navio.</p>
+<p>Será que o navio afundou primeiramente pela parte traseira? Se sim, essa observação parece ser bem plausível.</p>
+<p align="center">
+<p><img src = "/img/titanic_areas.jpg", width = 1000, height = 600></p>
+</p>
+<p>Vamos ver se existe alguma relação linear entre os dados</p>
+<pre class="r"><code>dist_df_vars &lt;- concat_data %&gt;%
+    select(Pclass, Age, SibSp, Parch, Fare)
+dist_df_vars$Pclass &lt;- as.numeric(dist_df_vars$Pclass)
+
+vars_cor &lt;- cor(dist_df_vars, method = &#39;pearson&#39;)
+corrplot(vars_cor, method = &#39;ellipse&#39;, type=&quot;upper&quot;, order=&quot;hclust&quot;, addCoef.col = &quot;black&quot;)</code></pre>
+<p><img src="/project/titanic_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="treinando-e-classificando-os-dados" class="section level1">
+<h1>5.Treinando e classificando os dados</h1>
+<p>Hora de aplicar os métodos de classificação sobre os dados de treinamento. Antes disso, precisamos separar novamente os dados em duas partes, a parte de treinamento e a de teste.</p>
+<p>Faremos testes usando <em>Random forest</em> e Regressão logística para classificar quem sobreviveu e quem não sobreviveu ao desastre.</p>
+<pre class="r"><code>train &lt;- concat_data %&gt;% filter(dataTag == &#39;train&#39;) 
+test &lt;- concat_data %&gt;% filter(dataTag == &#39;test&#39;)</code></pre>
+<div id="random-forest" class="section level2">
+<h2>5.1.Random Forest</h2>
+<pre class="r"><code>final_model &lt;- train(Survived ~ Pclass + Sex + Age + SibSp + Parch +
+                         Fare + surname + treat_pron, 
+                     data= train,
+                     method= &#39;rf&#39;,
+                     tuneGrid= data.frame(mtry= c(2,3,4,5,6,8,10)),
+                     trControl= trainControl(method= &#39;cv&#39;, number= 10,
+                                             verboseIter= TRUE))
+
+pred_surv &lt;- predict(final_model, test)
+
+to_submit &lt;- data.frame(PassengerId = test$PassengerId, Survived = pred_surv)
+write.csv(file=&#39;to_submit.csv&#39;, to_submit, row.names = F)</code></pre>
+<pre class="r"><code>print(final_model)</code></pre>
+<pre class="r"><code>plot(final_model)</code></pre>
+</div>
+<div id="regressao-logistica" class="section level2">
+<h2>5.2.Regressão logística</h2>
+<pre class="r"><code>logist_regression &lt;- glm(Survived ~ Pclass + Sex + Age + SibSp + Fare, 
+      data = train, family = &#39;binomial&#39;)
+
+pred_surv &lt;- predict(logist_regression, test, type = &#39;response&#39;)
+
+pred_cutoff_90 &lt;- ifelse(pred_surv &gt;= 0.90, 1, 0)
+pred_cutoff_60 &lt;- ifelse(pred_surv &gt;= 0.60, 1, 0)
+
+to_submit &lt;- data.frame(PassengerId = test$PassengerId, Survived = pred_cutoff_60)
+write.csv(file=&#39;to_submit.csv&#39;, to_submit, row.names = F)</code></pre>
+<pre class="r"><code>summary(logist_regression)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = Survived ~ Pclass + Sex + Age + SibSp + Fare, family = &quot;binomial&quot;, 
+##     data = train)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.7782  -0.5967  -0.4199   0.6163   2.5135  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  3.959967   0.446512   8.869  &lt; 2e-16 ***
+## Pclass2     -1.100803   0.292908  -3.758 0.000171 ***
+## Pclass3     -2.262839   0.290373  -7.793 6.55e-15 ***
+## Sexmale     -2.695011   0.194883 -13.829  &lt; 2e-16 ***
+## Age         -0.042567   0.007844  -5.427 5.74e-08 ***
+## SibSp       -0.399149   0.106066  -3.763 0.000168 ***
+## Fare         0.002389   0.002328   1.026 0.304703    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1186.66  on 890  degrees of freedom
+## Residual deviance:  784.86  on 884  degrees of freedom
+## AIC: 798.86
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+</div>
+<div id="resultados-da-submissao-no-kaggle" class="section level1">
+<h1>6.Resultados da submissão no Kaggle</h1>
+<p>A métrica de avaliação de desemenho usada foi a acurácia. Que mede o total de acertos sobre o total de observações. Após diversos testes e diferentes combinações de parâmetros de classificação, o melhor resultado obtido foi de <strong>0.78468</strong></p>
+Score obtido
+<p align="center">
+<p><img src = "/img/titanic_result1.png", width = 1000, height = 600></p>
+</p>
+Ranking
+<p align="center">
+<p><img src = "/img/titanic_result2.png", width = 1000, height = 600></p>
+</p>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/rmarkdown">Rmarkdown</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+</div>
+
+
+
+
+    
+    
+    
+
+    
+      
+      
+      
+      
+
+      
+      
+      
+      
+    
+
+  </div>
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+
+    
+    <li class="next"><a href="/project/house_price_advanced_regression_kernel/">House price advanced regression <span
+      aria-hidden="true">&rarr;</span></a></li>
+    
+  </ul>
+</nav>
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Davi Toshio &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> 
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> 
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+

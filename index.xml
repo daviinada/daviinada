@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Página pessoal on Página pessoal</title>
+    <title>Davi Toshio on Davi Toshio</title>
     <link>/</link>
-    <description>Recent content in Página pessoal on Página pessoal</description>
+    <description>Recent content in Davi Toshio on Davi Toshio</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>&amp;copy; 2017 Davi Toshio</copyright>
@@ -16,7 +16,8 @@
       <pubDate>Tue, 01 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>/project/house_price_advanced_regression_kernel/</guid>
-      <description>&lt;style type1 text/css&#39;&gt;
+      <description>&lt;pre&gt;&lt;code&gt;Autores: Davi Toshio e Henrique Cursino Vieira&lt;/code&gt;&lt;/pre&gt;
+&lt;style type1 text/css&#39;&gt;
 h1.title {
   text-align: center;
 }
@@ -1501,6 +1502,503 @@ Posição no ranking geral
 Melhor pontuação obtida
 &lt;p align=&#34;center&#34;&gt;
 &lt;p&gt;&lt;img src = &#34;/img/ranking_house_price3.png&#34;&gt;&lt;/p&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Titanic, quem sobreviveu?</title>
+      <link>/project/titanic/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/titanic/</guid>
+      <description>&lt;style type=&#39;text/css&#39;&gt;
+body{ /* Normal  */
+  font-size: 14px;
+  
+td {  /* Table  */
+  font-size: 14px;
+}
+h1.title {
+  font-size: 24px;
+
+}
+h1 { /* Header 1 */
+  font-size: 24px;
+
+}
+h2 { /* Header 2 */
+    font-size: 16px;
+}
+h3 { /* Header 3 */
+  font-size: 14px;
+
+}
+code.r{ /* Code block */
+    font-size: 14px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+&lt;/style&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(caret)
+library(mice)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(purrr)
+library(corrplot)
+library(viridis)
+library(RColorBrewer)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;tratamento-inicial-dos-dados&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;1.Tratamento inicial dos dados&lt;/h1&gt;
+&lt;p&gt;Unindo o conjunto de treino e teste para estimar pseudo valores. Existem muitos dados faltantes, e para estimar um valor mais próximo do real para os mesmos, precisaremos do máximo de informação possível.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;setwd(&amp;#39;/home/davi/Desktop/titanic&amp;#39;)
+train &amp;lt;- read.csv(file=&amp;#39;train.csv&amp;#39;, sep=&amp;#39;,&amp;#39;, stringsAsFactors = FALSE) 
+train$dataTag &amp;lt;- &amp;#39;train&amp;#39;
+
+test &amp;lt;-  read.csv(file=&amp;#39;test.csv&amp;#39;, sep=&amp;#39;,&amp;#39;, stringsAsFactors = FALSE) 
+test$dataTag  &amp;lt;- &amp;#39;test&amp;#39;
+test$Survived &amp;lt;- NA
+
+concat_data &amp;lt;- train %&amp;gt;% bind_rows(test)
+
+head(concat_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   PassengerId Survived Pclass
+## 1           1        0      3
+## 2           2        1      1
+## 3           3        1      3
+## 4           4        1      1
+## 5           5        0      3
+## 6           6        0      3
+##                                                  Name    Sex Age SibSp
+## 1                             Braund, Mr. Owen Harris   male  22     1
+## 2 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female  38     1
+## 3                              Heikkinen, Miss. Laina female  26     0
+## 4        Futrelle, Mrs. Jacques Heath (Lily May Peel) female  35     1
+## 5                            Allen, Mr. William Henry   male  35     0
+## 6                                    Moran, Mr. James   male  NA     0
+##   Parch           Ticket    Fare Cabin Embarked dataTag
+## 1     0        A/5 21171  7.2500              S   train
+## 2     0         PC 17599 71.2833   C85        C   train
+## 3     0 STON/O2. 3101282  7.9250              S   train
+## 4     0           113803 53.1000  C123        S   train
+## 5     0           373450  8.0500              S   train
+## 6     0           330877  8.4583              Q   train&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(concat_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   PassengerId      Survived          Pclass          Name          
+##  Min.   :   1   Min.   :0.0000   Min.   :1.000   Length:1309       
+##  1st Qu.: 328   1st Qu.:0.0000   1st Qu.:2.000   Class :character  
+##  Median : 655   Median :0.0000   Median :3.000   Mode  :character  
+##  Mean   : 655   Mean   :0.3838   Mean   :2.295                     
+##  3rd Qu.: 982   3rd Qu.:1.0000   3rd Qu.:3.000                     
+##  Max.   :1309   Max.   :1.0000   Max.   :3.000                     
+##                 NA&amp;#39;s   :418                                        
+##      Sex                 Age            SibSp            Parch      
+##  Length:1309        Min.   : 0.17   Min.   :0.0000   Min.   :0.000  
+##  Class :character   1st Qu.:21.00   1st Qu.:0.0000   1st Qu.:0.000  
+##  Mode  :character   Median :28.00   Median :0.0000   Median :0.000  
+##                     Mean   :29.88   Mean   :0.4989   Mean   :0.385  
+##                     3rd Qu.:39.00   3rd Qu.:1.0000   3rd Qu.:0.000  
+##                     Max.   :80.00   Max.   :8.0000   Max.   :9.000  
+##                     NA&amp;#39;s   :263                                     
+##     Ticket               Fare            Cabin          
+##  Length:1309        Min.   :  0.000   Length:1309       
+##  Class :character   1st Qu.:  7.896   Class :character  
+##  Mode  :character   Median : 14.454   Mode  :character  
+##                     Mean   : 33.295                     
+##                     3rd Qu.: 31.275                     
+##                     Max.   :512.329                     
+##                     NA&amp;#39;s   :1                           
+##    Embarked           dataTag         
+##  Length:1309        Length:1309       
+##  Class :character   Class :character  
+##  Mode  :character   Mode  :character  
+##                                       
+##                                       
+##                                       
+## &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Formatando os dados. Precisamos marcas as regiões com dados faltantes e também definir os tipos de cada variável (categórico, numérico ou string) do nosso conjunto de dados.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data$Cabin[which(concat_data$Cabin == &amp;#39;&amp;#39;)] &amp;lt;- NA
+concat_data$Embarked[which(concat_data$Embarked == &amp;#39;&amp;#39;)] &amp;lt;- NA
+
+concat_data$Survived &amp;lt;- as.factor(concat_data$Survived) 
+concat_data$Pclass  &amp;lt;- as.factor(concat_data$Pclass)
+concat_data$Sex &amp;lt;- as.factor(concat_data$Sex)
+concat_data$Ticket &amp;lt;- as.factor(concat_data$Ticket)
+concat_data$Cabin &amp;lt;- as.factor(concat_data$Cabin)
+concat_data$Embarked &amp;lt;- as.factor(concat_data$Embarked)
+concat_data$dataTag  &amp;lt;- as.factor(concat_data$dataTag)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Tem um NA tambem, pertence a Pclass 3, vou substituir pela media dessa classe 
+which(is.na(concat_data$Fare))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 1044&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data[1044, ]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##      PassengerId Survived Pclass               Name  Sex  Age SibSp Parch
+## 1044        1044     &amp;lt;NA&amp;gt;      3 Storey, Mr. Thomas male 60.5     0     0
+##      Ticket Fare Cabin Embarked dataTag
+## 1044   3701   NA  &amp;lt;NA&amp;gt;        S    test&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Substituindo
+concat_data$Fare[1044] &amp;lt;- mean( concat_data$Fare[which(concat_data$Pclass == 3)], na.rm = TRUE)
+
+# Observei 2 NA&amp;#39;s em Embarked
+concat_data[ which(is.na(concat_data$Embarked)), ]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##     PassengerId Survived Pclass                                      Name
+## 62           62        1      1                       Icard, Miss. Amelie
+## 830         830        1      1 Stone, Mrs. George Nelson (Martha Evelyn)
+##        Sex Age SibSp Parch Ticket Fare Cabin Embarked dataTag
+## 62  female  38     0     0 113572   80   B28     &amp;lt;NA&amp;gt;   train
+## 830 female  62     0     0 113572   80   B28     &amp;lt;NA&amp;gt;   train&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Onde sera que eles embarcaram?
+# Por serem classe 1, provavelmente embarcaram em S ou C
+
+table(concat_data$Embarked, concat_data$Pclass)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    
+##       1   2   3
+##   C 141  28 101
+##   Q   3   7 113
+##   S 177 242 495&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data$Embarked[ which(is.na(concat_data$Embarked)) ] &amp;lt;- factor(&amp;quot;S&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;definindo-novas-variaveis&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;2.Definindo novas variáveis&lt;/h1&gt;
+&lt;p&gt;A partir dos nomes, irei separar o sobrenome e o pronome de tratamento para ajudar a indentificar melhor todos os subgrupos de passageiros.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;length(concat_data$Name) # n nomes&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 1309&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# preciso tratar melhor, fazer split na virgula e no ponto para capturar o sobrenome e o pronome de tratamento
+names &amp;lt;- strsplit(concat_data$Name, &amp;#39;,&amp;#39;)
+names_no_space &amp;lt;- lapply(names, function(x) gsub(&amp;#39; &amp;#39;, &amp;#39;&amp;#39;,x))
+
+# Sobrenpome
+surname &amp;lt;- lapply(names_no_space , function(x) x[[1]] )
+surname &amp;lt;- unlist(surname)
+
+treat_pron &amp;lt;- lapply(names_no_space , function(x) x[[2]])
+treat_pron &amp;lt;- lapply(treat_pron, function(x) strsplit(x, &amp;#39;\\.&amp;#39;, perl = TRUE)[[1]]) 
+treat_pron &amp;lt;- map(treat_pron, 1) %&amp;gt;% unlist()
+
+# Adicionando as novas colunas
+
+concat_data$surname &amp;lt;- as.factor(surname)
+concat_data$treat_pron &amp;lt;- as.factor(treat_pron)
+
+head(concat_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   PassengerId Survived Pclass
+## 1           1        0      3
+## 2           2        1      1
+## 3           3        1      3
+## 4           4        1      1
+## 5           5        0      3
+## 6           6        0      3
+##                                                  Name    Sex Age SibSp
+## 1                             Braund, Mr. Owen Harris   male  22     1
+## 2 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female  38     1
+## 3                              Heikkinen, Miss. Laina female  26     0
+## 4        Futrelle, Mrs. Jacques Heath (Lily May Peel) female  35     1
+## 5                            Allen, Mr. William Henry   male  35     0
+## 6                                    Moran, Mr. James   male  NA     0
+##   Parch           Ticket    Fare Cabin Embarked dataTag   surname
+## 1     0        A/5 21171  7.2500  &amp;lt;NA&amp;gt;        S   train    Braund
+## 2     0         PC 17599 71.2833   C85        C   train   Cumings
+## 3     0 STON/O2. 3101282  7.9250  &amp;lt;NA&amp;gt;        S   train Heikkinen
+## 4     0           113803 53.1000  C123        S   train  Futrelle
+## 5     0           373450  8.0500  &amp;lt;NA&amp;gt;        S   train     Allen
+## 6     0           330877  8.4583  &amp;lt;NA&amp;gt;        Q   train     Moran
+##   treat_pron
+## 1         Mr
+## 2        Mrs
+## 3       Miss
+## 4        Mrs
+## 5         Mr
+## 6         Mr&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Vamos ver a distribuição da idade. Menores de idade possuem o pronome de tratamento Master.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt; colorRampPalette(brewer.pal(9, &amp;quot;Set1&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## function (n) 
+## {
+##     x &amp;lt;- ramp(seq.int(0, 1, length.out = n))
+##     if (ncol(x) == 4L) 
+##         rgb(x[, 1L], x[, 2L], x[, 3L], x[, 4L], maxColorValue = 255)
+##     else rgb(x[, 1L], x[, 2L], x[, 3L], maxColorValue = 255)
+## }
+## &amp;lt;bytecode: 0x67e2768&amp;gt;
+## &amp;lt;environment: 0x67e1450&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data %&amp;gt;%
+    select(Age, treat_pron) %&amp;gt;%
+    na.omit() %&amp;gt;%
+    ggplot(aes(y=Age, x=treat_pron)) +
+    geom_boxplot( fill= &amp;#39;deepskyblue3&amp;#39;) +
+    theme(legend.text = element_text(size=12),
+                          axis.text.x  = element_text(size=10, angle = 0),
+                          axis.title=element_text(size=12),
+                          axis.text = element_text(size=12),
+                          axis.line = element_line(colour = &amp;quot;black&amp;quot;),
+                          panel.border = element_blank()) +
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;estimando-pseudo-valores-para-idade&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;3.Estimando pseudo valores para idade&lt;/h1&gt;
+&lt;div id=&#34;metodo-ii&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3.1.Método II&lt;/h2&gt;
+&lt;p&gt;Minha primeira estrategia será utilizar a idade média de cada classe para preencher os dados faltantes, ao invés de simplesmente usar uma média global.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;class_with_na &amp;lt;- concat_data$treat_pron[is.na(concat_data$Age)]  
+
+as.character(class_with_na) %&amp;gt;% table()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## .
+##     Dr Master   Miss     Mr    Mrs     Ms 
+##      1      8     50    176     27      1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mean_age_by_class &amp;lt;- concat_data %&amp;gt;%
+    filter(str_detect(treat_pron, &amp;quot;Dr|Miss|Mr|Mrs|Ms|Master&amp;quot;)) %&amp;gt;%
+    dplyr::group_by(treat_pron) %&amp;gt;%
+    dplyr::summarize(mean_age = mean(Age, na.rm = TRUE))
+
+mean_age_by_class&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 2
+##   treat_pron mean_age
+##   &amp;lt;fctr&amp;gt;        &amp;lt;dbl&amp;gt;
+## 1 Dr            43.6 
+## 2 Master         5.48
+## 3 Miss          21.8 
+## 4 Mr            32.3 
+## 5 Mrs           37.0 
+## 6 Ms            28.0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;for(i in 1:nrow(concat_data)){
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Dr&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 43.6
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Miss&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 21.8
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Mr&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 32.3
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Mrs&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 37.0
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Ms&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 28.0
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Master&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 5.48
+    }
+    
+}
+
+summary(concat_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   PassengerId   Survived   Pclass      Name               Sex     
+##  Min.   :   1   0   :549   1:323   Length:1309        female:466  
+##  1st Qu.: 328   1   :342   2:277   Class :character   male  :843  
+##  Median : 655   NA&amp;#39;s:418   3:709   Mode  :character               
+##  Mean   : 655                                                     
+##  3rd Qu.: 982                                                     
+##  Max.   :1309                                                     
+##                                                                   
+##       Age            SibSp            Parch            Ticket    
+##  Min.   : 0.17   Min.   :0.0000   Min.   :0.000   CA. 2343:  11  
+##  1st Qu.:21.80   1st Qu.:0.0000   1st Qu.:0.000   1601    :   8  
+##  Median :30.00   Median :0.0000   Median :0.000   CA 2144 :   8  
+##  Mean   :29.90   Mean   :0.4989   Mean   :0.385   3101295 :   7  
+##  3rd Qu.:36.00   3rd Qu.:1.0000   3rd Qu.:0.000   347077  :   7  
+##  Max.   :80.00   Max.   :8.0000   Max.   :9.000   347082  :   7  
+##                                                   (Other) :1261  
+##       Fare                     Cabin      Embarked  dataTag   
+##  Min.   :  0.000   C23 C25 C27    :   6   C:270    test :418  
+##  1st Qu.:  7.896   B57 B59 B63 B66:   5   Q:123    train:891  
+##  Median : 14.454   G6             :   5   S:916               
+##  Mean   : 33.280   B96 B98        :   4                       
+##  3rd Qu.: 31.275   C22 C26        :   4                       
+##  Max.   :512.329   (Other)        : 271                       
+##                    NA&amp;#39;s           :1014                       
+##       surname       treat_pron 
+##  Andersson:  11   Mr     :757  
+##  Sage     :  11   Miss   :260  
+##  Asplund  :   8   Mrs    :197  
+##  Goodwin  :   8   Master : 61  
+##  Davies   :   7   Dr     :  8  
+##  Brown    :   6   Rev    :  8  
+##  (Other)  :1258   (Other): 18&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;metodo-ii-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3.2.Método II&lt;/h2&gt;
+&lt;p&gt;A segunda estratégia consiste em realizar uma regressão da idade usando random forest.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Ordenar por sobrenome
+concat_data &amp;lt;- concat_data %&amp;gt;%
+    arrange(surname)
+
+train_na &amp;lt;- concat_data %&amp;gt;%
+    select(Age, Pclass, SibSp, Parch, Fare, treat_pron,Sex) %&amp;gt;%
+    na.omit()
+
+age_model &amp;lt;- train(Age ~ Pclass + Sex  + SibSp + Parch +
+                         Fare + surname + treat_pron , 
+                     data = train_na,
+                     method = &amp;#39;rf&amp;#39;,
+                     tuneGrid = data.frame(mtry = c(2,3,4,5,6,8,10)),
+                     trControl = trainControl(method = &amp;#39;cv&amp;#39;, number = 10,
+                                             verboseIter = TRUE))
+
+plot(age_model)
+print(age_model)
+summary(age_model)
+
+pred_age &amp;lt;- predict(age_model, concat_data)
+concat_data$Age[which(is.na(concat_data$Age))] &amp;lt;- pred_age[which(is.na(concat_data$Age))]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;metodo-iii&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3.3.Método III&lt;/h2&gt;
+&lt;p&gt;Terceira tentativa: fazer regressão linear multipla&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;age_model2 &amp;lt;- lm(Age ~ Pclass  + SibSp + Parch + treat_pron, 
+                   data = train_na)
+summary(age_model2)
+plot(age)
+
+pred_age &amp;lt;- predict(age_model2, concat_data)
+concat_data$Age[which(is.na(concat_data$Age))] &amp;lt;- pred_age[which(is.na(concat_data$Age))]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;explorando-os-dados&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;4.Explorando os dados&lt;/h1&gt;
+&lt;p&gt;Com os valores faltantes estimados, podemos analisar melhor os dados.&lt;/p&gt;
+&lt;p&gt;Idade x morte x sexo&lt;/p&gt;
+&lt;p&gt;Do total de homens, a maioria morreu. Do total de mulheres, a maioria sobreviveu.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data %&amp;gt;%
+    select(Age, Sex, Survived) %&amp;gt;%
+    na.omit()%&amp;gt;%
+    ggplot(aes(y=Age, x=Sex , fill=Survived, size= Age)) +
+    geom_boxplot(alpha = 1) +
+    scale_fill_manual(values = c(&amp;#39;#330033&amp;#39;, &amp;#39;#008080&amp;#39;)) +
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Dos que sobreviveram, boa parte tinha entre 20 a 30 anos, seja homem ou mulher&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data %&amp;gt;%
+    select(Age, Sex, Survived, treat_pron) %&amp;gt;%
+    na.omit()%&amp;gt;%
+    ggplot(aes(y=Age, x=treat_pron , fill=Survived)) +
+    geom_boxplot(alpha = 0.8)+
+    geom_hline(yintercept  = c(20, 30, 40), color = &amp;#39;red&amp;#39;, linetype= 3) +
+    scale_fill_manual(values = c(&amp;#39;#330033&amp;#39;, &amp;#39;#008080&amp;#39;)) +
+    theme_bw() &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data %&amp;gt;%
+    select(Age, Sex, Survived, treat_pron) %&amp;gt;%
+    na.omit()%&amp;gt;%
+    ggplot(aes(y=Age, x=treat_pron , col=Survived) ) +
+    geom_point(alpha = 0.5, size=3, position = position_jitterdodge()) +
+    scale_color_manual(values = c(&amp;#39;#330033&amp;#39;, &amp;#39;#008080&amp;#39;)) + 
+    theme_bw() &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Classe vs Tarifa
+# A classe 1 ten yna tarifa consideravelmente mais cara (sao os passageiros ricos)
+concat_data %&amp;gt;%
+    ggplot(aes(x=Pclass, y=Fare)) +
+    geom_boxplot(fill=&amp;#39;cornflowerblue&amp;#39;) +
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Os mais privilegiados morreram menos que os demais?&lt;/p&gt;
+&lt;p&gt;Com os dados observados até então, parece que as pessoas da classe 3 morreram mais (50%). Seria uma questao de localizacao do navio?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data %&amp;gt;%
+    na.omit() %&amp;gt;%
+    ggplot(aes(x=Pclass, fill=Survived)) +
+    geom_bar(position = &amp;#39;fill&amp;#39;, alpha=0.8) +
+    scale_fill_manual(values = c(&amp;#39;#330033&amp;#39;, &amp;#39;#008080&amp;#39;)) +
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Conforme a figura, podemos ver que a classe 1, se situa mais ao centro das classes 2 e 3. A classe 3 se situa na ponta traseira do navio.&lt;/p&gt;
+&lt;p&gt;Será que o navio afundou primeiramente pela parte traseira? Se sim, essa observação parece ser bem plausível.&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;p&gt;&lt;img src = &#34;/img/titanic_areas.jpg&#34;, width = 1000, height = 600&gt;&lt;/p&gt;
+&lt;/p&gt;
+&lt;p&gt;Vamos ver se existe alguma relação linear entre os dados&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dist_df_vars &amp;lt;- concat_data %&amp;gt;%
+    select(Pclass, Age, SibSp, Parch, Fare)
+dist_df_vars$Pclass &amp;lt;- as.numeric(dist_df_vars$Pclass)
+
+vars_cor &amp;lt;- cor(dist_df_vars, method = &amp;#39;pearson&amp;#39;)
+corrplot(vars_cor, method = &amp;#39;ellipse&amp;#39;, type=&amp;quot;upper&amp;quot;, order=&amp;quot;hclust&amp;quot;, addCoef.col = &amp;quot;black&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-17-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;treinando-e-classificando-os-dados&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;5.Treinando e classificando os dados&lt;/h1&gt;
+&lt;p&gt;Hora de aplicar os métodos de classificação sobre os dados de treinamento. Antes disso, precisamos separar novamente os dados em duas partes, a parte de treinamento e a de teste.&lt;/p&gt;
+&lt;p&gt;Faremos testes usando &lt;em&gt;Random forest&lt;/em&gt; e Regressão logística para classificar quem sobreviveu e quem não sobreviveu ao desastre.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train &amp;lt;- concat_data %&amp;gt;% filter(dataTag == &amp;#39;train&amp;#39;) 
+test &amp;lt;- concat_data %&amp;gt;% filter(dataTag == &amp;#39;test&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;random-forest&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;5.1.Random Forest&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;final_model &amp;lt;- train(Survived ~ Pclass + Sex + Age + SibSp + Parch +
+                         Fare + surname + treat_pron, 
+                     data= train,
+                     method= &amp;#39;rf&amp;#39;,
+                     tuneGrid= data.frame(mtry= c(2,3,4,5,6,8,10)),
+                     trControl= trainControl(method= &amp;#39;cv&amp;#39;, number= 10,
+                                             verboseIter= TRUE))
+
+pred_surv &amp;lt;- predict(final_model, test)
+
+to_submit &amp;lt;- data.frame(PassengerId = test$PassengerId, Survived = pred_surv)
+write.csv(file=&amp;#39;to_submit.csv&amp;#39;, to_submit, row.names = F)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(final_model)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(final_model)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;regressao-logistica&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;5.2.Regressão logística&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;logist_regression &amp;lt;- glm(Survived ~ Pclass + Sex + Age + SibSp + Fare, 
+      data = train, family = &amp;#39;binomial&amp;#39;)
+
+pred_surv &amp;lt;- predict(logist_regression, test, type = &amp;#39;response&amp;#39;)
+
+pred_cutoff_90 &amp;lt;- ifelse(pred_surv &amp;gt;= 0.90, 1, 0)
+pred_cutoff_60 &amp;lt;- ifelse(pred_surv &amp;gt;= 0.60, 1, 0)
+
+to_submit &amp;lt;- data.frame(PassengerId = test$PassengerId, Survived = pred_cutoff_60)
+write.csv(file=&amp;#39;to_submit.csv&amp;#39;, to_submit, row.names = F)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(logist_regression)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## glm(formula = Survived ~ Pclass + Sex + Age + SibSp + Fare, family = &amp;quot;binomial&amp;quot;, 
+##     data = train)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.7782  -0.5967  -0.4199   0.6163   2.5135  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&amp;gt;|z|)    
+## (Intercept)  3.959967   0.446512   8.869  &amp;lt; 2e-16 ***
+## Pclass2     -1.100803   0.292908  -3.758 0.000171 ***
+## Pclass3     -2.262839   0.290373  -7.793 6.55e-15 ***
+## Sexmale     -2.695011   0.194883 -13.829  &amp;lt; 2e-16 ***
+## Age         -0.042567   0.007844  -5.427 5.74e-08 ***
+## SibSp       -0.399149   0.106066  -3.763 0.000168 ***
+## Fare         0.002389   0.002328   1.026 0.304703    
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1186.66  on 890  degrees of freedom
+## Residual deviance:  784.86  on 884  degrees of freedom
+## AIC: 798.86
+## 
+## Number of Fisher Scoring iterations: 5&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;resultados-da-submissao-no-kaggle&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;6.Resultados da submissão no Kaggle&lt;/h1&gt;
+&lt;p&gt;A métrica de avaliação de desemenho usada foi a acurácia. Que mede o total de acertos sobre o total de observações. Após diversos testes e diferentes combinações de parâmetros de classificação, o melhor resultado obtido foi de &lt;strong&gt;0.78468&lt;/strong&gt;&lt;/p&gt;
+Score obtido
+&lt;p align=&#34;center&#34;&gt;
+&lt;p&gt;&lt;img src = &#34;/img/titanic_result1.png&#34;, width = 1000, height = 600&gt;&lt;/p&gt;
+&lt;/p&gt;
+Ranking
+&lt;p align=&#34;center&#34;&gt;
+&lt;p&gt;&lt;img src = &#34;/img/titanic_result2.png&#34;, width = 1000, height = 600&gt;&lt;/p&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 </description>
