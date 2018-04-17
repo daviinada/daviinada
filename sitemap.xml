@@ -32,6 +32,14 @@
     
     <url>
     
+      <loc>/project/shiny_app_ngs/</loc>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/publication_types/</loc>
       <priority>0</priority>
     </url>
@@ -73,6 +81,15 @@
     
       <loc>/tags/rmarkdown/</loc>
       <lastmod>2017-08-01T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/shiny/</loc>
       <priority>0</priority>
     </url>
     

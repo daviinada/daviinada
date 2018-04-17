@@ -1508,6 +1508,165 @@ Melhor pontuação obtida
     </item>
     
     <item>
+      <title>Genomic Tool for Enriched Region Detection</title>
+      <link>/project/shiny_app_ngs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/shiny_app_ngs/</guid>
+      <description>&lt;style type1 text/css&#39;&gt;
+h1.title {
+  text-align: center;
+}
+h4.author { 
+  text-align: center;
+}
+h4.date { 
+  text-align: center;
+}
+&lt;/style&gt;
+&lt;style type=&#39;text/css&#39;&gt;
+body{ /* Normal  */
+  font-size: 14px;
+  
+td {  /* Table  */
+  font-size: 14px;
+}
+h1.title {
+  font-size: 24px;
+
+}
+h1 { /* Header 1 */
+  font-size: 24px;
+
+}
+h2 { /* Header 2 */
+    font-size: 16px;
+}
+h3 { /* Header 3 */
+  font-size: 14px;
+
+}
+code.r{ /* Code block */
+    font-size: 14px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+&lt;/style&gt;
+&lt;div id=&#34;introducao&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;1.Introdução&lt;/h1&gt;
+&lt;p align=&#34;justify&#34;&gt;
+&lt;p&gt;No contexto da bioinformática, muitas análises são conduzidas em linha de comando, dificultando assim a sua aplicação por pessoas sem o conhecimento adequado em computação. No intuito de possibilitar que outros usuários possam ter acesso ao processo de análise e expandi-las para outros estudos, desenvolvemos uma ferramenta em interface gráfica usando a ferramenta R Shiny.&lt;/p&gt;
+Esta ferramenta encontra-se alocada em um servidor WEB (no domínio &lt;a href=&#34;http://cetics.butantan.gov.br/shiny/ngs_shiny_app2/&#34; class=&#34;uri&#34;&gt;http://cetics.butantan.gov.br/shiny/ngs_shiny_app2/&lt;/a&gt;), e seu código encontra-se armazenado no repositório do GitLab (também alocado em &lt;a href=&#34;http://cetics.butantan.gov.br&#34; class=&#34;uri&#34;&gt;http://cetics.butantan.gov.br&lt;/a&gt;). O código estatá disponível para download após a ferramenta ser publicada em revista científica.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ferramenta-de-analise&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;2.Ferramenta de análise&lt;/h1&gt;
+&lt;div id=&#34;upload-dos-dados&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2.1.Upload dos dados&lt;/h2&gt;
+&lt;p align=&#34;justify&#34;&gt;
+A ferramenta permite analisar até dois experimentos diferentes em pararelo. Os dados de entrada são compostos pelo arquivo de alinhamento das sequências (tratamento e controle em formato .bed, comprimidos em formato .zip), picos preditos pelo programa MACS2, genoma de referência (.fasta) e anotação genômica (.gff).
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Exemplo de formato para cada tipo de entrada:
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+Arquivo de alinhamento de sequências (.bed)
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/bed.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+Arquivo dos picos pretidos pelo MACS2 (.narrowPeak)
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/peaks.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+Arquivo de anotação do genoma (.gff)
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/gff.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+Arquivo de sequência nucleotídica do genoma (.fasta)
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/fasta.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+O usuário deve seguir cada etapa corretamente, afim de se obter os resultados da análise de regiões enriquecidas do genoma.
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_001.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;estimando-cobertura-e-conteudo-gc&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2.2. Estimando cobertura e conteúdo %GC&lt;/h2&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Após realizar o upload dos dados brutos, a ferramenta estima a cobertura genômica em janelas de tamanho definido pelo usuário, da mesma forma também é estimado o conteúdo GC.
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_003.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_004.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;aplicando-filtro-sobre-os-dados&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2.3. Aplicando filtro sobre os dados&lt;/h2&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Esta etapa é sucessidida pela aplicação de um filtro tanto sobre os dados de cobertura estimado, como também sobre dos dados dos picos preditos pelo programa MACS2.
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_005.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;visualizando-dados-integrados&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2.4. Visualizando dados integrados&lt;/h2&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Tendo os dados filtrados em mãos, o usuário poderá gerar figuras de cada cromossomo de forma independente integrando as features de interesse tanto de um quanto de dois experimentos. Um menu dinâmico é criado conforme os dados experimentais.
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_006.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Ilustrando o canto inferior:
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_007.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+É possível ainda realizar um zoom sobre as regiões de interesse do cromossomo e destacar as características de interesse. Em todos os casos, é possível realizar o download tanto das figuras como também das informações contidas em uma tabela.
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_008.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Ilustrando o canto inferior:
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_009.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;cruzando-informacoes-entre-os-experimentos&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3.Cruzando informações entre os experimentos&lt;/h2&gt;
+&lt;p&gt;Na etapa final de análise da ferramenta, o usuário pode opcionalmente realizar uma análise cruzada de todos os dados, obtendo assim regiões enriquecidas em comum entre dois experimentos distintos conduzidos para um mesmo genoma de referência.&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_010.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Ilustrando o canto inferior:
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_011.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Titanic, quem sobreviveu?</title>
       <link>/project/titanic/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -1720,8 +1879,8 @@ head(concat_data)&lt;/code&gt;&lt;/pre&gt;
 ##         rgb(x[, 1L], x[, 2L], x[, 3L], x[, 4L], maxColorValue = 255)
 ##     else rgb(x[, 1L], x[, 2L], x[, 3L], maxColorValue = 255)
 ## }
-## &amp;lt;bytecode: 0x67e2768&amp;gt;
-## &amp;lt;environment: 0x67e1450&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+## &amp;lt;bytecode: 0x7546de8&amp;gt;
+## &amp;lt;environment: 0x7545ad0&amp;gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data %&amp;gt;%
     select(Age, treat_pron) %&amp;gt;%
     na.omit() %&amp;gt;%

@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -13,7 +11,7 @@
   <meta name="description" content="Analista de dados, Bioinformata">
 
   
-  <link rel="alternate" hreflang="pt-br" href="/tags/rmarkdown/">
+  <link rel="alternate" hreflang="pt-br" href="/project/shiny_app_ngs/">
 
   
   
@@ -74,22 +72,23 @@
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/tags/rmarkdown/">
+  <link rel="canonical" href="/project/shiny_app_ngs/">
 
   <meta property="twitter:card" content="summary_large_image">
   
   <meta property="og:site_name" content="Página profissional">
-  <meta property="og:url" content="/tags/rmarkdown/">
-  <meta property="og:title" content="Rmarkdown | Página profissional">
-  <meta property="og:description" content="Analista de dados, Bioinformata">
+  <meta property="og:url" content="/project/shiny_app_ngs/">
+  <meta property="og:title" content="Genomic Tool for Enriched Region Detection | Página profissional">
+  <meta property="og:description" content="">
   <meta property="og:locale" content="pt-br">
   
-  <meta property="og:updated_time" content="2017-08-01T00:00:00&#43;00:00">
+  
+  
   
 
   
 
-  <title>Rmarkdown | Página profissional</title>
+  <title>Genomic Tool for Enriched Region Detection | Página profissional</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
@@ -230,49 +229,230 @@
 </nav>
 
 
-
-
-
-<div class="universal-wrapper">
-
-  <h1>Rmarkdown</h1>
+<article class="article article-project" itemscope itemtype="http://schema.org/Article">
 
   
 
-  
-  
-  <div>
-    <h2><a href="/project/house_price_advanced_regression_kernel/">House price advanced regression</a></h2>
-    <div class="article-style">
-      
-      Autores: Davi Toshio e Henrique Cursino Vieira h1.title { text-align: center; } h4.author { text-align: center; } h4.date { text-align: center; }  body{ /* Normal <em>/ font-size: 14px; td { /</em> Table <em>/ font-size: 14px; } h1.title { font-size: 24px; } h1 { /</em> Header 1 <em>/ font-size: 24px; } h2 { /</em> Header 2 <em>/ font-size: 16px; } h3 { /</em> Header 3 <em>/ font-size: 14px; } code.r{ /</em> Code block <em>/ font-size: 14px; } pre { /</em> Code block - determines code spacing between lines */ font-size: 14px; }  Carregando as bibliotecas
-      
+
+  <div class="article-container">
+
+    <div class="pub-title">
+      <h1 itemprop="name">Genomic Tool for Enriched Region Detection</h1>
+      <span class="pub-authors" itemprop="author">&nbsp;</span>
+      <span class="pull-right">
+        
+
+      </span>
     </div>
-  </div>
-  
-  <div>
-    <h2><a href="/project/shiny_app_ngs/">Genomic Tool for Enriched Region Detection</a></h2>
-    <div class="article-style">
-      
-      h1.title { text-align: center; } h4.author { text-align: center; } h4.date { text-align: center; }  body{ /* Normal <em>/ font-size: 14px; td { /</em> Table <em>/ font-size: 14px; } h1.title { font-size: 24px; } h1 { /</em> Header 1 <em>/ font-size: 24px; } h2 { /</em> Header 2 <em>/ font-size: 16px; } h3 { /</em> Header 3 <em>/ font-size: 14px; } code.r{ /</em> Code block <em>/ font-size: 14px; } pre { /</em> Code block - determines code spacing between lines */ font-size: 14px; }  1.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/project/titanic/">Titanic, quem sobreviveu?</a></h2>
-    <div class="article-style">
-      
-      body{ /* Normal <em>/ font-size: 14px; td { /</em> Table <em>/ font-size: 14px; } h1.title { font-size: 24px; } h1 { /</em> Header 1 <em>/ font-size: 24px; } h2 { /</em> Header 2 <em>/ font-size: 16px; } h3 { /</em> Header 3 <em>/ font-size: 14px; } code.r{ /</em> Code block <em>/ font-size: 14px; } pre { /</em> Code block - determines code spacing between lines */ font-size: 14px; }  library(caret) library(mice) library(dplyr) library(ggplot2) library(stringr) library(purrr) library(corrplot) library(viridis) library(RColorBrewer) 1.
-      
-    </div>
-  </div>
-  
 
-  
+    
 
+    <div class="article-style" itemprop="articleBody">
+      <style type1 text/css'>
+h1.title {
+  text-align: center;
+}
+h4.author { 
+  text-align: center;
+}
+h4.date { 
+  text-align: center;
+}
+</style>
+<style type='text/css'>
+body{ /* Normal  */
+  font-size: 14px;
+  
+td {  /* Table  */
+  font-size: 14px;
+}
+h1.title {
+  font-size: 24px;
+
+}
+h1 { /* Header 1 */
+  font-size: 24px;
+
+}
+h2 { /* Header 2 */
+    font-size: 16px;
+}
+h3 { /* Header 3 */
+  font-size: 14px;
+
+}
+code.r{ /* Code block */
+    font-size: 14px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+</style>
+<div id="introducao" class="section level1">
+<h1>1.Introdução</h1>
+<p align="justify">
+<p>No contexto da bioinformática, muitas análises são conduzidas em linha de comando, dificultando assim a sua aplicação por pessoas sem o conhecimento adequado em computação. No intuito de possibilitar que outros usuários possam ter acesso ao processo de análise e expandi-las para outros estudos, desenvolvemos uma ferramenta em interface gráfica usando a ferramenta R Shiny.</p>
+Esta ferramenta encontra-se alocada em um servidor WEB (no domínio <a href="http://cetics.butantan.gov.br/shiny/ngs_shiny_app2/" class="uri">http://cetics.butantan.gov.br/shiny/ngs_shiny_app2/</a>), e seu código encontra-se armazenado no repositório do GitLab (também alocado em <a href="http://cetics.butantan.gov.br" class="uri">http://cetics.butantan.gov.br</a>). O código estatá disponível para download após a ferramenta ser publicada em revista científica.
+</p>
+</div>
+<div id="ferramenta-de-analise" class="section level1">
+<h1>2.Ferramenta de análise</h1>
+<div id="upload-dos-dados" class="section level2">
+<h2>2.1.Upload dos dados</h2>
+<p align="justify">
+A ferramenta permite analisar até dois experimentos diferentes em pararelo. Os dados de entrada são compostos pelo arquivo de alinhamento das sequências (tratamento e controle em formato .bed, comprimidos em formato .zip), picos preditos pelo programa MACS2, genoma de referência (.fasta) e anotação genômica (.gff).
+</p>
+<p align="justify">
+Exemplo de formato para cada tipo de entrada:
+</p>
+<p align="center">
+Arquivo de alinhamento de sequências (.bed)
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/bed.png" height="1200" width="1000">
+</p>
+<p align="center">
+Arquivo dos picos pretidos pelo MACS2 (.narrowPeak)
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/peaks.png" height="1200" width="1000">
+</p>
+<p align="center">
+Arquivo de anotação do genoma (.gff)
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/gff.png" height="1200" width="1000">
+</p>
+<p align="center">
+Arquivo de sequência nucleotídica do genoma (.fasta)
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/fasta.png" height="1200" width="1000">
+</p>
+<p align="justify">
+O usuário deve seguir cada etapa corretamente, afim de se obter os resultados da análise de regiões enriquecidas do genoma.
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/Selection_001.png" height="1200" width="1000">
+</p>
+</div>
+<div id="estimando-cobertura-e-conteudo-gc" class="section level2">
+<h2>2.2. Estimando cobertura e conteúdo %GC</h2>
+<p align="justify">
+Após realizar o upload dos dados brutos, a ferramenta estima a cobertura genômica em janelas de tamanho definido pelo usuário, da mesma forma também é estimado o conteúdo GC.
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/Selection_003.png" height="1200" width="1000">
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/Selection_004.png" height="1200" width="1000">
+</p>
+</div>
+<div id="aplicando-filtro-sobre-os-dados" class="section level2">
+<h2>2.3. Aplicando filtro sobre os dados</h2>
+<p align="justify">
+Esta etapa é sucessidida pela aplicação de um filtro tanto sobre os dados de cobertura estimado, como também sobre dos dados dos picos preditos pelo programa MACS2.
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/Selection_005.png" height="1200" width="1000">
+</p>
+</div>
+<div id="visualizando-dados-integrados" class="section level2">
+<h2>2.4. Visualizando dados integrados</h2>
+<p align="justify">
+Tendo os dados filtrados em mãos, o usuário poderá gerar figuras de cada cromossomo de forma independente integrando as features de interesse tanto de um quanto de dois experimentos. Um menu dinâmico é criado conforme os dados experimentais.
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/Selection_006.png" height="1200" width="1000">
+</p>
+<p align="justify">
+Ilustrando o canto inferior:
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/Selection_007.png" height="1200" width="1000">
+</p>
+<p align="justify">
+É possível ainda realizar um zoom sobre as regiões de interesse do cromossomo e destacar as características de interesse. Em todos os casos, é possível realizar o download tanto das figuras como também das informações contidas em uma tabela.
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/Selection_008.png" height="1200" width="1000">
+</p>
+<p align="justify">
+Ilustrando o canto inferior:
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/Selection_009.png" height="1200" width="1000">
+</p>
+</div>
+<div id="cruzando-informacoes-entre-os-experimentos" class="section level2">
+<h2>3.Cruzando informações entre os experimentos</h2>
+<p>Na etapa final de análise da ferramenta, o usuário pode opcionalmente realizar uma análise cruzada de todos os dados, obtendo assim regiões enriquecidas em comum entre dois experimentos distintos conduzidos para um mesmo genoma de referência.</p>
+<p align="center">
+<img src = "/img/ngs_shiny/Selection_010.png" height="1200" width="1000">
+</p>
+<p align="justify">
+Ilustrando o canto inferior:
+</p>
+<p align="center">
+<img src = "/img/ngs_shiny/Selection_011.png" height="1200" width="1000">
+</p>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/shiny">Shiny</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/rmarkdown">Rmarkdown</a>
+  
+</div>
+
+
+
+
+    
+    
+    
+
+    
+      
+      
+      
+      
+
+      
+      
+      
+      
+    
+
+  </div>
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="/project/titanic/"><span
+      aria-hidden="true">&larr;</span> Titanic, quem sobreviveu?</a></li>
+    
+
+    
+    <li class="next"><a href="/project/house_price_advanced_regression_kernel/">House price advanced regression <span
+      aria-hidden="true">&rarr;</span></a></li>
+    
+  </ul>
+</nav>
 
 </div>
+
 <footer class="site-footer">
   <div class="container">
     <p class="powered-by">
@@ -357,6 +537,4 @@
 
   </body>
 </html>
-
-
 
