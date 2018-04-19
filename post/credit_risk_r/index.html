@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -13,7 +11,7 @@
   <meta name="description" content="Analista de dados, Bioinformata">
 
   
-  <link rel="alternate" hreflang="pt-br" href="/tags/rmarkdown/">
+  <link rel="alternate" hreflang="pt-br" href="/post/credit_risk_r/">
 
   
   
@@ -74,22 +72,24 @@
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/tags/rmarkdown/">
+  <link rel="canonical" href="/post/credit_risk_r/">
 
   <meta property="twitter:card" content="summary_large_image">
   
   <meta property="og:site_name" content="Página profissional">
-  <meta property="og:url" content="/tags/rmarkdown/">
-  <meta property="og:title" content="Rmarkdown | Página profissional">
-  <meta property="og:description" content="Analista de dados, Bioinformata">
+  <meta property="og:url" content="/post/credit_risk_r/">
+  <meta property="og:title" content="Credit Risk Modeling in R (DataCamp, 4h) | Página profissional">
+  <meta property="og:description" content="">
   <meta property="og:locale" content="pt-br">
   
-  <meta property="og:updated_time" content="2017-08-01T00:00:00&#43;00:00">
+  <meta property="article:published_time" content="2015-07-23T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2015-07-23T00:00:00&#43;00:00">
   
 
   
 
-  <title>Rmarkdown | Página profissional</title>
+  <title>Credit Risk Modeling in R (DataCamp, 4h) | Página profissional</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
@@ -247,49 +247,106 @@
 </nav>
 
 
-
-
-
-<div class="universal-wrapper">
-
-  <h1>Rmarkdown</h1>
+<article class="article" itemscope itemtype="http://schema.org/Article">
 
   
 
-  
-  
-  <div>
-    <h2><a href="/project/house_price_advanced_regression_kernel/">House price advanced regression</a></h2>
-    <div class="article-style">
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">Credit Risk Modeling in R (DataCamp, 4h)</h1>
+
       
-      Autores: Davi Toshio e Henrique Cursino Vieira h1.title { text-align: center; } h4.author { text-align: center; } h4.date { text-align: center; }  body{ /* Normal <em>/ font-size: 14px; td { /</em> Table <em>/ font-size: 14px; } h1.title { font-size: 24px; } h1 { /</em> Header 1 <em>/ font-size: 24px; } h2 { /</em> Header 2 <em>/ font-size: 16px; } h3 { /</em> Header 3 <em>/ font-size: 14px; } code.r{ /</em> Code block <em>/ font-size: 14px; } pre { /</em> Code block - determines code spacing between lines */ font-size: 14px; }  Carregando as bibliotecas
-      
-    </div>
-  </div>
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2015-07-23 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Jul 23, 2015
+    </time>
+  </span>
+
   
-  <div>
-    <h2><a href="/project/shiny_app_ngs/">Genomic Tool for Enriched Region Detection</a></h2>
-    <div class="article-style">
-      
-      h1.title { text-align: center; } h4.author { text-align: center; } h4.date { text-align: center; }  body{ /* Normal <em>/ font-size: 14px; td { /</em> Table <em>/ font-size: 14px; } h1.title { font-size: 24px; } h1 { /</em> Header 1 <em>/ font-size: 24px; } h2 { /</em> Header 2 <em>/ font-size: 16px; } h3 { /</em> Header 3 <em>/ font-size: 14px; } code.r{ /</em> Code block <em>/ font-size: 14px; } pre { /</em> Code block - determines code spacing between lines */ font-size: 14px; }  1.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/project/titanic/">Titanic, quem sobreviveu?</a></h2>
-    <div class="article-style">
-      
-      body{ /* Normal <em>/ font-size: 14px; td { /</em> Table <em>/ font-size: 14px; } h1.title { font-size: 24px; } h1 { /</em> Header 1 <em>/ font-size: 24px; } h2 { /</em> Header 2 <em>/ font-size: 16px; } h3 { /</em> Header 3 <em>/ font-size: 14px; } code.r{ /</em> Code block <em>/ font-size: 14px; } pre { /</em> Code block - determines code spacing between lines */ font-size: 14px; }  library(caret) library(mice) library(dplyr) library(ggplot2) library(stringr) library(purrr) library(corrplot) library(viridis) library(RColorBrewer) 1.
-      
-    </div>
-  </div>
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 
+  </span>
   
 
   
+  
 
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+
+  
 
 </div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        <pre><code>This hands-on-course with real-life credit data will teach you how to model credit risk by using logistic regression and decision trees in R.
+
+Modeling credit risk for both personal and company loans is of major importance for banks. The probability that a debtor will default is a key component in getting to a measure for credit risk. While other models will be introduced in this course as well, you will learn about two model types that are often used in the credit scoring context; logistic regression and decision trees. You will learn how to use them in this particular context, and how these models are evaluated by banks.
+</code></pre>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/credit-risk">Credit risk</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3></h3>
+  <ul>
+    
+    <li><a href="/project/titanic/">Titanic, quem sobreviveu?</a></li>
+    
+    <li><a href="/project/shiny_app_ngs/">Genomic Tool for Enriched Region Detection</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+
+</div>
+
 <footer class="site-footer">
   <div class="container">
     <p class="powered-by">
@@ -374,6 +431,4 @@
 
   </body>
 </html>
-
-
 
