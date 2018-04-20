@@ -11,40 +11,43 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Data Analyst with R (DataCamp, 64h)</title>
-      <link>/post/data_analysis_r/</link>
-      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
+      <title>Credit Risk Modeling in R (DataCamp, 4h)</title>
+      <link>/post/credit_risk_r/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/data_analysis_r/</guid>
-      <description>&lt;p&gt;Este módulo é composto por um total de &lt;strong&gt;16 cursos&lt;/strong&gt;, totalizando uma carga horária &lt;strong&gt;de 64 horas&lt;/strong&gt;. Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Introduction to R (4h)&lt;/li&gt;
-&lt;li&gt;Intermediate R (6h)&lt;/li&gt;
-&lt;li&gt;Intermediate R - Practice (4h)&lt;/li&gt;
-&lt;li&gt;Importing Data in R - Part 1 (3h)&lt;/li&gt;
-&lt;li&gt;Importing Data in R - Part 2 (3h)&lt;/li&gt;
-&lt;li&gt;Cleaning Data in R (4h)&lt;/li&gt;
-&lt;li&gt;Importing &amp;amp; Cleaning Data in R: Case Studies (4h)&lt;/li&gt;
-&lt;li&gt;Data Manipulation in R with dplyr (4h)&lt;/li&gt;
-&lt;li&gt;Joining Data in R with dplyr (4h)&lt;/li&gt;
-&lt;li&gt;Data Visualization in R (4h)&lt;/li&gt;
-&lt;li&gt;Data Visualization with ggplot2 - Part 1 (5h)&lt;/li&gt;
-&lt;li&gt;Introduction to Data (4h)&lt;/li&gt;
-&lt;li&gt;Exploratory Data Analysis (4h)&lt;/li&gt;
-&lt;li&gt;Exploratory Data Analysis in R: Case Study (4h)&lt;/li&gt;
-&lt;li&gt;Correlation and Regression (4h)&lt;/li&gt;
-&lt;li&gt;Reporting with R Markdown (3h)&lt;/li&gt;
-&lt;/ul&gt;
+      <guid>/post/credit_risk_r/</guid>
+      <description>&lt;div align=&#34;center&#34;&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/certificates/Credit_Risk_Modeling_R.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.datacamp.com/statement-of-accomplishment/course/ff790720ef23fc9bdfbe4634a0ea11f3ab61aa7a&#34;&gt;(Link do certificado para download)&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;ID da licença: ff790720ef23fc9bdfbe4634a0ea11f3ab61aa7a&lt;/p&gt;
+&lt;div align=&#34;justify&#34;&gt;
+&lt;p&gt;This hands-on-course with real-life credit data will teach you how to model credit risk by using logistic regression and decision trees in R.&lt;/p&gt;
+&lt;p&gt;Modeling credit risk for both personal and company loans is of major importance for banks. The probability that a debtor will default is a key component in getting to a measure for credit risk. While other models will be introduced in this course as well, you will learn about two model types that are often used in the credit scoring context; logistic regression and decision trees. You will learn how to use them in this particular context, and how these models are evaluated by banks.&lt;/p&gt;
+&lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>Data Scientist with R (DataCamp, 95h)</title>
       <link>/post/data_scientist/</link>
-      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/data_scientist/</guid>
-      <description>&lt;p&gt;Este módulo é composto por um total de &lt;strong&gt;16 cursos&lt;/strong&gt;, totalizando uma carga horária &lt;strong&gt;de 64 horas&lt;/strong&gt;. Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:&lt;/p&gt;
+      <description>&lt;div align=&#34;center&#34;&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/certificates/Data_Scientist_R.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.datacamp.com/statement-of-accomplishment/track/b7606707581d354af34fb3ebe155054814de4354&#34;&gt;(Link do certificado para download)&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;ID da licença: b7606707581d354af34fb3ebe155054814de4354&lt;/p&gt;
+&lt;div align=&#34;justify&#34;&gt;
+&lt;p&gt;Este módulo é composto por um total de &lt;strong&gt;23 cursos&lt;/strong&gt;, totalizando uma carga horária de &lt;strong&gt;95 horas&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Introduction to R (4h)&lt;/li&gt;
 &lt;li&gt;Intermediate R (6h)&lt;/li&gt;
@@ -70,16 +73,47 @@
 &lt;li&gt;Text Mining: Bag of Words (4h)&lt;/li&gt;
 &lt;li&gt;Reporting with R Markdown (3h)&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/div&gt;
 </description>
     </item>
     
     <item>
       <title>Intro to SQL for Data Science (DataCamp, 4h)</title>
       <link>/post/sql_r/</link>
-      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/sql_r/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;The role of a data scientist is to turn raw data into actionable insights. Much of the world&amp;#39;s raw data—from electronic medical records to customer transaction histories—lives in organized collections of tables called relational databases. Therefore, to be an effective data scientist, you must know how to wrangle and extract data from these databases using a language called SQL (pronounced ess-que-ell, or sequel). This course teaches you everything you need to know to begin working with databases today!&lt;/code&gt;&lt;/pre&gt;
+      <description>&lt;div align=&#34;center&#34;&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/certificates/intro_sql_datascience.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.datacamp.com/statement-of-accomplishment/course/cc34be2d16d9d1940c907fbc021f7061bfb875e4&#34;&gt;(Link do certificado para download)&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;ID da licença: cc34be2d16d9d1940c907fbc021f7061bfb875e4&lt;/p&gt;
+&lt;div align=&#34;justify&#34;&gt;
+&lt;p&gt;The role of a data scientist is to turn raw data into actionable insights. Much of the world’s raw data—from electronic medical records to customer transaction histories—lives in organized collections of tables called relational databases. Therefore, to be an effective data scientist, you must know how to wrangle and extract data from these databases using a language called SQL (pronounced ess-que-ell, or sequel). This course teaches you everything you need to know to begin working with databases today!&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Writing Efficient R Code (DataCamp, 4h)</title>
+      <link>/post/write_efficient_code/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/write_efficient_code/</guid>
+      <description>&lt;div align=&#34;center&#34;&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/certificates/writing_efficient_code_R.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.datacamp.com/statement-of-accomplishment/course/935f7ab3c5852e3013d1d75ddba9bbaec56d0dae&#34;&gt;(Link do certificado para download)&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;ID da licença: 935f7ab3c5852e3013d1d75ddba9bbaec56d0dae&lt;/p&gt;
+&lt;div align=&#34;justify&#34;&gt;
+&lt;p&gt;The beauty of R is that it is built for performing data analysis. The downside is that sometimes R can be slow, thereby obstructing our analysis. For this reason, it is essential to become familiar with the main techniques for speeding up your analysis, so you can reduce computational time and get insights as quickly as possible.&lt;/p&gt;
+&lt;/div&gt;
 </description>
     </item>
     
@@ -1581,25 +1615,61 @@ Melhor pontuação obtida
     </item>
     
     <item>
-      <title>Credit Risk Modeling in R (DataCamp, 4h)</title>
-      <link>/post/credit_risk_r/</link>
-      <pubDate>Thu, 23 Jul 2015 00:00:00 +0000</pubDate>
+      <title>Data Analyst with R (DataCamp, 64h)</title>
+      <link>/post/data_analysis_r/</link>
+      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/credit_risk_r/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;This hands-on-course with real-life credit data will teach you how to model credit risk by using logistic regression and decision trees in R.
+      <guid>/post/data_analysis_r/</guid>
+      <description>&lt;div align=&#34;center&#34;&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/certificates/Data_Analyst_R.png&#34; /&gt;
 
-Modeling credit risk for both personal and company loans is of major importance for banks. The probability that a debtor will default is a key component in getting to a measure for credit risk. While other models will be introduced in this course as well, you will learn about two model types that are often used in the credit scoring context; logistic regression and decision trees. You will learn how to use them in this particular context, and how these models are evaluated by banks.
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.datacamp.com/statement-of-accomplishment/track/54a99a39c5c74a0c3a69f25fb73fd70d5aee469f&#34;&gt;(Link do certificado para download)&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;ID da licença: 54a99a39c5c74a0c3a69f25fb73fd70d5aee469f&lt;/p&gt;
+&lt;div align=&#34;justify&#34;&gt;
+&lt;p&gt;Este módulo é composto por um total de &lt;strong&gt;16 cursos&lt;/strong&gt;, totalizando uma carga horária de &lt;strong&gt;64 horas&lt;/strong&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Introduction to R (4h)&lt;/li&gt;
+&lt;li&gt;Intermediate R (6h)&lt;/li&gt;
+&lt;li&gt;Intermediate R - Practice (4h)&lt;/li&gt;
+&lt;li&gt;Importing Data in R - Part 1 (3h)&lt;/li&gt;
+&lt;li&gt;Importing Data in R - Part 2 (3h)&lt;/li&gt;
+&lt;li&gt;Cleaning Data in R (4h)&lt;/li&gt;
+&lt;li&gt;Importing &amp;amp; Cleaning Data in R: Case Studies (4h)&lt;/li&gt;
+&lt;li&gt;Data Manipulation in R with dplyr (4h)&lt;/li&gt;
+&lt;li&gt;Joining Data in R with dplyr (4h)&lt;/li&gt;
+&lt;li&gt;Data Visualization in R (4h)&lt;/li&gt;
+&lt;li&gt;Data Visualization with ggplot2 - Part 1 (5h)&lt;/li&gt;
+&lt;li&gt;Introduction to Data (4h)&lt;/li&gt;
+&lt;li&gt;Exploratory Data Analysis (4h)&lt;/li&gt;
+&lt;li&gt;Exploratory Data Analysis in R: Case Study (4h)&lt;/li&gt;
+&lt;li&gt;Correlation and Regression (4h)&lt;/li&gt;
+&lt;li&gt;Reporting with R Markdown (3h)&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     
     <item>
       <title>R Programmer (DataCamp, 40h)</title>
       <link>/post/programmer_r/</link>
-      <pubDate>Thu, 23 Jul 2015 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
       
       <guid>/post/programmer_r/</guid>
-      <description>&lt;p&gt;Este módulo é composto por um total de &lt;strong&gt;10 cursos&lt;/strong&gt;, totalizando uma carga horária &lt;strong&gt;de 40 horas&lt;/strong&gt;. Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:&lt;/p&gt;
+      <description>&lt;div align=&#34;center&#34;&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/certificates/R_Programmer.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.datacamp.com/statement-of-accomplishment/track/e39830bd2de0175aac745b6b6612537b6f9d22b4&#34;&gt;(Link do certificado para download)&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;ID da licença: e39830bd2de0175aac745b6b6612537b6f9d22b4&lt;/p&gt;
+&lt;div align=&#34;justify&#34;&gt;
+&lt;p&gt;Este módulo é composto por um total de &lt;strong&gt;10 cursos&lt;/strong&gt;, totalizando uma carga horária de &lt;strong&gt;40 horas&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Introduction to R (4h)&lt;/li&gt;
 &lt;li&gt;Intermediate R (6h)&lt;/li&gt;
@@ -1612,16 +1682,7 @@ Modeling credit risk for both personal and company loans is of major importance 
 &lt;li&gt;Writing Functions in R (4h)&lt;/li&gt;
 &lt;li&gt;Object-Oriented Programming in R: S3 and R6 (4h)&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Writing Efficient R Code (DataCamp, 4h)</title>
-      <link>/post/write_efficient_code/</link>
-      <pubDate>Thu, 23 Jul 2015 00:00:00 +0000</pubDate>
-      
-      <guid>/post/write_efficient_code/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;The beauty of R is that it is built for performing data analysis. The downside is that sometimes R can be slow, thereby obstructing our analysis. For this reason, it is essential to become familiar with the main techniques for speeding up your analysis, so you can reduce computational time and get insights as quickly as possible.&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 </description>
     </item>
     

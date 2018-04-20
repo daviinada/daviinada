@@ -8,7 +8,72 @@
     <language>pt-br</language>
     <copyright>&amp;copy; 2017 Davi Toshio</copyright>
     <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/home/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="/home/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>/home/about/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/home/about/</guid>
+      <description>Biografia Davi é bioinformata e atualmente trabalha no Instituto Butantan como analista de dados, dando suporte aos pesquisadores do Laboratório Especial de Ciclo Celular (LECC). Possui graduação em Biomedicina pela Universidade Federal do Pará e mestrado em Bioinformática pela Universidade de São Paulo. Atualmente é graduando no curso de Estatística pelo Centro Universitário Capital. Davi conheceu sua paixão pela informática e estatística dentro da bioinformática. Atualmente desenvolve seu trabalho utilizando diferentes bibliotecas da linguagem R, desde análise de dados (tidyverse, ggplot2), relatórios dinâmicos (Rmarkdown) e ainda o desevolvimento de um aplicativo de análise de dados genômicos (Shiny App).</description>
+    </item>
+    
+    <item>
+      <title>Perfil profissional</title>
+      <link>/home/skills/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/home/skills/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Timeline</title>
+      <link>/home/experience/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/home/experience/</guid>
+      <description>Trajetória de Davi    Iniciou a graduação em biomedicina (UFPA)  Fev 2010  Durante os primeiros meses do curso de Biomedicina na Universidade Federal do Pará, conheceu a área de bioinformática, que lida com análise computacional de dados biológicos     1ª Iniciação científica em bioinformática (IEC) Abril 2010 - Mai 2011  Iniciação científica como bolsista PIBIC no Instituto Evandro Chagas (IEC)     2ª Iniciação científica em bioinformática (IEC) Jun 2011 - Jul 2012  Iniciação científica como bolsista PIBIC no Instituto Evandro Chagas     3ª Iniciação científica em bioinformática (IEC) Ago 2012 - Set 2013   Iniciação científica como bolsista PIBIC no Instituto Evandro Chagas     Formou-se em biomedicina (UFPA) Fev 2014  Formou-se com ênfase na área de bioinformática     Iniciou mestrado em bioinformática (USP) Fev 2014  Foi dado início no mestrado em bioinformática pela Universidade de São Paulo     Trabalhou como bolsista TT4-FUSP no projeto &#39;Conforto de Cabine&#39; Ago 2016 - Out 2016  Atuou dando suporte no gerenciamento do banco de dados e processamento de dados no projeto Conforto de Cabine da USP     Finalizou mestrado em bioinformática na USP Nov 2016  Obteve o diploma de mestre em bioinformática     Iniciou trabalho como analista de dados no Instituto Butantan Maio 2017 - Atual  Atua como suporte nas análises de dados de sequenciamento de genomas em larga escala, auxiliando pesquisadores do Instituto Butantan.</description>
+    </item>
+    
+    <item>
+      <title>Publicações acadêmicas</title>
+      <link>/home/publications/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/home/publications/</guid>
+      <description>CARVALHO, VALÉRIA L. ; NUNES, MÁRCIO R. T. ; MEDEIROS, DANIELE B. A. ; DA SILVA, SANDRO PATROCA ; LIMA, CLAYTON P. S. ; INADA, DAVI T. ; CARDOSO, JEDSON F. ; VIANEZ, JOÃO L. S. G. ; RODRIGUES, SUELI GUERREIRO ; VASCONCELOS, PEDRO F. C. . New Virus Genome Sequences of the Guama Serogroup (Genus Orthobunyavirus , Family Bunyaviridae ), Isolated in the Brazilian Amazon Region. Genome Announcements, v.</description>
+    </item>
+    
+    <item>
+      <title>Certificados</title>
+      <link>/home/certificados/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 -0300</pubDate>
+      
+      <guid>/home/certificados/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Aplicações</title>
+      <link>/home/aplicacoes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/home/aplicacoes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Contato</title>
+      <link>/home/contact/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/home/contact/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>
