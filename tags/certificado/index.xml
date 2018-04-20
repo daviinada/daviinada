@@ -25,6 +25,19 @@ Modeling credit risk for both personal and company loans is of major importance 
     </item>
     
     <item>
+      <title>Data Analyst with R (DataCamp, 64h)</title>
+      <link>/post/data_analysis_r/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/data_analysis_r/</guid>
+      <description> (Link do certificado para download)
+ ID da licença: 54a99a39c5c74a0c3a69f25fb73fd70d5aee469f
+Este módulo é composto por um total de 16 cursos, totalizando uma carga horária de 64 horas.
+ Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:
+ Introduction to R (4h) Intermediate R (6h) Intermediate R - Practice (4h) Importing Data in R - Part 1 (3h) Importing Data in R - Part 2 (3h) Cleaning Data in R (4h) Importing &amp;amp; Cleaning Data in R: Case Studies (4h) Data Manipulation in R with dplyr (4h) Joining Data in R with dplyr (4h) Data Visualization in R (4h) Data Visualization with ggplot2 - Part 1 (5h) Introduction to Data (4h) Exploratory Data Analysis (4h) Exploratory Data Analysis in R: Case Study (4h) Correlation and Regression (4h) Reporting with R Markdown (3h)  </description>
+    </item>
+    
+    <item>
       <title>Data Scientist with R (DataCamp, 95h)</title>
       <link>/post/data_scientist/</link>
       <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
@@ -49,6 +62,19 @@ The role of a data scientist is to turn raw data into actionable insights. Much 
     </item>
     
     <item>
+      <title>R Programmer (DataCamp, 40h)</title>
+      <link>/post/programmer_r/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/programmer_r/</guid>
+      <description> (Link do certificado para download)
+ ID da licença: e39830bd2de0175aac745b6b6612537b6f9d22b4
+Este módulo é composto por um total de 10 cursos, totalizando uma carga horária de 40 horas.
+Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:
+ Introduction to R (4h) Intermediate R (6h) Intermediate R - Practice (4h) Importing Data in R - Part 1 (3h) Importing Data in R - Part 2 (3h) Cleaning Data in R (4h) Importing &amp;amp; Cleaning Data in R: Case Studies (4h) String Manipulation in R with stringr (4h) Writing Functions in R (4h) Object-Oriented Programming in R: S3 and R6 (4h)   </description>
+    </item>
+    
+    <item>
       <title>Writing Efficient R Code (DataCamp, 4h)</title>
       <link>/post/write_efficient_code/</link>
       <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
@@ -58,32 +84,6 @@ The role of a data scientist is to turn raw data into actionable insights. Much 
  ID da licença: 935f7ab3c5852e3013d1d75ddba9bbaec56d0dae
 The beauty of R is that it is built for performing data analysis. The downside is that sometimes R can be slow, thereby obstructing our analysis. For this reason, it is essential to become familiar with the main techniques for speeding up your analysis, so you can reduce computational time and get insights as quickly as possible.
  </description>
-    </item>
-    
-    <item>
-      <title>Data Analyst with R (DataCamp, 64h)</title>
-      <link>/post/data_analysis_r/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/data_analysis_r/</guid>
-      <description> (Link do certificado para download)
- ID da licença: 54a99a39c5c74a0c3a69f25fb73fd70d5aee469f
-Este módulo é composto por um total de 16 cursos, totalizando uma carga horária de 64 horas.
- Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:
- Introduction to R (4h) Intermediate R (6h) Intermediate R - Practice (4h) Importing Data in R - Part 1 (3h) Importing Data in R - Part 2 (3h) Cleaning Data in R (4h) Importing &amp;amp; Cleaning Data in R: Case Studies (4h) Data Manipulation in R with dplyr (4h) Joining Data in R with dplyr (4h) Data Visualization in R (4h) Data Visualization with ggplot2 - Part 1 (5h) Introduction to Data (4h) Exploratory Data Analysis (4h) Exploratory Data Analysis in R: Case Study (4h) Correlation and Regression (4h) Reporting with R Markdown (3h)  </description>
-    </item>
-    
-    <item>
-      <title>R Programmer (DataCamp, 40h)</title>
-      <link>/post/programmer_r/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/programmer_r/</guid>
-      <description> (Link do certificado para download)
- ID da licença: e39830bd2de0175aac745b6b6612537b6f9d22b4
-Este módulo é composto por um total de 10 cursos, totalizando uma carga horária de 40 horas.
-Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:
- Introduction to R (4h) Intermediate R (6h) Intermediate R - Practice (4h) Importing Data in R - Part 1 (3h) Importing Data in R - Part 2 (3h) Cleaning Data in R (4h) Importing &amp;amp; Cleaning Data in R: Case Studies (4h) String Manipulation in R with stringr (4h) Writing Functions in R (4h) Object-Oriented Programming in R: S3 and R6 (4h)   </description>
     </item>
     
   </channel>

@@ -14,6 +14,15 @@
     
     <url>
     
+      <loc>/post/data_analysis_r/</loc>
+      <lastmod>2018-01-01T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/data_scientist/</loc>
       <lastmod>2018-01-01T00:00:00+00:00</lastmod>
     </url>
@@ -24,6 +33,15 @@
     <url>
     
       <loc>/post/sql_r/</loc>
+      <lastmod>2018-01-01T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/post/programmer_r/</loc>
       <lastmod>2018-01-01T00:00:00+00:00</lastmod>
     </url>
     
@@ -52,24 +70,6 @@
     
       <loc>/project/</loc>
       <lastmod>2017-01-01T00:00:00-02:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/post/data_analysis_r/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/post/programmer_r/</loc>
-      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -133,7 +133,7 @@
     
     <url>
     
-      <loc>/tags/r/</loc>
+      <loc>/categories/r/</loc>
       <lastmod>2017-08-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -143,7 +143,7 @@
     
     <url>
     
-      <loc>/categories/r/</loc>
+      <loc>/tags/r/</loc>
       <lastmod>2017-08-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>

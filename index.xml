@@ -32,6 +32,45 @@
     </item>
     
     <item>
+      <title>Data Analyst with R (DataCamp, 64h)</title>
+      <link>/post/data_analysis_r/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/data_analysis_r/</guid>
+      <description>&lt;div align=&#34;center&#34;&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/certificates/Data_Analyst_R.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.datacamp.com/statement-of-accomplishment/track/54a99a39c5c74a0c3a69f25fb73fd70d5aee469f&#34;&gt;(Link do certificado para download)&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;ID da licença: 54a99a39c5c74a0c3a69f25fb73fd70d5aee469f&lt;/p&gt;
+&lt;div align=&#34;justify&#34;&gt;
+&lt;p&gt;Este módulo é composto por um total de &lt;strong&gt;16 cursos&lt;/strong&gt;, totalizando uma carga horária de &lt;strong&gt;64 horas&lt;/strong&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Introduction to R (4h)&lt;/li&gt;
+&lt;li&gt;Intermediate R (6h)&lt;/li&gt;
+&lt;li&gt;Intermediate R - Practice (4h)&lt;/li&gt;
+&lt;li&gt;Importing Data in R - Part 1 (3h)&lt;/li&gt;
+&lt;li&gt;Importing Data in R - Part 2 (3h)&lt;/li&gt;
+&lt;li&gt;Cleaning Data in R (4h)&lt;/li&gt;
+&lt;li&gt;Importing &amp;amp; Cleaning Data in R: Case Studies (4h)&lt;/li&gt;
+&lt;li&gt;Data Manipulation in R with dplyr (4h)&lt;/li&gt;
+&lt;li&gt;Joining Data in R with dplyr (4h)&lt;/li&gt;
+&lt;li&gt;Data Visualization in R (4h)&lt;/li&gt;
+&lt;li&gt;Data Visualization with ggplot2 - Part 1 (5h)&lt;/li&gt;
+&lt;li&gt;Introduction to Data (4h)&lt;/li&gt;
+&lt;li&gt;Exploratory Data Analysis (4h)&lt;/li&gt;
+&lt;li&gt;Exploratory Data Analysis in R: Case Study (4h)&lt;/li&gt;
+&lt;li&gt;Correlation and Regression (4h)&lt;/li&gt;
+&lt;li&gt;Reporting with R Markdown (3h)&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Data Scientist with R (DataCamp, 95h)</title>
       <link>/post/data_scientist/</link>
       <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
@@ -93,6 +132,39 @@
 &lt;p&gt;ID da licença: cc34be2d16d9d1940c907fbc021f7061bfb875e4&lt;/p&gt;
 &lt;div align=&#34;justify&#34;&gt;
 &lt;p&gt;The role of a data scientist is to turn raw data into actionable insights. Much of the world’s raw data—from electronic medical records to customer transaction histories—lives in organized collections of tables called relational databases. Therefore, to be an effective data scientist, you must know how to wrangle and extract data from these databases using a language called SQL (pronounced ess-que-ell, or sequel). This course teaches you everything you need to know to begin working with databases today!&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>R Programmer (DataCamp, 40h)</title>
+      <link>/post/programmer_r/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/programmer_r/</guid>
+      <description>&lt;div align=&#34;center&#34;&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/certificates/R_Programmer.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.datacamp.com/statement-of-accomplishment/track/e39830bd2de0175aac745b6b6612537b6f9d22b4&#34;&gt;(Link do certificado para download)&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;ID da licença: e39830bd2de0175aac745b6b6612537b6f9d22b4&lt;/p&gt;
+&lt;div align=&#34;justify&#34;&gt;
+&lt;p&gt;Este módulo é composto por um total de &lt;strong&gt;10 cursos&lt;/strong&gt;, totalizando uma carga horária de &lt;strong&gt;40 horas&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Introduction to R (4h)&lt;/li&gt;
+&lt;li&gt;Intermediate R (6h)&lt;/li&gt;
+&lt;li&gt;Intermediate R - Practice (4h)&lt;/li&gt;
+&lt;li&gt;Importing Data in R - Part 1 (3h)&lt;/li&gt;
+&lt;li&gt;Importing Data in R - Part 2 (3h)&lt;/li&gt;
+&lt;li&gt;Cleaning Data in R (4h)&lt;/li&gt;
+&lt;li&gt;Importing &amp;amp; Cleaning Data in R: Case Studies (4h)&lt;/li&gt;
+&lt;li&gt;String Manipulation in R with stringr (4h)&lt;/li&gt;
+&lt;li&gt;Writing Functions in R (4h)&lt;/li&gt;
+&lt;li&gt;Object-Oriented Programming in R: S3 and R6 (4h)&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -1610,78 +1682,6 @@ Melhor pontuação obtida
 &lt;p align=&#34;center&#34;&gt;
 &lt;p&gt;&lt;img src = &#34;/img/ranking_house_price3.png&#34;&gt;&lt;/p&gt;
 &lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Data Analyst with R (DataCamp, 64h)</title>
-      <link>/post/data_analysis_r/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/data_analysis_r/</guid>
-      <description>&lt;div align=&#34;center&#34;&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/img/certificates/Data_Analyst_R.png&#34; /&gt;
-
-&lt;/div&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.datacamp.com/statement-of-accomplishment/track/54a99a39c5c74a0c3a69f25fb73fd70d5aee469f&#34;&gt;(Link do certificado para download)&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;ID da licença: 54a99a39c5c74a0c3a69f25fb73fd70d5aee469f&lt;/p&gt;
-&lt;div align=&#34;justify&#34;&gt;
-&lt;p&gt;Este módulo é composto por um total de &lt;strong&gt;16 cursos&lt;/strong&gt;, totalizando uma carga horária de &lt;strong&gt;64 horas&lt;/strong&gt;.&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Introduction to R (4h)&lt;/li&gt;
-&lt;li&gt;Intermediate R (6h)&lt;/li&gt;
-&lt;li&gt;Intermediate R - Practice (4h)&lt;/li&gt;
-&lt;li&gt;Importing Data in R - Part 1 (3h)&lt;/li&gt;
-&lt;li&gt;Importing Data in R - Part 2 (3h)&lt;/li&gt;
-&lt;li&gt;Cleaning Data in R (4h)&lt;/li&gt;
-&lt;li&gt;Importing &amp;amp; Cleaning Data in R: Case Studies (4h)&lt;/li&gt;
-&lt;li&gt;Data Manipulation in R with dplyr (4h)&lt;/li&gt;
-&lt;li&gt;Joining Data in R with dplyr (4h)&lt;/li&gt;
-&lt;li&gt;Data Visualization in R (4h)&lt;/li&gt;
-&lt;li&gt;Data Visualization with ggplot2 - Part 1 (5h)&lt;/li&gt;
-&lt;li&gt;Introduction to Data (4h)&lt;/li&gt;
-&lt;li&gt;Exploratory Data Analysis (4h)&lt;/li&gt;
-&lt;li&gt;Exploratory Data Analysis in R: Case Study (4h)&lt;/li&gt;
-&lt;li&gt;Correlation and Regression (4h)&lt;/li&gt;
-&lt;li&gt;Reporting with R Markdown (3h)&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>R Programmer (DataCamp, 40h)</title>
-      <link>/post/programmer_r/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/programmer_r/</guid>
-      <description>&lt;div align=&#34;center&#34;&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/img/certificates/R_Programmer.png&#34; /&gt;
-
-&lt;/div&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.datacamp.com/statement-of-accomplishment/track/e39830bd2de0175aac745b6b6612537b6f9d22b4&#34;&gt;(Link do certificado para download)&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;ID da licença: e39830bd2de0175aac745b6b6612537b6f9d22b4&lt;/p&gt;
-&lt;div align=&#34;justify&#34;&gt;
-&lt;p&gt;Este módulo é composto por um total de &lt;strong&gt;10 cursos&lt;/strong&gt;, totalizando uma carga horária de &lt;strong&gt;40 horas&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Os cursos foram concluídas em uma ordem lógica, em conformidade com a lista abaixo:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Introduction to R (4h)&lt;/li&gt;
-&lt;li&gt;Intermediate R (6h)&lt;/li&gt;
-&lt;li&gt;Intermediate R - Practice (4h)&lt;/li&gt;
-&lt;li&gt;Importing Data in R - Part 1 (3h)&lt;/li&gt;
-&lt;li&gt;Importing Data in R - Part 2 (3h)&lt;/li&gt;
-&lt;li&gt;Cleaning Data in R (4h)&lt;/li&gt;
-&lt;li&gt;Importing &amp;amp; Cleaning Data in R: Case Studies (4h)&lt;/li&gt;
-&lt;li&gt;String Manipulation in R with stringr (4h)&lt;/li&gt;
-&lt;li&gt;Writing Functions in R (4h)&lt;/li&gt;
-&lt;li&gt;Object-Oriented Programming in R: S3 and R6 (4h)&lt;/li&gt;
-&lt;/ul&gt;
 &lt;/div&gt;
 </description>
     </item>
