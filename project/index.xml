@@ -8,9 +8,7 @@
     <language>pt-br</language>
     <copyright>&amp;copy; 2017 Davi Toshio</copyright>
     <lastBuildDate>Sun, 01 Jan 2017 00:00:00 -0200</lastBuildDate>
-    
-	<atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="/project/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>House price advanced regression</title>
@@ -18,7 +16,2487 @@
       <pubDate>Tue, 01 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>/project/house_price_advanced_regression_kernel/</guid>
-      <description>Autores: Davi Toshio e Henrique Cursino Vieira h1.title { text-align: center; } h4.author { text-align: center; } h4.date { text-align: center; }  body{ /* Normal */ font-size: 14px; td { /* Table */ font-size: 14px; } h1.title { font-size: 24px; } h1 { /* Header 1 */ font-size: 24px; } h2 { /* Header 2 */ font-size: 16px; } h3 { /* Header 3 */ font-size: 14px; } code.r{ /* Code block */ font-size: 14px; } pre { /* Code block - determines code spacing between lines */ font-size: 14px; }  Carregando as bibliotecas</description>
+      <description>&lt;pre&gt;&lt;code&gt;Autores: Davi Toshio e Henrique Cursino Vieira&lt;/code&gt;&lt;/pre&gt;
+&lt;style type1 text/css&#39;&gt;
+h1.title {
+  text-align: center;
+}
+h4.author { 
+  text-align: center;
+}
+h4.date { 
+  text-align: center;
+}
+&lt;/style&gt;
+&lt;style type=&#39;text/css&#39;&gt;
+body{ /* Normal  */
+  font-size: 14px;
+  
+td {  /* Table  */
+  font-size: 14px;
+}
+h1.title {
+  font-size: 24px;
+
+}
+h1 { /* Header 1 */
+  font-size: 24px;
+
+}
+h2 { /* Header 2 */
+    font-size: 16px;
+}
+h3 { /* Header 3 */
+  font-size: 14px;
+
+}
+code.r{ /* Code block */
+    font-size: 14px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+&lt;/style&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;p&gt;&lt;img src = &#34;/img/housesbanner.png&#34;, width = 5000, height = 1500&gt;&lt;/p&gt;
+&lt;/p&gt;
+&lt;p&gt;Carregando as bibliotecas&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(readr)
+library(caret)
+library(ranger)
+library(rpart)
+library(rpart.plot)
+library(corrplot)
+library(statisticalModeling)
+library(mlbench)
+library(e1071)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Este kernel é uma aplicação prática de análise exploratória de dados e aprendizado de máquina utilizando a linguagem R. Aqui analisamos os dados do desafio “House Prices: Advanced Regression /Techniques”, do repositório Kaggle.&lt;/p&gt;
+&lt;p&gt;Link: &lt;a href=&#34;https://www.kaggle.com/c/house-prices-advanced-regression-techniques&#34; class=&#34;uri&#34;&gt;https://www.kaggle.com/c/house-prices-advanced-regression-techniques&lt;/a&gt;&lt;/p&gt;
+&lt;div id=&#34;pre-tratamento-dos-dados&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;1.Pré-tratamento dos dados&lt;/h1&gt;
+&lt;div id=&#34;carregando-teste-e-treino&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;1.2.Carregando teste e treino&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;setwd(&amp;#39;/home/davi/Desktop/house_prices-_advanced_regression_techniques/&amp;#39;)
+
+train &amp;lt;- read.csv(file = &amp;#39;train.csv&amp;#39;, sep= &amp;#39;,&amp;#39;, stringsAsFactors = F)
+test &amp;lt;- read.csv(file = &amp;#39;test.csv&amp;#39;, sep= &amp;#39;,&amp;#39;, stringsAsFactors = F)
+
+# Adicionando coluna SalePrice no conjunto teste
+test$SalePrice &amp;lt;- NA
+
+# Criando coluna index do data set
+train$dataset &amp;lt;- &amp;#39;train&amp;#39;
+test$dataset &amp;lt;- &amp;#39;test&amp;#39;
+
+# Juntando dataset, melhora 
+joined_data &amp;lt;- rbind(train, test)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;definicao-de-tipos-e-eliminacao-de-variaveis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;1.3.Definição de tipos e eliminação de variáveis&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Remove coluna Utilities (super representatividade de um fator)
+which(colnames(joined_data) == &amp;#39;Utilities&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 10&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;joined_data &amp;lt;- joined_data[ ,-10]
+
+# Outlier data$GarageYrBlt 2207 to 2007
+joined_data$GarageYrBlt[which(joined_data$GarageYrBlt == 2207)] &amp;lt;- 2007
+
+# Ajustando conteudo de variáveis onde NA é um factor
+joined_data$Alley[which(is.na(joined_data$Alley))] &amp;lt;- &amp;#39;no_alley_access&amp;#39;
+joined_data$BsmtQual[which(is.na(joined_data$BsmtQual))] &amp;lt;- &amp;#39;no_basement&amp;#39;
+joined_data$BsmtCond[which(is.na(joined_data$BsmtCond))] &amp;lt;- &amp;#39;no_basement&amp;#39;
+joined_data$BsmtFinType1[which(is.na(joined_data$BsmtFinType1))] &amp;lt;- &amp;#39;no_basement&amp;#39;
+joined_data$BsmtFinType2[which(is.na(joined_data$BsmtFinType2))] &amp;lt;- &amp;#39;no_basement&amp;#39;
+joined_data$PoolQC[which(is.na(joined_data$PoolQC))] &amp;lt;- &amp;#39;no_pool&amp;#39;
+joined_data$Fence[which(is.na(joined_data$Fence))]  &amp;lt;- &amp;#39;no_fence&amp;#39; 
+joined_data$MiscFeature[which(is.na(joined_data$MiscFeature))] &amp;lt;- &amp;#39;none&amp;#39;
+joined_data$BsmtExposure[which(is.na(joined_data$BsmtExposure))] &amp;lt;- &amp;#39;no_basemente&amp;#39;
+joined_data$FireplaceQu[which(is.na(joined_data$FireplaceQu))] &amp;lt;- &amp;#39;no_fireplace&amp;#39;
+joined_data$GarageType[which(is.na(joined_data$GarageType))] &amp;lt;- &amp;#39;no_garage&amp;#39;
+joined_data$GarageFinish[which(is.na(joined_data$GarageFinish))] &amp;lt;- &amp;#39;no_garage&amp;#39;
+joined_data$GarageQual[which(is.na(joined_data$GarageQual))] &amp;lt;- &amp;#39;no_garage&amp;#39;
+joined_data$GarageCond[which(is.na(joined_data$GarageCond))] &amp;lt;- &amp;#39;no_garage&amp;#39;
+
+# Definindo e convertendo as variaveis categoricas (factors)
+joined_data$MSSubClass &amp;lt;- as.factor(joined_data$MSSubClass)
+joined_data$OverallQual &amp;lt;- as.factor(joined_data$OverallQual)
+joined_data$OverallCond &amp;lt;- as.factor(joined_data$OverallCond)
+joined_data$GarageYrBlt &amp;lt;- as.factor(joined_data$GarageYrBlt)
+joined_data$YrSold &amp;lt;- as.factor(joined_data$YrSold)
+joined_data$MoSold &amp;lt;- as.factor(joined_data$MoSold)
+joined_data$GarageYrBlt &amp;lt;- as.factor(joined_data$GarageYrBlt)
+joined_data$YearBuilt &amp;lt;- as.factor(joined_data$YearBuilt)
+joined_data$YearRemodAdd &amp;lt;- as.factor(joined_data$YearRemodAdd)
+
+# Coverte caracteres para factors
+joined_data[ ,which(sapply(joined_data,  is.character))] &amp;lt;- lapply(joined_data[ ,which(sapply(joined_data,  is.character))], as.factor)
+
+# BsmtFinSF1  
+na_position &amp;lt;- which(is.na(joined_data$BsmtFinSF1))
+
+# Via de regra, para todo no_basement nas variaveis Bsmt, o valor e zero!
+joined_data  %&amp;gt;% select(contains(&amp;#39;Bsmt&amp;#39;)) %&amp;gt;% 
+    filter( BsmtFinType1== &amp;#39;no_basement&amp;#39;) %&amp;gt;%
+    summary()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##         BsmtQual         BsmtCond        BsmtExposure      BsmtFinType1
+##  Ex         : 0   Fa         : 0   Av          : 0    ALQ        : 0   
+##  Fa         : 0   Gd         : 0   Gd          : 0    BLQ        : 0   
+##  Gd         : 0   no_basement:79   Mn          : 0    GLQ        : 0   
+##  no_basement:79   Po         : 0   No          : 0    LwQ        : 0   
+##  TA         : 0   TA         : 0   no_basemente:79    no_basement:79   
+##                                                       Rec        : 0   
+##                                                       Unf        : 0   
+##    BsmtFinSF1      BsmtFinType2   BsmtFinSF2   BsmtUnfSF  TotalBsmtSF
+##  Min.   :0    ALQ        : 0    Min.   :0    Min.   :0   Min.   :0   
+##  1st Qu.:0    BLQ        : 0    1st Qu.:0    1st Qu.:0   1st Qu.:0   
+##  Median :0    GLQ        : 0    Median :0    Median :0   Median :0   
+##  Mean   :0    LwQ        : 0    Mean   :0    Mean   :0   Mean   :0   
+##  3rd Qu.:0    no_basement:79    3rd Qu.:0    3rd Qu.:0   3rd Qu.:0   
+##  Max.   :0    Rec        : 0    Max.   :0    Max.   :0   Max.   :0   
+##  NA&amp;#39;s   :1    Unf        : 0    NA&amp;#39;s   :1    NA&amp;#39;s   :1   NA&amp;#39;s   :1   
+##   BsmtFullBath  BsmtHalfBath
+##  Min.   :0     Min.   :0    
+##  1st Qu.:0     1st Qu.:0    
+##  Median :0     Median :0    
+##  Mean   :0     Mean   :0    
+##  3rd Qu.:0     3rd Qu.:0    
+##  Max.   :0     Max.   :0    
+##  NA&amp;#39;s   :2     NA&amp;#39;s   :2&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# BsmtFinSF1
+joined_data$BsmtFinSF1[which(is.na(joined_data$BsmtFinSF1))] &amp;lt;- 0
+
+# BsmtFinSF2
+joined_data$BsmtFinSF2[which(is.na(joined_data$BsmtFinSF2))] &amp;lt;- 0 
+
+# BsmtUnfSF
+joined_data$BsmtUnfSF[which(is.na(joined_data$BsmtUnfSF))] &amp;lt;- 0 
+
+# TotalBsmtSF 
+joined_data$TotalBsmtSF[which(is.na(joined_data$TotalBsmtSF))] &amp;lt;- 0 
+
+# BsmtFullBath
+joined_data$BsmtFullBath[which(is.na(joined_data$BsmtFullBath))] &amp;lt;- 0 
+
+# BsmtHalfBath
+joined_data$BsmtHalfBath[which(is.na(joined_data$BsmtHalfBath))] &amp;lt;- 0 
+
+# GarageCars
+# Igual ao problema anterior, vemos que nas demais variaveis relacionada
+# Temos &amp;#39;no_garage&amp;#39;, logo podemos colocar zero quando nao existir informacao
+
+joined_data$GarageCars[which(is.na(joined_data$GarageCars))] &amp;lt;- 0 
+
+# GarageArea 
+joined_data$GarageArea[which(is.na(joined_data$GarageArea))] &amp;lt;- 0 
+
+# GarageYrBlt
+# Variavel troll: onde tem NA, esta relacionado com no_garage ... --&amp;#39;
+joined_data$GarageYrBlt &amp;lt;- as.character(joined_data$GarageYrBlt)
+joined_data$GarageYrBlt[which(is.na(joined_data$GarageYrBlt))] &amp;lt;- &amp;#39;no_garage&amp;#39;
+joined_data$GarageYrBlt &amp;lt;- as.factor(joined_data$GarageYrBlt)
+
+# Separa coluna de factors para analisar
+col_factor &amp;lt;- which(sapply(joined_data, is.factor))
+joined_data_factors &amp;lt;- joined_data[ , col_factor]
+
+# Separa coluna de numericos
+col_numeric &amp;lt;- which(sapply(joined_data, is.numeric))
+names(joined_data[,col_numeric])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;Id&amp;quot;            &amp;quot;LotFrontage&amp;quot;   &amp;quot;LotArea&amp;quot;       &amp;quot;MasVnrArea&amp;quot;   
+##  [5] &amp;quot;BsmtFinSF1&amp;quot;    &amp;quot;BsmtFinSF2&amp;quot;    &amp;quot;BsmtUnfSF&amp;quot;     &amp;quot;TotalBsmtSF&amp;quot;  
+##  [9] &amp;quot;X1stFlrSF&amp;quot;     &amp;quot;X2ndFlrSF&amp;quot;     &amp;quot;LowQualFinSF&amp;quot;  &amp;quot;GrLivArea&amp;quot;    
+## [13] &amp;quot;BsmtFullBath&amp;quot;  &amp;quot;BsmtHalfBath&amp;quot;  &amp;quot;FullBath&amp;quot;      &amp;quot;HalfBath&amp;quot;     
+## [17] &amp;quot;BedroomAbvGr&amp;quot;  &amp;quot;KitchenAbvGr&amp;quot;  &amp;quot;TotRmsAbvGrd&amp;quot;  &amp;quot;Fireplaces&amp;quot;   
+## [21] &amp;quot;GarageCars&amp;quot;    &amp;quot;GarageArea&amp;quot;    &amp;quot;WoodDeckSF&amp;quot;    &amp;quot;OpenPorchSF&amp;quot;  
+## [25] &amp;quot;EnclosedPorch&amp;quot; &amp;quot;X3SsnPorch&amp;quot;    &amp;quot;ScreenPorch&amp;quot;   &amp;quot;PoolArea&amp;quot;     
+## [29] &amp;quot;MiscVal&amp;quot;       &amp;quot;SalePrice&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;distribuicao-dos-factors-nas-variavel-categoricas&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;1.4.Distribuição dos factors nas variável categóricas&lt;/h2&gt;
+&lt;p&gt;Uma quantidade significativa das variáveis categóricas estão bem desproporcionais … :( Este é um problema que precisa ser melhor trabalhado futuramente. Elas são informativas, porém podem causar problema em nosso modelo.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Coluna SalePrice: 32
+list_of_var_counts &amp;lt;- apply(joined_data_factors, 2, function(x){
+    
+    table &amp;lt;- data.frame(table(x), as.numeric(table(x)/sum(table(x)))) 
+    colnames(table) &amp;lt;- c(&amp;#39;factor_type&amp;#39;, &amp;#39;raw_count&amp;#39;, &amp;#39;percentage&amp;#39;)
+    return(table)
+    
+})
+list_of_var_counts&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $MSSubClass
+##    factor_type raw_count   percentage
+## 1          120       182 0.0623501199
+## 2          150         1 0.0003425831
+## 3          160       128 0.0438506338
+## 4          180        17 0.0058239123
+## 5          190        61 0.0208975677
+## 6           20      1079 0.3696471394
+## 7           30       139 0.0476190476
+## 8           40         6 0.0020554985
+## 9           45        18 0.0061664954
+## 10          50       287 0.0983213429
+## 11          60       575 0.1969852689
+## 12          70       128 0.0438506338
+## 13          75        23 0.0078794108
+## 14          80       118 0.0404248030
+## 15          85        48 0.0164439877
+## 16          90       109 0.0373415553
+## 
+## $MSZoning
+##   factor_type raw_count  percentage
+## 1     C (all)        25 0.008576329
+## 2          FV       139 0.047684391
+## 3          RH        26 0.008919383
+## 4          RL      2265 0.777015437
+## 5          RM       460 0.157804460
+## 
+## $Street
+##   factor_type raw_count  percentage
+## 1        Grvl        12 0.004110997
+## 2        Pave      2907 0.995889003
+## 
+## $Alley
+##       factor_type raw_count percentage
+## 1            Grvl       120 0.04110997
+## 2 no_alley_access      2721 0.93216855
+## 3            Pave        78 0.02672148
+## 
+## $LotShape
+##   factor_type raw_count  percentage
+## 1         IR1       968 0.331620418
+## 2         IR2        76 0.026036314
+## 3         IR3        16 0.005481329
+## 4         Reg      1859 0.636861939
+## 
+## $LandContour
+##   factor_type raw_count percentage
+## 1         Bnk       117 0.04008222
+## 2         HLS       120 0.04110997
+## 3         Low        60 0.02055498
+## 4         Lvl      2622 0.89825283
+## 
+## $LotConfig
+##   factor_type raw_count  percentage
+## 1      Corner       511 0.175059952
+## 2     CulDSac       176 0.060294621
+## 3         FR2        85 0.029119561
+## 4         FR3        14 0.004796163
+## 5      Inside      2133 0.730729702
+## 
+## $LandSlope
+##   factor_type raw_count  percentage
+## 1         Gtl      2778 0.951695786
+## 2         Mod       125 0.042822885
+## 3         Sev        16 0.005481329
+## 
+## $Neighborhood
+##    factor_type raw_count  percentage
+## 1      Blmngtn        28 0.009592326
+## 2      Blueste        10 0.003425831
+## 3       BrDale        30 0.010277492
+## 4      BrkSide       108 0.036998972
+## 5      ClearCr        44 0.015073655
+## 6      CollgCr       267 0.091469681
+## 7      Crawfor       103 0.035286057
+## 8      Edwards       194 0.066461117
+## 9      Gilbert       165 0.056526208
+## 10      IDOTRR        93 0.031860226
+## 11     MeadowV        37 0.012675574
+## 12     Mitchel       114 0.039054471
+## 13       NAmes       443 0.151764303
+## 14     NoRidge        71 0.024323398
+## 15     NPkVill        23 0.007879411
+## 16     NridgHt       166 0.056868791
+## 17      NWAmes       131 0.044878383
+## 18     OldTown       239 0.081877355
+## 19      Sawyer       151 0.051730045
+## 20     SawyerW       125 0.042822885
+## 21     Somerst       182 0.062350120
+## 22     StoneBr        51 0.017471737
+## 23       SWISU        48 0.016443988
+## 24      Timber        72 0.024665982
+## 25     Veenker        24 0.008221994
+## 
+## $Condition1
+##   factor_type raw_count  percentage
+## 1      Artery        92 0.031517643
+## 2       Feedr       164 0.056183625
+## 3        Norm      2511 0.860226105
+## 4        PosA        20 0.006851662
+## 5        PosN        39 0.013360740
+## 6        RRAe        28 0.009592326
+## 7        RRAn        50 0.017129154
+## 8        RRNe         6 0.002055498
+## 9        RRNn         9 0.003083248
+## 
+## $Condition2
+##   factor_type raw_count   percentage
+## 1      Artery         5 0.0017129154
+## 2       Feedr        13 0.0044535800
+## 3        Norm      2889 0.9897225077
+## 4        PosA         4 0.0013703323
+## 5        PosN         4 0.0013703323
+## 6        RRAe         1 0.0003425831
+## 7        RRAn         1 0.0003425831
+## 8        RRNn         2 0.0006851662
+## 
+## $BldgType
+##   factor_type raw_count percentage
+## 1        1Fam      2425 0.83076396
+## 2      2fmCon        62 0.02124015
+## 3      Duplex       109 0.03734156
+## 4       Twnhs        96 0.03288798
+## 5      TwnhsE       227 0.07776636
+## 
+## $HouseStyle
+##   factor_type raw_count  percentage
+## 1      1.5Fin       314 0.107571086
+## 2      1.5Unf        19 0.006509078
+## 3      1Story      1471 0.503939705
+## 4      2.5Fin         8 0.002740665
+## 5      2.5Unf        24 0.008221994
+## 6      2Story       872 0.298732443
+## 7      SFoyer        83 0.028434395
+## 8        SLvl       128 0.043850634
+## 
+## $OverallQual
+##    factor_type raw_count  percentage
+## 1            1         4 0.001370332
+## 2           10        31 0.010620075
+## 3            2        13 0.004453580
+## 4            3        40 0.013703323
+## 5            4       226 0.077423775
+## 6            5       825 0.282631038
+## 7            6       731 0.250428229
+## 8            7       600 0.205549846
+## 9            8       342 0.117163412
+## 10           9       107 0.036656389
+## 
+## $OverallCond
+##   factor_type raw_count  percentage
+## 1           1         7 0.002398082
+## 2           2        10 0.003425831
+## 3           3        50 0.017129154
+## 4           4       101 0.034600891
+## 5           5      1645 0.563549161
+## 6           6       531 0.181911614
+## 7           7       390 0.133607400
+## 8           8       144 0.049331963
+## 9           9        41 0.014045906
+## 
+## $YearBuilt
+##     factor_type raw_count   percentage
+## 1          1872         1 0.0003425831
+## 2          1875         1 0.0003425831
+## 3          1879         1 0.0003425831
+## 4          1880         5 0.0017129154
+## 5          1882         1 0.0003425831
+## 6          1885         2 0.0006851662
+## 7          1890         7 0.0023980815
+## 8          1892         2 0.0006851662
+## 9          1893         1 0.0003425831
+## 10         1895         3 0.0010277492
+## 11         1896         1 0.0003425831
+## 12         1898         1 0.0003425831
+## 13         1900        29 0.0099349092
+## 14         1901         2 0.0006851662
+## 15         1902         1 0.0003425831
+## 16         1904         1 0.0003425831
+## 17         1905         3 0.0010277492
+## 18         1906         1 0.0003425831
+## 19         1907         1 0.0003425831
+## 20         1908         2 0.0006851662
+## 21         1910        43 0.0147310723
+## 22         1911         1 0.0003425831
+## 23         1912         5 0.0017129154
+## 24         1913         1 0.0003425831
+## 25         1914         8 0.0027406646
+## 26         1915        24 0.0082219938
+## 27         1916        10 0.0034258308
+## 28         1917         3 0.0010277492
+## 29         1918        10 0.0034258308
+## 30         1919         5 0.0017129154
+## 31         1920        57 0.0195272354
+## 32         1921        11 0.0037684138
+## 33         1922        16 0.0054813292
+## 34         1923        17 0.0058239123
+## 35         1924        16 0.0054813292
+## 36         1925        34 0.0116478246
+## 37         1926        19 0.0065090785
+## 38         1927         9 0.0030832477
+## 39         1928         9 0.0030832477
+## 40         1929         8 0.0027406646
+## 41         1930        26 0.0089071600
+## 42         1931         7 0.0023980815
+## 43         1932         5 0.0017129154
+## 44         1934         5 0.0017129154
+## 45         1935        13 0.0044535800
+## 46         1936        11 0.0037684138
+## 47         1937         9 0.0030832477
+## 48         1938        13 0.0044535800
+## 49         1939        20 0.0068516615
+## 50         1940        36 0.0123329908
+## 51         1941        23 0.0078794108
+## 52         1942         6 0.0020554985
+## 53         1945        15 0.0051387461
+## 54         1946        15 0.0051387461
+## 55         1947        11 0.0037684138
+## 56         1948        27 0.0092497431
+## 57         1949        18 0.0061664954
+## 58         1950        38 0.0130181569
+## 59         1951        18 0.0061664954
+## 60         1952        18 0.0061664954
+## 61         1953        24 0.0082219938
+## 62         1954        43 0.0147310723
+## 63         1955        34 0.0116478246
+## 64         1956        39 0.0133607400
+## 65         1957        35 0.0119904077
+## 66         1958        48 0.0164439877
+## 67         1959        43 0.0147310723
+## 68         1960        37 0.0126755738
+## 69         1961        34 0.0116478246
+## 70         1962        35 0.0119904077
+## 71         1963        35 0.0119904077
+## 72         1964        33 0.0113052415
+## 73         1965        34 0.0116478246
+## 74         1966        35 0.0119904077
+## 75         1967        41 0.0140459061
+## 76         1968        45 0.0154162384
+## 77         1969        28 0.0095923261
+## 78         1970        42 0.0143884892
+## 79         1971        39 0.0133607400
+## 80         1972        40 0.0137033231
+## 81         1973        21 0.0071942446
+## 82         1974        23 0.0078794108
+## 83         1975        25 0.0085645769
+## 84         1976        54 0.0184994861
+## 85         1977        57 0.0195272354
+## 86         1978        39 0.0133607400
+## 87         1979        21 0.0071942446
+## 88         1980        23 0.0078794108
+## 89         1981         9 0.0030832477
+## 90         1982         7 0.0023980815
+## 91         1983         8 0.0027406646
+## 92         1984        19 0.0065090785
+## 93         1985         7 0.0023980815
+## 94         1986        10 0.0034258308
+## 95         1987         8 0.0027406646
+## 96         1988        15 0.0051387461
+## 97         1989         8 0.0027406646
+## 98         1990        19 0.0065090785
+## 99         1991        12 0.0041109969
+## 100        1992        27 0.0092497431
+## 101        1993        39 0.0133607400
+## 102        1994        37 0.0126755738
+## 103        1995        31 0.0106200754
+## 104        1996        34 0.0116478246
+## 105        1997        35 0.0119904077
+## 106        1998        46 0.0157588215
+## 107        1999        52 0.0178143200
+## 108        2000        48 0.0164439877
+## 109        2001        35 0.0119904077
+## 110        2002        47 0.0161014046
+## 111        2003        88 0.0301473107
+## 112        2004        99 0.0339157246
+## 113        2005       142 0.0486467968
+## 114        2006       138 0.0472764645
+## 115        2007       109 0.0373415553
+## 116        2008        49 0.0167865707
+## 117        2009        25 0.0085645769
+## 118        2010         3 0.0010277492
+## 
+## $YearRemodAdd
+##    factor_type raw_count  percentage
+## 1         1950       361 0.123672491
+## 2         1951        14 0.004796163
+## 3         1952        15 0.005138746
+## 4         1953        20 0.006851662
+## 5         1954        28 0.009592326
+## 6         1955        25 0.008564577
+## 7         1956        30 0.010277492
+## 8         1957        20 0.006851662
+## 9         1958        34 0.011647825
+## 10        1959        30 0.010277492
+## 11        1960        29 0.009934909
+## 12        1961        24 0.008221994
+## 13        1962        26 0.008907160
+## 14        1963        30 0.010277492
+## 15        1964        26 0.008907160
+## 16        1965        28 0.009592326
+## 17        1966        27 0.009249743
+## 18        1967        34 0.011647825
+## 19        1968        39 0.013360740
+## 20        1969        26 0.008907160
+## 21        1970        44 0.015073655
+## 22        1971        31 0.010620075
+## 23        1972        35 0.011990408
+## 24        1973        21 0.007194245
+## 25        1974        19 0.006509078
+## 26        1975        30 0.010277492
+## 27        1976        48 0.016443988
+## 28        1977        46 0.015758822
+## 29        1978        36 0.012332991
+## 30        1979        24 0.008221994
+## 31        1980        26 0.008907160
+## 32        1981        12 0.004110997
+## 33        1982         9 0.003083248
+## 34        1983        11 0.003768414
+## 35        1984        19 0.006509078
+## 36        1985        14 0.004796163
+## 37        1986        12 0.004110997
+## 38        1987        16 0.005481329
+## 39        1988        15 0.005138746
+## 40        1989        18 0.006166495
+## 41        1990        29 0.009934909
+## 42        1991        29 0.009934909
+## 43        1992        32 0.010962658
+## 44        1993        43 0.014731072
+## 45        1994        53 0.018156903
+## 46        1995        56 0.019184652
+## 47        1996        59 0.020212402
+## 48        1997        49 0.016786571
+## 49        1998        77 0.026378897
+## 50        1999        60 0.020554985
+## 51        2000       104 0.035628640
+## 52        2001        49 0.016786571
+## 53        2002        82 0.028091812
+## 54        2003        99 0.033915725
+## 55        2004       111 0.038026721
+## 56        2005       141 0.048304214
+## 57        2006       202 0.069201781
+## 58        2007       164 0.056183625
+## 59        2008        81 0.027749229
+## 60        2009        34 0.011647825
+## 61        2010        13 0.004453580
+## 
+## $RoofStyle
+##   factor_type raw_count  percentage
+## 1        Flat        20 0.006851662
+## 2       Gable      2310 0.791366906
+## 3     Gambrel        22 0.007536828
+## 4         Hip       551 0.188763275
+## 5     Mansard        11 0.003768414
+## 6        Shed         5 0.001712915
+## 
+## $RoofMatl
+##   factor_type raw_count   percentage
+## 1     ClyTile         1 0.0003425831
+## 2     CompShg      2876 0.9852689277
+## 3     Membran         1 0.0003425831
+## 4       Metal         1 0.0003425831
+## 5        Roll         1 0.0003425831
+## 6     Tar&amp;amp;Grv        23 0.0078794108
+## 7     WdShake         9 0.0030832477
+## 8     WdShngl         7 0.0023980815
+## 
+## $Exterior1st
+##    factor_type raw_count   percentage
+## 1      AsbShng        44 0.0150788211
+## 2      AsphShn         2 0.0006854010
+## 3      BrkComm         6 0.0020562029
+## 4      BrkFace        87 0.0298149417
+## 5       CBlock         2 0.0006854010
+## 6      CemntBd       126 0.0431802605
+## 7      HdBoard       442 0.1514736121
+## 8      ImStucc         1 0.0003427005
+## 9      MetalSd       450 0.1542152159
+## 10     Plywood       221 0.0757368060
+## 11       Stone         2 0.0006854010
+## 12      Stucco        43 0.0147361206
+## 13     VinylSd      1025 0.3512679918
+## 14     Wd Sdng       411 0.1408498972
+## 15     WdShing        56 0.0191912269
+## 
+## $Exterior2nd
+##    factor_type raw_count   percentage
+## 1      AsbShng        38 0.0130226182
+## 2      AsphShn         4 0.0013708019
+## 3      Brk Cmn        22 0.0075394106
+## 4      BrkFace        47 0.0161069225
+## 5       CBlock         3 0.0010281014
+## 6      CmentBd       126 0.0431802605
+## 7      HdBoard       406 0.1391363948
+## 8      ImStucc        15 0.0051405072
+## 9      MetalSd       447 0.1531871145
+## 10       Other         1 0.0003427005
+## 11     Plywood       270 0.0925291295
+## 12       Stone         6 0.0020562029
+## 13      Stucco        47 0.0161069225
+## 14     VinylSd      1014 0.3474982865
+## 15     Wd Sdng       391 0.1339958876
+## 16     Wd Shng        81 0.0277587389
+## 
+## $MasVnrType
+##   factor_type raw_count  percentage
+## 1      BrkCmn        25 0.008635579
+## 2     BrkFace       879 0.303626943
+## 3        None      1742 0.601727116
+## 4       Stone       249 0.086010363
+## 
+## $ExterQual
+##   factor_type raw_count percentage
+## 1          Ex       107 0.03665639
+## 2          Fa        35 0.01199041
+## 3          Gd       979 0.33538883
+## 4          TA      1798 0.61596437
+## 
+## $ExterCond
+##   factor_type raw_count  percentage
+## 1          Ex        12 0.004110997
+## 2          Fa        67 0.022953066
+## 3          Gd       299 0.102432340
+## 4          Po         3 0.001027749
+## 5          TA      2538 0.869475848
+## 
+## $Foundation
+##   factor_type raw_count  percentage
+## 1      BrkTil       311 0.106543337
+## 2      CBlock      1235 0.423090099
+## 3       PConc      1308 0.448098664
+## 4        Slab        49 0.016786571
+## 5       Stone        11 0.003768414
+## 6        Wood         5 0.001712915
+## 
+## $BsmtQual
+##   factor_type raw_count percentage
+## 1          Ex       258 0.08838643
+## 2          Fa        88 0.03014731
+## 3          Gd      1209 0.41418294
+## 4 no_basement        81 0.02774923
+## 5          TA      1283 0.43953409
+## 
+## $BsmtCond
+##   factor_type raw_count  percentage
+## 1          Fa       104 0.035628640
+## 2          Gd       122 0.041795135
+## 3 no_basement        82 0.028091812
+## 4          Po         5 0.001712915
+## 5          TA      2606 0.892771497
+## 
+## $BsmtExposure
+##    factor_type raw_count percentage
+## 1           Av       418 0.14319973
+## 2           Gd       276 0.09455293
+## 3           Mn       239 0.08187736
+## 4           No      1904 0.65227818
+## 5 no_basemente        82 0.02809181
+## 
+## $BsmtFinType1
+##   factor_type raw_count percentage
+## 1         ALQ       429 0.14696814
+## 2         BLQ       269 0.09215485
+## 3         GLQ       849 0.29085303
+## 4         LwQ       154 0.05275779
+## 5 no_basement        79 0.02706406
+## 6         Rec       288 0.09866393
+## 7         Unf       851 0.29153820
+## 
+## $BsmtFinType2
+##   factor_type raw_count percentage
+## 1         ALQ        52 0.01781432
+## 2         BLQ        68 0.02329565
+## 3         GLQ        34 0.01164782
+## 4         LwQ        87 0.02980473
+## 5 no_basement        80 0.02740665
+## 6         Rec       105 0.03597122
+## 7         Unf      2493 0.85405961
+## 
+## $Heating
+##   factor_type raw_count   percentage
+## 1       Floor         1 0.0003425831
+## 2        GasA      2874 0.9845837616
+## 3        GasW        27 0.0092497431
+## 4        Grav         9 0.0030832477
+## 5        OthW         2 0.0006851662
+## 6        Wall         6 0.0020554985
+## 
+## $HeatingQC
+##   factor_type raw_count  percentage
+## 1          Ex      1493 0.511476533
+## 2          Fa        92 0.031517643
+## 3          Gd       474 0.162384378
+## 4          Po         3 0.001027749
+## 5          TA       857 0.293593696
+## 
+## $CentralAir
+##   factor_type raw_count percentage
+## 1           N       196 0.06714628
+## 2           Y      2723 0.93285372
+## 
+## $Electrical
+##   factor_type raw_count   percentage
+## 1       FuseA       188 0.0644276902
+## 2       FuseF        50 0.0171350240
+## 3       FuseP         8 0.0027416038
+## 4         Mix         1 0.0003427005
+## 5       SBrkr      2671 0.9153529815
+## 
+## $KitchenQual
+##   factor_type raw_count percentage
+## 1          Ex       205 0.07025360
+## 2          Fa        70 0.02398903
+## 3          Gd      1151 0.39444825
+## 4          TA      1492 0.51130912
+## 
+## $Functional
+##   factor_type raw_count   percentage
+## 1        Maj1        19 0.0065135413
+## 2        Maj2         9 0.0030853617
+## 3        Min1        65 0.0222831676
+## 4        Min2        70 0.0239972575
+## 5         Mod        35 0.0119986287
+## 6         Sev         2 0.0006856359
+## 7         Typ      2717 0.9314364073
+## 
+## $FireplaceQu
+##    factor_type raw_count percentage
+## 1           Ex        43 0.01473107
+## 2           Fa        74 0.02535115
+## 3           Gd       744 0.25488181
+## 4 no_fireplace      1420 0.48646797
+## 5           Po        46 0.01575882
+## 6           TA       592 0.20280918
+## 
+## $GarageType
+##   factor_type raw_count  percentage
+## 1      2Types        23 0.007879411
+## 2      Attchd      1723 0.590270641
+## 3     Basment        36 0.012332991
+## 4     BuiltIn       186 0.063720452
+## 5     CarPort        15 0.005138746
+## 6      Detchd       779 0.266872217
+## 7   no_garage       157 0.053785543
+## 
+## $GarageYrBlt
+##     factor_type raw_count   percentage
+## 1          1895         1 0.0003425831
+## 2          1896         1 0.0003425831
+## 3          1900         6 0.0020554985
+## 4          1906         1 0.0003425831
+## 5          1908         1 0.0003425831
+## 6          1910        10 0.0034258308
+## 7          1914         2 0.0006851662
+## 8          1915         7 0.0023980815
+## 9          1916         6 0.0020554985
+## 10         1917         2 0.0006851662
+## 11         1918         3 0.0010277492
+## 12         1919         1 0.0003425831
+## 13         1920        33 0.0113052415
+## 14         1921         5 0.0017129154
+## 15         1922         8 0.0027406646
+## 16         1923         6 0.0020554985
+## 17         1924         8 0.0027406646
+## 18         1925        15 0.0051387461
+## 19         1926        15 0.0051387461
+## 20         1927         5 0.0017129154
+## 21         1928         7 0.0023980815
+## 22         1929         2 0.0006851662
+## 23         1930        27 0.0092497431
+## 24         1931         4 0.0013703323
+## 25         1932         4 0.0013703323
+## 26         1933         1 0.0003425831
+## 27         1934         4 0.0013703323
+## 28         1935         8 0.0027406646
+## 29         1936         7 0.0023980815
+## 30         1937         6 0.0020554985
+## 31         1938        11 0.0037684138
+## 32         1939        21 0.0071942446
+## 33         1940        25 0.0085645769
+## 34         1941        14 0.0047961631
+## 35         1942         6 0.0020554985
+## 36         1943         1 0.0003425831
+## 37         1945        10 0.0034258308
+## 38         1946         9 0.0030832477
+## 39         1947         5 0.0017129154
+## 40         1948        19 0.0065090785
+## 41         1949        14 0.0047961631
+## 42         1950        51 0.0174717369
+## 43         1951        17 0.0058239123
+## 44         1952        16 0.0054813292
+## 45         1953        23 0.0078794108
+## 46         1954        37 0.0126755738
+## 47         1955        24 0.0082219938
+## 48         1956        41 0.0140459061
+## 49         1957        34 0.0116478246
+## 50         1958        42 0.0143884892
+## 51         1959        36 0.0123329908
+## 52         1960        37 0.0126755738
+## 53         1961        31 0.0106200754
+## 54         1962        35 0.0119904077
+## 55         1963        34 0.0116478246
+## 56         1964        35 0.0119904077
+## 57         1965        34 0.0116478246
+## 58         1966        39 0.0133607400
+## 59         1967        36 0.0123329908
+## 60         1968        48 0.0164439877
+## 61         1969        32 0.0109626584
+## 62         1970        32 0.0109626584
+## 63         1971        24 0.0082219938
+## 64         1972        27 0.0092497431
+## 65         1973        29 0.0099349092
+## 66         1974        35 0.0119904077
+## 67         1975        28 0.0095923261
+## 68         1976        50 0.0171291538
+## 69         1977        66 0.0226104830
+## 70         1978        41 0.0140459061
+## 71         1979        35 0.0119904077
+## 72         1980        32 0.0109626584
+## 73         1981        15 0.0051387461
+## 74         1982         9 0.0030832477
+## 75         1983        11 0.0037684138
+## 76         1984        19 0.0065090785
+## 77         1985        18 0.0061664954
+## 78         1986        12 0.0041109969
+## 79         1987        18 0.0061664954
+## 80         1988        20 0.0068516615
+## 81         1989        19 0.0065090785
+## 82         1990        26 0.0089071600
+## 83         1991        17 0.0058239123
+## 84         1992        27 0.0092497431
+## 85         1993        49 0.0167865707
+## 86         1994        39 0.0133607400
+## 87         1995        35 0.0119904077
+## 88         1996        40 0.0137033231
+## 89         1997        44 0.0150736554
+## 90         1998        58 0.0198698184
+## 91         1999        54 0.0184994861
+## 92         2000        55 0.0188420692
+## 93         2001        41 0.0140459061
+## 94         2002        53 0.0181569030
+## 95         2003        92 0.0315176430
+## 96         2004        99 0.0339157246
+## 97         2005       142 0.0486467968
+## 98         2006       115 0.0393970538
+## 99         2007       116 0.0397396369
+## 100        2008        61 0.0208975677
+## 101        2009        29 0.0099349092
+## 102        2010         5 0.0017129154
+## 103   no_garage       159 0.0544707091
+## 
+## $GarageFinish
+##   factor_type raw_count percentage
+## 1         Fin       719 0.24631723
+## 2   no_garage       159 0.05447071
+## 3         RFn       811 0.27783487
+## 4         Unf      1230 0.42137718
+## 
+## $GarageQual
+##   factor_type raw_count  percentage
+## 1          Ex         3 0.001027749
+## 2          Fa       124 0.042480301
+## 3          Gd        24 0.008221994
+## 4   no_garage       159 0.054470709
+## 5          Po         5 0.001712915
+## 6          TA      2604 0.892086331
+## 
+## $GarageCond
+##   factor_type raw_count  percentage
+## 1          Ex         3 0.001027749
+## 2          Fa        74 0.025351148
+## 3          Gd        15 0.005138746
+## 4   no_garage       159 0.054470709
+## 5          Po        14 0.004796163
+## 6          TA      2654 0.909215485
+## 
+## $PavedDrive
+##   factor_type raw_count percentage
+## 1           N       216 0.07399794
+## 2           P        62 0.02124015
+## 3           Y      2641 0.90476190
+## 
+## $PoolQC
+##   factor_type raw_count   percentage
+## 1          Ex         4 0.0013703323
+## 2          Fa         2 0.0006851662
+## 3          Gd         4 0.0013703323
+## 4     no_pool      2909 0.9965741692
+## 
+## $Fence
+##   factor_type raw_count  percentage
+## 1       GdPrv       118 0.040424803
+## 2        GdWo       112 0.038369305
+## 3       MnPrv       329 0.112709832
+## 4        MnWw        12 0.004110997
+## 5    no_fence      2348 0.804385063
+## 
+## $MiscFeature
+##   factor_type raw_count   percentage
+## 1        Gar2         5 0.0017129154
+## 2        none      2814 0.9640287770
+## 3        Othr         4 0.0013703323
+## 4        Shed        95 0.0325453923
+## 5        TenC         1 0.0003425831
+## 
+## $MoSold
+##    factor_type raw_count percentage
+## 1            1       122 0.04179514
+## 2           10       173 0.05926687
+## 3           11       142 0.04864680
+## 4           12       104 0.03562864
+## 5            2       133 0.04556355
+## 6            3       232 0.07947927
+## 7            4       279 0.09558068
+## 8            5       394 0.13497773
+## 9            6       503 0.17231929
+## 10           7       446 0.15279205
+## 11           8       233 0.07982186
+## 12           9       158 0.05412813
+## 
+## $YrSold
+##   factor_type raw_count percentage
+## 1        2006       619  0.2120589
+## 2        2007       692  0.2370675
+## 3        2008       622  0.2130867
+## 4        2009       647  0.2216513
+## 5        2010       339  0.1161357
+## 
+## $SaleType
+##   factor_type raw_count  percentage
+## 1         COD        87 0.029814942
+## 2         Con         5 0.001713502
+## 3       ConLD        26 0.008910212
+## 4       ConLI         9 0.003084304
+## 5       ConLw         8 0.002741604
+## 6         CWD        12 0.004112406
+## 7         New       239 0.081905415
+## 8         Oth         7 0.002398903
+## 9          WD      2525 0.865318711
+## 
+## $SaleCondition
+##   factor_type raw_count  percentage
+## 1     Abnorml       190 0.065090785
+## 2     AdjLand        12 0.004110997
+## 3      Alloca        24 0.008221994
+## 4      Family        46 0.015758822
+## 5      Normal      2402 0.822884550
+## 6     Partial       245 0.083932854
+## 
+## $dataset
+##   factor_type raw_count percentage
+## 1        test      1459  0.4998287
+## 2       train      1460  0.5001713&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Quem possue fatores que representam acima de 90%
+lista_90 &amp;lt;- lapply(list_of_var_counts, 
+        function(x){
+            sub_list &amp;lt;- sum(x$percentage &amp;gt; 0.90)
+        }
+
+) 
+var_fac_not_over &amp;lt;- which(unlist(lista_90) == 0)
+
+summary(joined_data_factors[ ,var_fac_not_over])&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;quem-possue-nas&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;2.Quem possue NA’s?&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Pega index de colunas com NA
+index_na &amp;lt;- sapply(joined_data,  function(x) which(is.na(x)))
+len_na_index &amp;lt;- lapply(index_na, length)
+index_coluns_with_na &amp;lt;-  as.numeric(which(unlist(len_na_index) &amp;gt; 0))
+
+# Imprime nome das colunas
+colnames(joined_data)[index_coluns_with_na]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;MSZoning&amp;quot;    &amp;quot;LotFrontage&amp;quot; &amp;quot;Exterior1st&amp;quot; &amp;quot;Exterior2nd&amp;quot; &amp;quot;MasVnrType&amp;quot; 
+##  [6] &amp;quot;MasVnrArea&amp;quot;  &amp;quot;Electrical&amp;quot;  &amp;quot;KitchenQual&amp;quot; &amp;quot;Functional&amp;quot;  &amp;quot;SaleType&amp;quot;   
+## [11] &amp;quot;SalePrice&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Imprime tipo de variavel das colunas com NA
+sapply(joined_data[ ,index_coluns_with_na], is.factor)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    MSZoning LotFrontage Exterior1st Exterior2nd  MasVnrType  MasVnrArea 
+##        TRUE       FALSE        TRUE        TRUE        TRUE       FALSE 
+##  Electrical KitchenQual  Functional    SaleType   SalePrice 
+##        TRUE        TRUE        TRUE        TRUE       FALSE&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sapply(joined_data[ ,index_coluns_with_na], is.numeric)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    MSZoning LotFrontage Exterior1st Exterior2nd  MasVnrType  MasVnrArea 
+##       FALSE        TRUE       FALSE       FALSE       FALSE        TRUE 
+##  Electrical KitchenQual  Functional    SaleType   SalePrice 
+##       FALSE       FALSE       FALSE       FALSE        TRUE&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(joined_data[ ,index_coluns_with_na])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##     MSZoning     LotFrontage      Exterior1st    Exterior2nd  
+##  C (all):  25   Min.   : 21.00   VinylSd:1025   VinylSd:1014  
+##  FV     : 139   1st Qu.: 59.00   MetalSd: 450   MetalSd: 447  
+##  RH     :  26   Median : 68.00   HdBoard: 442   HdBoard: 406  
+##  RL     :2265   Mean   : 69.31   Wd Sdng: 411   Wd Sdng: 391  
+##  RM     : 460   3rd Qu.: 80.00   Plywood: 221   Plywood: 270  
+##  NA&amp;#39;s   :   4   Max.   :313.00   (Other): 369   (Other): 390  
+##                 NA&amp;#39;s   :486      NA&amp;#39;s   :   1   NA&amp;#39;s   :   1  
+##    MasVnrType     MasVnrArea     Electrical   KitchenQual   Functional  
+##  BrkCmn :  25   Min.   :   0.0   FuseA: 188   Ex  : 205   Typ    :2717  
+##  BrkFace: 879   1st Qu.:   0.0   FuseF:  50   Fa  :  70   Min2   :  70  
+##  None   :1742   Median :   0.0   FuseP:   8   Gd  :1151   Min1   :  65  
+##  Stone  : 249   Mean   : 102.2   Mix  :   1   TA  :1492   Mod    :  35  
+##  NA&amp;#39;s   :  24   3rd Qu.: 164.0   SBrkr:2671   NA&amp;#39;s:   1   Maj1   :  19  
+##                 Max.   :1600.0   NA&amp;#39;s :   1               (Other):  11  
+##                 NA&amp;#39;s   :23                                NA&amp;#39;s   :   2  
+##     SaleType      SalePrice     
+##  WD     :2525   Min.   : 34900  
+##  New    : 239   1st Qu.:129975  
+##  COD    :  87   Median :163000  
+##  ConLD  :  26   Mean   :180921  
+##  CWD    :  12   3rd Qu.:214000  
+##  (Other):  29   Max.   :755000  
+##  NA&amp;#39;s   :   1   NA&amp;#39;s   :1459&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;estimando-pseudo-valores-numericos&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;3.Estimando pseudo valores (numéricos)&lt;/h1&gt;
+&lt;p&gt;Nessa primeira tentativa, não descartaremos nenhuma linha que contém NA’s. Tentaremos aproveitar todas as informações disponíveis estimando pseudo valores para preencher as lacunas faltantes em cada variável. No caso de variáveis numéricas, iremos aplicar modelos de regressão para estimar o melhor valor possíve, em vez de simplesmente preencher com um valor arbitrário como a média. Optamos por usar o algoritmo de florestas aleatórias por lidar bem tanto com variáveis categóricas como numéricas e também por ser útil em problemas de regressão, não se limitando apenas a problemas de classificação.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Comeca com as variaveis com menos NA
+# Pega colunas numericas com NA 
+numeric_cols_na &amp;lt;- names(which(sapply(joined_data[ ,index_coluns_with_na], is.numeric)))
+summary(joined_data[ ,numeric_cols_na])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   LotFrontage       MasVnrArea       SalePrice     
+##  Min.   : 21.00   Min.   :   0.0   Min.   : 34900  
+##  1st Qu.: 59.00   1st Qu.:   0.0   1st Qu.:129975  
+##  Median : 68.00   Median :   0.0   Median :163000  
+##  Mean   : 69.31   Mean   : 102.2   Mean   :180921  
+##  3rd Qu.: 80.00   3rd Qu.: 164.0   3rd Qu.:214000  
+##  Max.   :313.00   Max.   :1600.0   Max.   :755000  
+##  NA&amp;#39;s   :486      NA&amp;#39;s   :23       NA&amp;#39;s   :1459&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;verificando-possiveis-correlacoes-entre-variaveis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3.1.Verificando possíveis correlações entre variáveis&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;correlations &amp;lt;- cor(na.omit(joined_data[ , col_numeric[c(-32)] ])) # Tirando lotFrontage, pois tem muitos NA
+
+corrplot(correlations, method = c(&amp;#39;square&amp;#39;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/house_price_advanced_regression_kernel_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variavel-masvnrarea&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3.2.Variável ‘MasVnrArea’&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Esse tipo de detalhe nao eh caracteristico de casas antigas. sim ou nao?
+joined_data %&amp;gt;% ggplot(aes(x=YearBuilt, y=MasVnrArea, col=MasVnrType)) +
+        geom_point(size=2, alpha=0.8) +
+        theme_bw()
+
+random_forest_model &amp;lt;- train(MasVnrArea ~ MSSubClass + LotArea + LotShape +  LandContour + Neighborhood + Condition1 + BldgType + HouseStyle + OverallQual + OverallCond + YearBuilt +  Foundation + BsmtQual + BsmtFinType1 + GrLivArea + FireplaceQu + GarageType ,
+                              data = na.omit(joined_data[ ,c(-1,-80,-81)]),
+                              tuneGrid= data.frame( mtry=c(5,8,10,15,20) ),
+                              method= &amp;quot;rf&amp;quot;,
+                              trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=5, verboseIter = TRUE))
+
+print(random_forest_model)
+plot(random_forest_model)
+ 
+prediction &amp;lt;- predict(random_forest_model, joined_data)
+joined_data$MasVnrArea[ which(is.na(joined_data$MasVnrArea)) ] &amp;lt;- as.integer(prediction[which(is.na(joined_data$MasVnrArea))]) &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variavel-lotfrontage&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3.3.Variável ‘LotFrontage’&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;lot_var &amp;lt;- joined_data %&amp;gt;% select(contains(&amp;#39;Lot&amp;#39;))
+lot_var %&amp;gt;% ggplot(aes(x=LotFrontage, y=LotArea, col=LotShape)) +
+    geom_point(size=3, alpha=0.6) +
+    facet_grid(~ LotShape) +
+    scale_y_log10() +
+    theme_bw() 
+
+joined_data %&amp;gt;% 
+    select(contains(&amp;#39;Lot&amp;#39;)) %&amp;gt;%
+    filter(is.na(LotFrontage)) %&amp;gt;%
+    group_by(LotShape) %&amp;gt;%
+    summarize(mean_area = mean(LotArea), lotShape_counts = n())
+
+random_forest_model &amp;lt;- train(LotFrontage ~ LotArea + LotShape + LotConfig + MSSubClass + LandContour + Neighborhood + Condition1
+                             + BldgType + HouseStyle + OverallQual + OverallCond +
+                                 YearBuilt +  Foundation + BsmtQual + BsmtFinType1 + GrLivArea + FireplaceQu + GarageType,
+                             data = na.omit(joined_data[ ,c(-1,-80,-81)]),
+                             tuneGrid= data.frame( mtry=c(5,8,10,12,14,18) ),
+                             method= &amp;quot;rf&amp;quot;,
+                             trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=5, verboseIter = TRUE) 
+)       
+print(random_forest_model)
+plot(random_forest_model)
+
+prediction &amp;lt;- predict( random_forest_model, joined_data)
+data.frame(original= joined_data$LotFrontage, prediction)
+joined_data$LotFrontage[ which(is.na(joined_data$LotFrontage)) ] &amp;lt;- as.integer(prediction[which(is.na(joined_data$LotFrontage))]) &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;estimando-pseudo-valores-categoricos&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;4.Estimando pseudo valores (categóricos)&lt;/h1&gt;
+&lt;div id=&#34;variavel-mszoning&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;4.1.Variável ‘MSZoning’&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;random_forest_model &amp;lt;- train(MSZoning ~ LotFrontage + LotArea + LotShape + LotConfig + MSSubClass +
+                                 LandContour + Neighborhood + Condition1 +
+                                 BldgType + HouseStyle + OverallQual + OverallCond +
+                                 YearBuilt +  Foundation + BsmtQual + BsmtFinType1 + 
+                                 GrLivArea + FireplaceQu + GarageType,
+                             data = na.omit(joined_data[ ,c(-1,-80,-81)]),
+                             tuneGrid= data.frame( mtry=c(5,8,10,12,14,18) ),
+                             method= &amp;quot;rf&amp;quot;,
+                             trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=5, verboseIter = TRUE) 
+)       
+print(random_forest_model)
+plot(random_forest_model)
+
+prediction &amp;lt;- predict( random_forest_model, joined_data)
+data.frame(original= joined_data$MSZoning, prediction)
+
+joined_data$MSZoning[ which(is.na(joined_data$MSZoning)) ] &amp;lt;- prediction[which(is.na(joined_data$MSZoning))] &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variavel-exterior1st&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;4.2.Variável ‘Exterior1st’&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Pegadinha $#%$!, tirar garage year built pq tem NA nas unicas classes
+
+random_forest_model &amp;lt;- train(Exterior1st ~ LotFrontage + LotArea + LotShape + LotConfig + MSSubClass +
+                                 LandContour + Neighborhood + Condition1 +
+                                 BldgType + HouseStyle + OverallQual + OverallCond +
+                                 YearBuilt +  Foundation + BsmtQual + BsmtFinType1 + 
+                                 GrLivArea + FireplaceQu + GarageType,
+                             data = na.omit(joined_data[ ,c(-1,-59,-80,-81)]),
+                             tuneGrid= data.frame( mtry=c(5,8,10,12,14,18) ),
+                             method= &amp;quot;rf&amp;quot;,
+                             trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=5, verboseIter = TRUE) 
+)       
+
+print(random_forest_model)
+plot(random_forest_model)
+
+prediction &amp;lt;- predict( random_forest_model, joined_data)
+View(data.frame(original= joined_data$Exterior1st, prediction))
+
+joined_data$Exterior1st[ which(is.na(joined_data$Exterior1st)) ] &amp;lt;- prediction[which(is.na(joined_data$Exterior1st))] &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variavel-exterior2nd&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;4.3.Variável ‘Exterior2nd’&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;random_forest_model &amp;lt;- train(Exterior2nd ~ LotFrontage + LotArea + LotShape + LotConfig + MSSubClass +
+                                 LandContour + Neighborhood + Condition1 +
+                                 BldgType + HouseStyle + OverallQual + OverallCond +
+                                 YearBuilt +  Foundation + BsmtQual + BsmtFinType1 + 
+                                 GrLivArea + FireplaceQu + GarageType,
+                             data = na.omit(joined_data[ ,c(-1,-59,-80,-81)]),
+                             tuneGrid= data.frame( mtry=c(5,8,10,12,14,18, 20) ),
+                             method= &amp;quot;rf&amp;quot;,
+                             trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=5, verboseIter = TRUE) 
+)       
+
+print(random_forest_model)
+plot(random_forest_model)
+
+prediction &amp;lt;- predict( random_forest_model, joined_data)
+
+joined_data$Exterior2nd[ which(is.na(joined_data$Exterior2nd)) ] &amp;lt;- prediction[which(is.na(joined_data$Exterior2nd))] &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variavel-masvnrtype&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;4.4.Variável ‘MasVnrType’&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;random_forest_model &amp;lt;- train(MasVnrType ~ LotFrontage + LotArea + LotShape + LotConfig + MSSubClass +
+                                 LandContour + Neighborhood + Condition1 +
+                                 BldgType + HouseStyle + OverallQual + OverallCond +
+                                 YearBuilt +  Foundation + BsmtQual + BsmtFinType1 + 
+                                 GrLivArea + FireplaceQu + GarageType,
+                             data = na.omit(joined_data[ ,c(-1,-80,-81)]),
+                             tuneGrid= data.frame( mtry=c(5,10,15,28) ),
+                             method= &amp;quot;rf&amp;quot;,
+                             trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=5, verboseIter = TRUE) 
+)       
+
+print(random_forest_model)
+plot(random_forest_model)
+summary(random_forest_model)
+
+prediction &amp;lt;- predict( random_forest_model, joined_data)
+joined_data$MasVnrType[ which(is.na(joined_data$MasVnrType)) ] &amp;lt;- prediction[which(is.na(joined_data$MasVnrType))] &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variavel-electrical&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;4.5.Variável ‘Electrical’&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;random_forest_model &amp;lt;- train(Electrical ~ MasVnrType + LotFrontage + LotArea + LotShape + LotConfig + MSSubClass +
+                                 LandContour + Neighborhood + Condition1 +
+                                 BldgType + HouseStyle + OverallQual + OverallCond +
+                                 YearBuilt +  Foundation + BsmtQual + BsmtFinType1 + 
+                                 GrLivArea  + GarageType,
+                             data = na.omit(joined_data[ ,c(-1,-80,-81)]),
+                             tuneGrid= data.frame( mtry=c(5,10,15,19) ),
+                             method= &amp;quot;rf&amp;quot;,
+                             trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=5, verboseIter = TRUE) 
+)       
+
+print(random_forest_model)
+plot(random_forest_model)
+summary(random_forest_model)
+
+prediction &amp;lt;- predict( random_forest_model, joined_data)
+joined_data$Electrical[ which(is.na(joined_data$Electrical)) ] &amp;lt;- prediction[which(is.na(joined_data$Electrical))] &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variavel-saletype&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;4.6.Variável ‘SaleType’&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;random_forest_model &amp;lt;- train(SaleType ~ MasVnrType + LotFrontage + LotArea + LotShape + LotConfig + MSSubClass +
+                                 LandContour + Neighborhood + Condition1 +
+                                 BldgType + HouseStyle + OverallQual + OverallCond +
+                                 YearBuilt +  Foundation + BsmtQual + BsmtFinType1 + 
+                                 GrLivArea  + GarageType,
+                             data = na.omit(joined_data[ ,c(-1,-80,-81)]),
+                             tuneGrid= data.frame( mtry=c(5,10,15,19) ),
+                             method= &amp;quot;rf&amp;quot;,
+                             trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=5, verboseIter = TRUE) 
+)       
+
+print(random_forest_model)
+plot(random_forest_model)
+
+prediction &amp;lt;- predict( random_forest_model, joined_data)
+joined_data$SaleType[ which(is.na(joined_data$SaleType)) ] &amp;lt;- prediction[which(is.na(joined_data$SaleType))] &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variavel-functional&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;4.7.Variável ‘Functional’&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;random_forest_model &amp;lt;- train(Functional ~ SaleType + MasVnrType + LotFrontage + LotArea + LotShape + LotConfig + MSSubClass +
+                                 LandContour + Neighborhood + Condition1 +
+                                 BldgType + HouseStyle + OverallQual + OverallCond +
+                                 YearBuilt +  Foundation + BsmtQual + BsmtFinType1 + 
+                                 GrLivArea  + GarageType,
+                             data = na.omit(joined_data[ ,c(-1,-80,-81)]),
+                             tuneGrid= data.frame( mtry=c(5,10,15,19) ),
+                             method= &amp;quot;rf&amp;quot;,
+                             trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=5, verboseIter = TRUE) 
+)       
+
+print(random_forest_model)
+plot(random_forest_model)
+summary(random_forest_model)
+
+prediction &amp;lt;- predict( random_forest_model, joined_data)
+joined_data$Functional[ which(is.na(joined_data$Functional)) ] &amp;lt;- prediction[which(is.na(joined_data$Functional))] &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variavel-kitchenqual&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;4.8.Variável ‘KitchenQual’&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;random_forest_model &amp;lt;- train(KitchenQual ~ SaleType + MasVnrType + LotFrontage + LotArea + LotShape + LotConfig + MSSubClass +
+                                 LandContour + Neighborhood + Condition1 +
+                                 BldgType + HouseStyle + OverallQual + OverallCond +
+                                 YearBuilt +  Foundation + BsmtQual + BsmtFinType1 + 
+                                 GrLivArea  + GarageType,
+                             data = na.omit(joined_data[ ,c(-1,-80,-81)]),
+                             tuneGrid= data.frame( mtry=c(5,10,15,19) ),
+                             method= &amp;quot;rf&amp;quot;,
+                             trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=5, verboseIter = TRUE) 
+)       
+
+print(random_forest_model)
+plot(random_forest_model)
+
+prediction &amp;lt;- predict( random_forest_model, joined_data)
+joined_data$KitchenQual[ which(is.na(joined_data$KitchenQual)) ] &amp;lt;- prediction[which(is.na(joined_data$KitchenQual))] &lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;write.table(file=&amp;#39;joined_data_cleaned_without_NA.txt&amp;#39;, joined_data, sep = &amp;#39;\t&amp;#39;, row.names = F)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;explorando-os-dados&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;5.Explorando os dados&lt;/h1&gt;
+&lt;div id=&#34;carrega-os-dados-salvos&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;5.1.Carrega os dados salvos&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;joined_data &amp;lt;- read.table(file=&amp;#39;/home/davi/Desktop/house_prices-_advanced_regression_techniques/joined_data_cleaned_without_NA.txt&amp;#39;, sep = &amp;#39;\t&amp;#39;, header = TRUE)
+
+joined_data$GarageYrBlt &amp;lt;- as.factor(joined_data$GarageYrBlt)
+joined_data$Alley[which(is.na(joined_data$Alley))] &amp;lt;- &amp;#39;no_alley_access&amp;#39;
+joined_data$BsmtQual[which(is.na(joined_data$BsmtQual))] &amp;lt;- &amp;#39;no_basement&amp;#39;
+joined_data$BsmtCond[which(is.na(joined_data$BsmtCond))] &amp;lt;- &amp;#39;no_basement&amp;#39;
+joined_data$BsmtFinType1[which(is.na(joined_data$BsmtFinType1))] &amp;lt;- &amp;#39;no_basement&amp;#39;
+joined_data$BsmtFinType2[which(is.na(joined_data$BsmtFinType2))] &amp;lt;- &amp;#39;no_basement&amp;#39;
+joined_data$PoolQC[which(is.na(joined_data$PoolQC))] &amp;lt;- &amp;#39;no_pool&amp;#39;
+joined_data$Fence[which(is.na(joined_data$Fence))]  &amp;lt;- &amp;#39;no_fence&amp;#39; 
+joined_data$MiscFeature[which(is.na(joined_data$MiscFeature))] &amp;lt;- &amp;#39;none&amp;#39;
+joined_data$BsmtExposure[which(is.na(joined_data$BsmtExposure))] &amp;lt;- &amp;#39;no_basemente&amp;#39;
+joined_data$FireplaceQu[which(is.na(joined_data$FireplaceQu))] &amp;lt;- &amp;#39;no_fireplace&amp;#39;
+joined_data$GarageType[which(is.na(joined_data$GarageType))] &amp;lt;- &amp;#39;no_garage&amp;#39;
+joined_data$GarageFinish[which(is.na(joined_data$GarageFinish))] &amp;lt;- &amp;#39;no_garage&amp;#39;
+joined_data$GarageQual[which(is.na(joined_data$GarageQual))] &amp;lt;- &amp;#39;no_garage&amp;#39;
+joined_data$GarageCond[which(is.na(joined_data$GarageCond))] &amp;lt;- &amp;#39;no_garage&amp;#39;
+
+# Definindo e convertendo as variaveis categoricas (factors)
+joined_data$MSSubClass &amp;lt;- as.factor(joined_data$MSSubClass)
+joined_data$OverallQual &amp;lt;- as.factor(joined_data$OverallQual)
+joined_data$OverallCond &amp;lt;- as.factor(joined_data$OverallCond)
+joined_data$GarageYrBlt &amp;lt;- as.factor(joined_data$GarageYrBlt)
+joined_data$YrSold &amp;lt;- as.factor(joined_data$YrSold)
+joined_data$MoSold &amp;lt;- as.factor(joined_data$MoSold)
+joined_data$GarageYrBlt &amp;lt;- as.factor(joined_data$GarageYrBlt)
+joined_data$YearBuilt &amp;lt;- as.factor(joined_data$YearBuilt)
+joined_data$YearRemodAdd &amp;lt;- as.factor(joined_data$YearRemodAdd)
+joined_data$GarageCars &amp;lt;- as.factor(joined_data$GarageCars)
+
+joined_data &amp;lt;- joined_data %&amp;gt;% mutate(age_until_sale =  as.numeric(as.character(YrSold)) - as.numeric(as.character(YearBuilt)))
+
+# Criar nova variavel: area_habitada_casa
+# TotalBsmtSF: Total square feet of basement area
+# GrLivArea: Above grade (ground) living area square feet
+# GarageArea: Size of garage in square feet
+# WoodDeckSF: Wood deck area in square feet
+# OpenPorchSF: Open porch area in square feet
+# EnclosedPorch: Enclosed porch area in square feet
+# 3SsnPorch: Three season porch area in square feet
+# ScreenPorch: Screen porch area in square feet
+# PoolArea: Pool area in square feet
+
+joined_data &amp;lt;- joined_data %&amp;gt;% mutate(house_useful_area = GrLivArea + GarageArea +
+                                          WoodDeckSF + OpenPorchSF + PoolArea)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Separando finalmente o cojunto de treino e teste&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train &amp;lt;- joined_data %&amp;gt;% 
+    filter(dataset == &amp;#39;train&amp;#39;)
+
+test &amp;lt;- joined_data %&amp;gt;%
+    filter(dataset == &amp;#39;test&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Explorando a relacção entre algumas variáveis de interesse para poderem ser usadas na contrução dos modelos&lt;/p&gt;
+&lt;p&gt;Casas mais novas parecem valer mais no geral? Muito diferente do que esperávamos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train %&amp;gt;% 
+    ggplot(aes(x= age_until_sale, y= SalePrice,  col=Neighborhood)) +
+    geom_point(size=4, alpha=0.4)+
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/house_price_advanced_regression_kernel_files/figure-html/unnamed-chunk-23-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Basement qual tem muita influência no preço da casa.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train %&amp;gt;% 
+    ggplot(aes(x= BsmtQual, y= SalePrice)) +
+    geom_boxplot()+
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/house_price_advanced_regression_kernel_files/figure-html/unnamed-chunk-24-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;GrLivArea vs SalePrice tem uma relação linear aparente&lt;/p&gt;
+&lt;p&gt;“Above Grade Living Area Total Sq. Ft. represents the finished above grade living area in a house. It does not include unfinished areas, the area occupied by a cathedral ceiling, enclosed non-living areas such as garages and enclosed porches, or basement area or finished basement living space”.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train %&amp;gt;% 
+    ggplot(aes(x= GrLivArea, y= SalePrice)) +
+    geom_point(size=4, alpha=0.4)+
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/house_price_advanced_regression_kernel_files/figure-html/unnamed-chunk-25-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Fazendo uma regressão com e sem o outlier
+summary(lm(SalePrice ~ GrLivArea, data=train))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = SalePrice ~ GrLivArea, data = train)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -462999  -29800   -1124   21957  339832 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept) 18569.026   4480.755   4.144 3.61e-05 ***
+## GrLivArea     107.130      2.794  38.348  &amp;lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 56070 on 1458 degrees of freedom
+## Multiple R-squared:  0.5021, Adjusted R-squared:  0.5018 
+## F-statistic:  1471 on 1 and 1458 DF,  p-value: &amp;lt; 2.2e-16&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(lm(SalePrice ~ GrLivArea, data=train[-which(train$GrLivArea &amp;gt; 4500), ]))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = SalePrice ~ GrLivArea, data = train[-which(train$GrLivArea &amp;gt; 
+##     4500), ])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -197730  -29815    -337   23239  332534 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept) 7168.970   4432.501   1.617    0.106    
+## GrLivArea    115.040      2.782  41.358   &amp;lt;2e-16 ***
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 53920 on 1456 degrees of freedom
+## Multiple R-squared:  0.5402, Adjusted R-squared:  0.5399 
+## F-statistic:  1710 on 1 and 1456 DF,  p-value: &amp;lt; 2.2e-16&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Interessante: Parece que a area do terreno não influencia muito no preço da casa.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train %&amp;gt;% 
+    ggplot(aes(x= LotArea, y= SalePrice, col= Neighborhood)) +
+    geom_point(size=3, alpha=0.4)+
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/house_price_advanced_regression_kernel_files/figure-html/unnamed-chunk-26-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Casas com piscina, sendo elas de boa qualidade, valem muito mais.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train %&amp;gt;% 
+    ggplot(aes(x= PoolQC, y= SalePrice)) +
+    geom_boxplot()+
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Qualidade da casa vs preço, ótima relação.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train %&amp;gt;% 
+    ggplot(aes(x= OverallQual, y= SalePrice)) +
+    geom_boxplot()+
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/house_price_advanced_regression_kernel_files/figure-html/unnamed-chunk-28-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Somei todas as “áreas úteis da casa” para testar se a relação melhora. Ao ver, sim!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train %&amp;gt;% 
+    ggplot(aes(x= house_useful_area, y= SalePrice, col=OverallQual)) +
+    geom_point(size=3, alpha=0.7)+
+    theme_bw() + 
+    scale_color_brewer(palette=&amp;#39;Spectral&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/house_price_advanced_regression_kernel_files/figure-html/unnamed-chunk-29-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;treinando-e-validando-o-modelo-para-o-conjunto-de-teste&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;6. Treinando e validando o modelo para o conjunto de teste&lt;/h1&gt;
+&lt;div id=&#34;random-forest&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;6.1. Random forest&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;random_forest_model &amp;lt;- train(SalePrice~ .,
+                             data = train,
+                             tuneGrid= data.frame(mtry=c(30, 40, 50, 55, 60,65, 70,75,79,80,82)),
+                             method= &amp;quot;rf&amp;quot;,
+                             trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=50, verboseIter = TRUE ))       
+plot(random_forest_model)
+print(random_forest_model)
+
+prediction &amp;lt;- predict(random_forest_model, test)
+to_submit &amp;lt;-  data.frame(Id= test$Id , SalePrice = prediction)
+write.csv(file=&amp;#39;prediction_results.csv&amp;#39;, to_submit, row.names = F ) &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;modelo-linear&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;6.2.Modelo linear&lt;/h2&gt;
+&lt;p&gt;Testando modelo linear sem os ‘outliers’&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;lm_model &amp;lt;- lm(SalePrice ~ house_useful_area + OverallQual + GrLivArea +
+                   TotalBsmtSF + GarageArea  +         
+                   ExterQual + X1stFlrSF + BsmtQual +
+                   KitchenQual + FullBath +TotRmsAbvGrd,  data=train[c(-524, -1299), ])
+                   
+summary(lm_model)
+summary(train)
+
+prediction &amp;lt;- predict(lm_model, test)
+to_submit &amp;lt;-  data.frame(Id= test$Id , SalePrice = prediction)
+write.csv(file=&amp;#39;prediction_results.csv&amp;#39;, to_submit, row.names = F ) 
+summary(to_submit)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;svm-support-machine-vector&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;6.3.SVM (Support Machine Vector)&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;svm_model &amp;lt;- train(SalePrice ~ OverallQual + house_useful_area + age_until_sale +  PoolQC + Neighborhood,
+      data = train[c(-524, -1299), ],
+      method= &amp;quot;svmPoly&amp;quot;,
+      trControl= trainControl(method=&amp;#39;cv&amp;#39;, number=3, verboseIter = TRUE ))  
+
+plot(svm_model)
+print(svm_model)
+
+prediction &amp;lt;- predict(svm_model, test)
+to_submit &amp;lt;-  data.frame(Id= test$Id , SalePrice = prediction)
+
+write.csv(file=&amp;#39;prediction_results.csv&amp;#39;, to_submit, row.names = F ) 
+prediction &amp;lt;- predict(svm_model, train)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;gbm-gradient-boosting-machine&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;6.4.GBM (Gradient Boosting Machine)&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;metric &amp;lt;- &amp;quot;RMSE&amp;quot;
+trainControl &amp;lt;- trainControl(method=&amp;quot;cv&amp;quot;, number=30)
+caretGrid &amp;lt;- expand.grid(interaction.depth= c(1,4,5,6), n.trees= c(2500,3000, 3200, 3400, 3600) ,
+                         shrinkage= c(0.1,0.01,0.02,0.03),
+                         n.minobsinnode=10)
+set.seed(99)
+gbm.caret &amp;lt;- train(SalePrice ~ .
+                   , data=train
+                   , distribution=&amp;quot;gaussian&amp;quot;
+                   , method=&amp;quot;gbm&amp;quot;
+                   , trControl=trainControl
+                   , verbose=FALSE
+                   , tuneGrid=caretGrid
+                   , metric=metric
+                   , bag.fraction=0.75
+)                  
+
+print(gbm.caret)
+plot(gbm.caret)
+
+prediction &amp;lt;- predict(gbm.caret, test)
+to_submit &amp;lt;-  data.frame(Id= test$Id , SalePrice = prediction)
+write.csv(file=&amp;#39;prediction_results.csv&amp;#39;, to_submit, row.names = F ) &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;resultados-obtidos&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;7.1.Resultados obtidos&lt;/h1&gt;
+&lt;p&gt;Ainda há muito a trabalhar nestes dados. O melhor resultado foi obtido com o algoritmo GBM. No Kaggle, conseguimos alcançar uma posição mediana em relação aos demais competidores. Nossa melhor pontuação foi de &lt;strong&gt;0.13477&lt;/strong&gt;&lt;/p&gt;
+Posição no ranking geral
+&lt;p align=&#34;center&#34;&gt;
+&lt;p&gt;&lt;img src = &#34;/img/ranking_house_price.png&#34;&gt;&lt;/p&gt;
+&lt;/p&gt;
+Melhor pontuação obtida
+&lt;p align=&#34;center&#34;&gt;
+&lt;p&gt;&lt;img src = &#34;/img/ranking_house_price3.png&#34;&gt;&lt;/p&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Análise de dados do Youtube</title>
+      <link>/project/youtube_scraper_markdown/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/project/youtube_scraper_markdown/</guid>
+      <description>&lt;style&gt;
+body {
+text-align: justify}
+&lt;/style&gt;
+&lt;style type1 text/css&#39;&gt;
+h1.title {
+  text-align: center;
+}
+h4.author { 
+  text-align: center;
+}
+h4.date { 
+  text-align: center;
+}
+&lt;/style&gt;
+&lt;style type=&#39;text/css&#39;&gt;
+body{ /* Normal  */
+  font-size: 14px;
+  
+td {  /* Table  */
+  font-size: 14px;
+}
+h1.title {
+  font-size: 24px;
+
+}
+h1 { /* Header 1 */
+  font-size: 24px;
+
+}
+h2 { /* Header 2 */
+    font-size: 16px;
+}
+h3 { /* Header 3 */
+  font-size: 14px;
+
+}
+code.r{ /* Code block */
+    font-size: 14px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+&lt;/style&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src=&#34;/img/youtubeApp/youtube_logo.png&#34; /&gt;
+&lt;/p&gt;
+&lt;div id=&#34;introducao&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;1.Introdução&lt;/h2&gt;
+&lt;p align=&#34;justify&#34;&gt;
+&lt;p&gt;Abordarei neste tópico uma forma de explorar informações contidas em um determinado canal do Youtube. Como exemplo, estarei demonstrando a obtenção e análise dos dados proveniente do canal “Nerdologia”, dos autores Atila Iamarino e Filipe Figueiredo. Os dados manipulados servem como base para a apresentação gráfica em um dashboard dinâmico, desenvolvido em Shiny (linguagem R). Por hora, proponho a análise quantitativa de métricas como visualizações, likes, dislikes e comentários. Bem como a análise textual das legendas geradas automaticamente pelo sistema do Youtube (quando habilitado pelo(s) autor(es) do canal).&lt;/p&gt;
+Infelizmente o acesso ao texto completo dos comentários é limitado pela API do Youtube, portanto eles não foram analisados (motivos financeiros). A motivação para este estudo é meramente e unicamente por uma questão de curiosidade e pelo exercício da criatividade. Bem como uma forma divertida de se aperfeiçoar cada vez mais nas ferramentas da linguagem R (programação, métodos de exploração de dados, desenvolvimento de dashboards, etc.).
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;metodologia&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2.Metodologia&lt;/h2&gt;
+&lt;p&gt;Primeiramente foi realizada a extração dos dados brutos. Para as métricas quantitativas, utilizei a API do Youtube (necessita de cadastro prévio) via pacote &lt;strong&gt;tuber&lt;/strong&gt; do R. As legendas automáticas foram baixadas usando o pacote &lt;strong&gt;RCurl&lt;/strong&gt; juntamente com a ferramenta online &lt;strong&gt;diycaptions&lt;/strong&gt; ( &lt;a href=&#34;http://diycaptions.com&#34; class=&#34;uri&#34;&gt;http://diycaptions.com&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Os dados textuais foram processados pelas funções do pacote &lt;strong&gt;tm&lt;/strong&gt; e visualizados usando a ferramenta &lt;strong&gt;wordcloud&lt;/strong&gt;. No caso das métricas quantitativas do canal, os dados foram visualizados pela ferramenta &lt;strong&gt;plotly&lt;/strong&gt;. A visualização foi realizada dentro de um dashboard desenvolvido em shiny.&lt;/p&gt;
+&lt;p align=&#39;center&#39;&gt;
+&lt;img src=&#34;/img/youtubeApp/worflow.jpg&#34; /&gt;
+&lt;p/&gt;
+&lt;p&gt;Carregando as bibliotecas&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rvest)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(plotly)
+library(tuber)
+library(stringr)
+library(tm)
+library(wordcloud)  
+library(RCurl)
+library(VennDiagram)
+library(kableExtra)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;extraindo-metricas-do-canal&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;2.1.Extraindo métricas do canal&lt;/h3&gt;
+&lt;p&gt;Primeiramente precisamos fazer a autenticação da nossa conta para poder acessar os dados do Youtube. É preciso realizar um cadastro prévio no site e fazer a requisição de chave de acesso (&lt;a href=&#34;https://developers.google.com/youtube/v3/&#34; class=&#34;uri&#34;&gt;https://developers.google.com/youtube/v3/&lt;/a&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;client_id &amp;lt;- &amp;#39;xxxxxxxx&amp;#39; 
+key &amp;lt;- &amp;#39;xxxxxxxx&amp;#39;
+
+yt_oauth(client_id, key)&lt;/code&gt;&lt;/pre&gt;
+Agora podemos extrair os dados dos canal alvo, usando o ID dele. Caso não saiba onde encontrar esta informação, é aquela série de caracteres na URL (conforme destacado na figura).
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src=&#34;/img/youtubeApp/nerdologia_canal.jpg&#34; /&gt;
+&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_vid_nerdologia &amp;lt;- get_all_channel_video_stats(channel_id= &amp;#39;UClu474HMt895mVxZdlIHXEA&amp;#39;, mine= FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Precisamos formatar ele adequadamente, formatando os tipos de variáveis bem como fazendo uma limpeza na variável dos títulos.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Dates
+date_split_list &amp;lt;- strsplit(x= as.character(all_vid_nerdologia$publication_date), split= &amp;#39;T&amp;#39;)
+date_split_list &amp;lt;- lapply(date_split_list, function(x){x[1]}) %&amp;gt;% unlist()
+all_vid_nerdologia[&amp;#39;publication_date&amp;#39;] &amp;lt;- date_split_list
+all_vid_nerdologia$publication_date &amp;lt;- as.Date(all_vid_nerdologia$publication_date)
+
+# Variable class
+all_vid_nerdologia$viewCount &amp;lt;-  as.numeric(all_vid_nerdologia$viewCount)
+all_vid_nerdologia$likeCount &amp;lt;- as.numeric(all_vid_nerdologia$likeCount)
+all_vid_nerdologia$dislikeCount &amp;lt;- as.numeric(all_vid_nerdologia$dislikeCount)
+all_vid_nerdologia$favoriteCount &amp;lt;- as.numeric(all_vid_nerdologia$favoriteCount)
+all_vid_nerdologia$commentCount &amp;lt;- as.numeric(all_vid_nerdologia$commentCount)
+
+# Cleanning data title
+all_vid_nerdologia$title &amp;lt;- gsub(&amp;#39;\\s\\|\\s.*$&amp;#39;, &amp;#39;&amp;#39;, all_vid_nerdologia$title)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;top-10-videos-com-mais-likes&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Top 10 vídeos com mais Likes&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_vid_nerdologia %&amp;gt;%
+    arrange(desc(likeCount)) %&amp;gt;%
+    head(10) %&amp;gt;%
+    select(title, likeCount, dislikeCount, commentCount) %&amp;gt;%
+    kable(&amp;quot;html&amp;quot;) %&amp;gt;% 
+    kable_styling(&amp;quot;striped&amp;quot;, full_width= F) %&amp;gt;%
+    column_spec(1:4, bold= T) %&amp;gt;%
+    row_spec(1:10, bold= T, color= &amp;quot;white&amp;quot;, background= &amp;quot;#3399ff&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+title
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+likeCount
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+dislikeCount
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+commentCount
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+Suicídio
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+114725
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+695
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+5853
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+Buraco Negro
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+113815
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+422
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+4076
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+Tempo
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+104740
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+303
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+3456
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+CAOS E EFEITO BORBOLETA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+101124
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+423
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+2719
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+AS MARCAS TE MANIPULAM
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+101039
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+305
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+2441
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+QUAL O SOCO MAIS FORTE?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+101037
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+595
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+6967
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+SER INVISÍVEL É POSSÍVEL?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+100276
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+221
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+2531
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+LEVANTE ZUMBI
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+99738
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+294
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+3454
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+O que somos nós?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+98443
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+308
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+4006
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+Mistérios do Fundo do Mar
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+97193
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+577
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;&#34;&gt;
+2506
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;top-10-videos-com-mais-dislikes&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Top 10 vídeos com mais Dislikes&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_vid_nerdologia %&amp;gt;%
+    arrange(desc(dislikeCount)) %&amp;gt;%
+    head(10) %&amp;gt;%
+    select(title, dislikeCount, likeCount, commentCount) %&amp;gt;%
+    kable(&amp;quot;html&amp;quot;) %&amp;gt;% 
+    kable_styling(&amp;quot;striped&amp;quot;, full_width= F) %&amp;gt;%
+    column_spec(1:4, bold= T) %&amp;gt;%
+    row_spec(1:10, bold= T, color= &amp;quot;white&amp;quot;, background= &amp;quot;#ff3333&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+title
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+dislikeCount
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+likeCount
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+commentCount
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+Sexismo
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+13984
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+93561
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+15642
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+Quem tem mais poder?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+4093
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+91474
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+14424
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+Existe cura gay?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+2787
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+83583
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+6110
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+Aquecimento Global
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+1854
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+49424
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+3921
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+Como funciona a Astrologia
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+1793
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+74924
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+5447
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+Maioridade Penal
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+1721
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+68294
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+3179
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+Por que o Merthiolate não arde mais?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+1657
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+59323
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+2362
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+Motor perpétuo? Carro a água?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+1629
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+52140
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+3355
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+Coxinhas vs. Petralhas
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+1312
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+59094
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+3632
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+Batman vs Superman
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+1175
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+66649
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;&#34;&gt;
+2337
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;top-10-videos-com-mais-comentarios&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Top 10 vídeos com mais comentários&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_vid_nerdologia %&amp;gt;%
+    arrange(desc(commentCount)) %&amp;gt;%
+    head(10) %&amp;gt;%
+    select(title, commentCount, dislikeCount, likeCount) %&amp;gt;%
+    kable(&amp;quot;html&amp;quot;) %&amp;gt;% 
+    kable_styling(&amp;quot;striped&amp;quot;, full_width= F) %&amp;gt;%
+    column_spec(1:4, bold= T) %&amp;gt;%
+    row_spec(1:10, bold= T, color= &amp;quot;white&amp;quot;, background= &amp;quot;#4d9900&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+title
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+commentCount
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+dislikeCount
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+likeCount
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+Sexismo
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+15642
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+13984
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+93561
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+Quem tem mais poder?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+14424
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+4093
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+91474
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+QUAL O SOCO MAIS FORTE?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+6967
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+595
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+101037
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+É só uma teoria
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+6120
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+690
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+92609
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+Existe cura gay?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+6110
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+2787
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+83583
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+Suicídio
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+5853
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+695
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+114725
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+Como funciona a Astrologia
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+5447
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+1793
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+74924
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+Fomos à Lua?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+5132
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+1120
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+64036
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+COMO MATAR O WOLVERINE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+4979
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+488
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+89501
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+POSSESSÃO, ABDUÇÃO OU PARALISIA DO SONO?
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+4901
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+355
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;&#34;&gt;
+90767
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Agora, deixarei salvo o objeto da tabela processada, para carregar dentro do meu dashboard.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;save(file= &amp;#39;all_vid_nerdologia.RData&amp;#39;, all_vid_nerdologia)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extraindo-dados-textuais-das-legendas-e-formatando&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;2.1.Extraindo dados textuais das legendas e formatando&lt;/h3&gt;
+&lt;p&gt;A função do pacote tuber que realiza a extração das legendas não está funcionando mais, por isso eu optei por um modo semi-rudimentar para fazer isso (porque demora um pouco :/). Tive que colocar um delay de 30 segundos em cada requisição pois se formos muito rápido acabamos tendo a conexão interrompinda.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;url_request &amp;lt;- paste0(&amp;#39;http://diycaptions.com/php/get-automatic-captions-as-txt.php?id=&amp;#39;,  all_vid_nerdologia$id, &amp;#39;&amp;amp;language=asr&amp;#39;)     
+
+html_page &amp;lt;- list()
+
+for(i in 1:length(url_request) ){
+    
+    html_page[i] &amp;lt;- getURL(url_request[i])
+    
+    Sys.sleep(30)
+}
+
+save(file= &amp;#39;html_page.RObj&amp;#39;, html_page)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Precisarei da minha lista de texto ordenado pela data quanto for retornar um index do plot&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_vid_nerdologia[&amp;#39;index&amp;#39;] &amp;lt;- 1:nrow(all_vid_nerdologia)
+all_vid_nerdologia &amp;lt;- all_vid_nerdologia %&amp;gt;% arrange(publication_date)
+html_page_text_sorted &amp;lt;- html_page_text[all_vid_nerdologia$index]
+save(file=&amp;#39;html_page_text_sorted.RData&amp;#39;, html_page_text_sorted)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Agora farei o pré-tratamento dos dados textuais e a limpeza propriamente dita&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Removing tags blocks
+html_page_text &amp;lt;- lapply(html_page, function(x){
+    
+    split_1 &amp;lt;- strsplit(x[[1]], &amp;#39;&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;&amp;#39;)[[1]][2]
+    strsplit(split_1[[1]], &amp;#39;\t\t&amp;lt;/div&amp;gt;&amp;#39;)[[1]][1]
+    
+})
+
+# Saving object for individual process
+# save(file = &amp;#39;html_page_text.RData&amp;#39;, html_page_text)
+
+# Generating corpus text for all avaiable data
+text_df_total &amp;lt;- data.frame(doc_id= all_vid_nerdologia$id, text= unlist(html_page_text), stringsAsFactors= FALSE , drop=FALSE)
+
+text_corpus_df &amp;lt;- Corpus(DataframeSource(text_df_total))
+
+text_corpus_df_filtered &amp;lt;- text_corpus_df %&amp;gt;%
+    tm_map(stripWhitespace)  %&amp;gt;%    
+    tm_map(removePunctuation) %&amp;gt;%                              
+    tm_map(removeNumbers)   %&amp;gt;%                               
+    tm_map(removeWords, c(stopwords(&amp;quot;portuguese&amp;quot;))) %&amp;gt;%  
+    tm_map(removeNumbers) %&amp;gt;%  
+    tm_map(stripWhitespace) %&amp;gt;%    
+    tm_map(content_transformer(tolower))
+
+# Creanting a term matrix
+corpus_tf &amp;lt;- TermDocumentMatrix(text_corpus_df_filtered)
+
+corpus_m &amp;lt;- as.matrix(corpus_tf)
+
+corpus_m_sorted &amp;lt;- sort(rowSums(as.matrix(corpus_m)), decreasing= TRUE)
+
+df_total &amp;lt;- data.frame(word= names(corpus_m_sorted), freq= as.numeric(corpus_m_sorted))
+
+df_total$word &amp;lt;- as.character(df_total$word)
+
+df_total &amp;lt;- df_total[which(nchar(df_total$word) &amp;gt; 4), ]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;O gráfico de frequência total das palavras também deverá aparecer. Porém, lá na ferramenta irei adicionar mecanismos de controle de filtro.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;wordcloud(df_total$word, df_total$freq, min.freq= 10, max.words= 150, random.order= FALSE, rot.per= 0.35, colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p align=&#39;center&#39;&gt;
+&lt;img src=&#34;/img/youtubeApp/word_cloud.png&#34; /&gt;
+&lt;p/&gt;
+&lt;p&gt;Farei também uma word cloud para os títulos dos vídeos postados&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;text_df_total &amp;lt;- data.frame(doc_id= all_vid_nerdologia$title, text= all_vid_nerdologia$title, stringsAsFactors= FALSE , drop=FALSE)
+
+text_corpus_df &amp;lt;- Corpus(DataframeSource(text_df_total))
+
+text_corpus_df_filtered &amp;lt;- text_corpus_df %&amp;gt;%
+    tm_map(stripWhitespace)  %&amp;gt;%    
+    tm_map(removePunctuation) %&amp;gt;%                              
+    tm_map(removeNumbers)   %&amp;gt;%                               
+    tm_map(removeWords, c(stopwords(&amp;quot;portuguese&amp;quot;))) %&amp;gt;%  
+    tm_map(removeNumbers) %&amp;gt;%  
+    tm_map(stripWhitespace) %&amp;gt;%    
+    tm_map(content_transformer(tolower))
+
+# Creanting a term matrix
+corpus_tf &amp;lt;- TermDocumentMatrix(text_corpus_df_filtered)
+
+corpus_m &amp;lt;- as.matrix(corpus_tf)
+
+corpus_m_sorted &amp;lt;- sort(rowSums(as.matrix(corpus_m)), decreasing= TRUE)
+
+df_total &amp;lt;- data.frame(word= names(corpus_m_sorted), freq= as.numeric(corpus_m_sorted))
+
+df_total$word &amp;lt;- as.character(df_total$word)
+
+df_total_titulo &amp;lt;- df_total[which(nchar(df_total$word) &amp;gt; 2), ]
+
+wordcloud(df_total_titulo$word, df_total_titulo$freq, min.freq= 2, max.words= 100, random.order= FALSE, rot.per= 0.35, colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/youtube_scraper_markdown_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;100%&#34; height=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;O gráfico do dashboard deve ser similar a este, porém, responsivo com mais informações e opções de filtro.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_vid_nerdologia %&amp;gt;%
+    gather(key= type_counts, value= counts, 
+           c(likeCount, dislikeCount, commentCount, viewCount)) %&amp;gt;%
+    filter(str_detect(&amp;#39;likeCount|dislikeCount|commentCount&amp;#39;, type_counts)) %&amp;gt;%
+    ggplot(aes(x= publication_date, y= as.numeric(counts), col= type_counts)) +
+    geom_line(size=1, alpha=0.7) +
+    geom_point(size=1) +
+    scale_x_date() +
+    theme_bw() +
+    scale_color_manual(values = c(&amp;#39;#440154FF&amp;#39;, &amp;#39;#39568CFF&amp;#39;, &amp;#39;#29AF7FFF&amp;#39;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/youtube_scraper_markdown_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;100%&#34; height=&#34;60%&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;criando-um-dashboard-dinamico&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Criando um dashboard dinâmico&lt;/h2&gt;
+&lt;p&gt;Para prover uma visualização diferenciada dos dados, optei por criar um dashboard dinâmico, reativo ao cursor do mouse e que também aceita diferentes parâmetros para gerar os resultados. Assim, podemos abranger um pouco mais do nosso aprendizado. :D&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src=&#34;/img/youtubeApp/ideia.jpg&#34; /&gt;
+&lt;/p&gt;
+&lt;p&gt;No dashboard, os dados da métrica e os dados textuais são carregados pré-processados. No caso, ele irá apenas realizar a apresentação dinâmica dos resultados.&lt;/p&gt;
+&lt;p&gt;Este é o código, também disponível no github (por favor, não fiquei com raiva pela desorganização).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(shinydashboard)
+library(highcharter)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(tm)
+library(wordcloud)  
+library(VennDiagram)
+library(kableExtra)
+
+load(&amp;#39;all_vid_nerdologia.RData&amp;#39;)
+load(&amp;#39;html_page_text.RData&amp;#39;)
+load(&amp;#39;html_page_text_sorted.RData&amp;#39;)
+
+ui &amp;lt;- dashboardPage(
+    # Header ----
+    dashboardHeader(title = &amp;quot;Youtube metrics&amp;quot;),
+    
+    # Sidebar content ----
+    dashboardSidebar(collapsed = TRUE,
+                     sidebarMenu(
+                         menuItem(&amp;quot;Dashboard&amp;quot;, tabName = &amp;quot;dashboard&amp;quot;, icon = icon(&amp;quot;dashboard&amp;quot;))
+                     )
+    ),
+    
+    # Body content ----
+    dashboardBody(
+        
+        includeCSS(&amp;quot;www/custom.css&amp;quot;),
+        tabItems(
+            # First tab content
+            tabItem(tabName= &amp;quot;dashboard&amp;quot;,
+                    
+                    fluidRow(
+                        column(width= 7,
+                               tags$blockquote((&amp;quot;Metrics from video captions&amp;quot;)),
+                               plotlyOutput(outputId = &amp;#39;metrics_total_plot&amp;#39;, height= &amp;#39;400px&amp;#39;)
+                               
+                        ),
+                        column(width= 5,
+                               wellPanel(
+                                   plotOutput(outputId= &amp;#39;cursor_wc_plot&amp;#39;, height= &amp;#39;400px&amp;#39;)
+                               )
+                        )
+                    ),
+                    
+                    fluidRow(
+                        column(3,
+                               tags$blockquote((&amp;quot;Top 1 videos&amp;quot;)),
+                               valueBoxOutput(&amp;quot;likebox&amp;quot;, width = 15),
+                               valueBoxOutput(&amp;quot;dislikebox&amp;quot;, width = 15),
+                               valueBoxOutput(&amp;quot;commentbox&amp;quot;, width = 15)
+                        ),
+                        column(4,
+                               tags$blockquote(&amp;quot;Most frequent words in video titles&amp;quot;, align=&amp;quot;left&amp;quot;),
+                               plotOutput(outputId= &amp;#39;title_wc_plot&amp;#39;, width=500, height=400)
+                        ),
+                        column(5,
+                               tags$blockquote(&amp;quot;Estimated number of words spoken in video&amp;quot;, align=&amp;quot;left&amp;quot;),
+                               plotlyOutput(outputId = &amp;#39;numb_spoken_words&amp;#39;, height= &amp;#39;400px&amp;#39;)   
+                        )
+                    )
+                    
+            )
+        )
+    )
+)
+
+server &amp;lt;- function(input, output){
+    
+    # Plot wordcloud total ----
+    output$metrics_total_plot &amp;lt;- renderPlotly({
+        
+        all_vid_nerdologia %&amp;gt;%
+            arrange(publication_date) %&amp;gt;%
+            plot_ly(source = &amp;quot;source&amp;quot;) %&amp;gt;%
+            add_trace(x = ~publication_date, y = ~viewCount, 
+                      name = &amp;#39;View count&amp;#39;, type = &amp;#39;scatter&amp;#39;, 
+                      mode =&amp;quot;markers+lines&amp;quot;, text = ~paste(&amp;#39;Video: &amp;#39;, title),
+                      line = list(color = &amp;#39;#440154FF &amp;#39;, width = 2)) %&amp;gt;%
+            add_trace(x = ~publication_date, y = ~likeCount, 
+                      name = &amp;#39;Like count&amp;#39;, type = &amp;#39;scatter&amp;#39;,
+                      mode =&amp;quot;markers+lines&amp;quot;, text = ~paste(&amp;#39;Video: &amp;#39;, title),
+                      line = list(color = &amp;#39;#39568CFF&amp;#39;, width = 2)) %&amp;gt;%
+            add_trace(x = ~publication_date, y = ~dislikeCount,
+                      name = &amp;#39;Dislike count&amp;#39;, type = &amp;#39;scatter&amp;#39;, 
+                      mode = &amp;quot;markers+lines&amp;quot;, text = ~paste(&amp;#39;Video: &amp;#39;, title),
+                      line = list(color = &amp;#39;#29AF7FFF&amp;#39;, width = 2)) %&amp;gt;%
+            add_trace(x = ~publication_date, y = ~commentCount,
+                      name = &amp;#39;Comment count&amp;#39;, type = &amp;#39;scatter&amp;#39;, 
+                      mode = &amp;quot;markers+lines&amp;quot;, text = ~paste(&amp;#39;Video: &amp;#39;, title),
+                      line = list(color = &amp;#39;#FDE725FF&amp;#39;, width = 2)) %&amp;gt;%
+            layout(xaxis = list(title = &amp;quot;&amp;quot;),
+                   yaxis = list (title = &amp;quot;Metric&amp;#39;s count&amp;quot;),
+                   font =  list(size = 12),
+                   hovermode = &amp;#39;compare&amp;#39;,
+                   legend = list(orientation = &amp;#39;h&amp;#39;)) 
+    })
+    
+    # Plot over cursor selected word cloud ----
+    output$cursor_wc_plot &amp;lt;- renderPlot({
+        
+        eventdata &amp;lt;- event_data(&amp;quot;plotly_hover&amp;quot;, source = &amp;quot;source&amp;quot;)
+        
+        validate(need(!is.null(eventdata), &amp;quot;Pass the mouse over the point :)&amp;quot;))
+        
+        cursor_id &amp;lt;- as.numeric(eventdata$pointNumber)[1] + 1
+        
+        all_vid_nerdologia &amp;lt;- all_vid_nerdologia %&amp;gt;%
+            arrange(publication_date)
+        
+        text_df_cursor &amp;lt;- data.frame(doc_id= all_vid_nerdologia$id[ cursor_id ], 
+                                     text= unlist(html_page_text_sorted[ cursor_id ]), 
+                                     stringsAsFactors= FALSE , drop=FALSE)
+        
+        cursor_corpus_df &amp;lt;- Corpus(DataframeSource(text_df_cursor))
+        
+        cursor_corpus_df_filtered &amp;lt;- cursor_corpus_df %&amp;gt;%
+            tm_map(stripWhitespace)  %&amp;gt;%    
+            tm_map(removePunctuation) %&amp;gt;%                              
+            tm_map(removeNumbers)   %&amp;gt;%                               
+            tm_map(removeWords, c(stopwords(&amp;quot;portuguese&amp;quot;))) %&amp;gt;%  
+            tm_map(removeNumbers) %&amp;gt;%  
+            tm_map(stripWhitespace) %&amp;gt;%    
+            tm_map(content_transformer(tolower))
+        
+        # Creanting a term matrix
+        corpus_tf &amp;lt;- TermDocumentMatrix(cursor_corpus_df_filtered)
+        
+        cursor_corpus_m &amp;lt;- as.matrix(corpus_tf)
+        
+        cursor_corpus_m_sorted &amp;lt;- sort(rowSums(as.matrix(cursor_corpus_m)), decreasing= TRUE)
+        
+        df_cursor_final &amp;lt;- data.frame(word= names(cursor_corpus_m_sorted), freq= as.numeric(cursor_corpus_m_sorted))
+        
+        df_cursor_final$word &amp;lt;- as.character(df_cursor_final$word)
+        
+        df_cursor_final &amp;lt;- df_cursor_final[which(nchar(df_cursor_final$word) &amp;gt; 3), ]
+        
+        wordcloud(df_cursor_final$word, df_cursor_final$freq, min.freq = 2, max.words= 50,
+                  random.order= FALSE, colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;), scale=c(4, 0.5))
+    })
+    
+    # Metrics top videos box ----
+    # Like box
+    output$likebox &amp;lt;- renderValueBox({
+        toplike &amp;lt;- all_vid_nerdologia %&amp;gt;%
+            arrange(desc(likeCount)) %&amp;gt;%
+            head(10)
+        
+        valueBox(value = tags$p(toplike$title[1], style = &amp;quot;font-size: 80%;&amp;quot;),
+                 subtitle = paste0(&amp;quot;Most liked video with: &amp;quot;, toplike$likeCount[1], &amp;quot; likes&amp;quot;), 
+                 icon = icon(&amp;quot;thumbs-up&amp;quot;, lib = &amp;quot;glyphicon&amp;quot;),
+                 color = &amp;quot;blue&amp;quot; 
+        )
+    })
+    
+    # Dislike box
+    output$dislikebox &amp;lt;- renderValueBox({
+        topdislike &amp;lt;- all_vid_nerdologia %&amp;gt;%
+            arrange(desc(dislikeCount)) %&amp;gt;%
+            head(10)
+        
+        valueBox(value = tags$p(topdislike$title[1], style = &amp;quot;font-size: 80%;&amp;quot;),
+                 subtitle = paste0(&amp;quot;Most disliked video with: &amp;quot;, topdislike$dislikeCount[1], &amp;quot; dislikes&amp;quot;),
+                 icon = icon(&amp;quot;thumbs-down&amp;quot;, lib = &amp;quot;glyphicon&amp;quot;),
+                 color = &amp;quot;red&amp;quot; 
+        )
+    })
+    
+    # Comments box
+    output$commentbox &amp;lt;- renderValueBox({
+        topcomment &amp;lt;- all_vid_nerdologia %&amp;gt;%
+            arrange(desc(commentCount)) %&amp;gt;%
+            head(10)
+        
+        valueBox(value = tags$p(topcomment$title[1], style = &amp;quot;font-size: 80%;&amp;quot;),
+                 subtitle = paste0(&amp;quot;Most Commented video with: &amp;quot;, topcomment$commentCount[1], &amp;quot; comments&amp;quot;),
+                 icon = icon(&amp;quot;comment&amp;quot;, lib = &amp;quot;font-awesome&amp;quot;),
+                 color = &amp;quot;orange&amp;quot; 
+        )
+    })
+    
+    # Word cloud topic&amp;#39;s titles plot ----
+    output$title_wc_plot &amp;lt;- renderPlot({
+        
+        title_df &amp;lt;- data.frame(doc_id= all_vid_nerdologia$title, text= all_vid_nerdologia$title, stringsAsFactors= FALSE , drop=FALSE)
+        
+        title_corpus &amp;lt;- Corpus(DataframeSource(title_df))
+        
+        title_corpus_filtered &amp;lt;- title_corpus %&amp;gt;%
+            tm_map(stripWhitespace)  %&amp;gt;%    
+            tm_map(removePunctuation) %&amp;gt;%                              
+            tm_map(removeNumbers)   %&amp;gt;%                               
+            tm_map(removeWords, c(stopwords(&amp;quot;portuguese&amp;quot;))) %&amp;gt;%  
+            tm_map(removeNumbers) %&amp;gt;%  
+            tm_map(stripWhitespace) %&amp;gt;%    
+            tm_map(content_transformer(tolower))
+        
+        # Creanting a term matrix
+        corpus_tf &amp;lt;- TermDocumentMatrix(title_corpus_filtered)
+        
+        corpus_m &amp;lt;- as.matrix(corpus_tf)
+        
+        corpus_m_sorted &amp;lt;- sort(rowSums(as.matrix(corpus_m)), decreasing= TRUE)
+        
+        df_total &amp;lt;- data.frame(word= names(corpus_m_sorted), freq= as.numeric(corpus_m_sorted))
+        
+        df_total$word &amp;lt;- as.character(df_total$word)
+        
+        df_total_titulo &amp;lt;- df_total[which(nchar(df_total$word) &amp;gt; 2), ]
+        
+        wordcloud(df_total_titulo$word, df_total_titulo$freq, min.freq= 2,
+                  max.words= 100, random.order= FALSE,
+                  rot.per= 0.15, colors=brewer.pal(8, &amp;quot;Dark2&amp;quot;),
+                  scale=c(5, .7))
+        
+    })
+    
+    # Plot number of spoken words
+    output$numb_spoken_words &amp;lt;- renderPlotly({
+        all_vid_nerdologia %&amp;gt;%
+            arrange(publication_date) %&amp;gt;%
+            mutate(n_words_spoken =  str_count(html_page_text_sorted, &amp;quot;\\S+&amp;quot;)) %&amp;gt;%
+            plot_ly() %&amp;gt;%
+            add_trace(x = ~publication_date, y = ~n_words_spoken, 
+                      name = &amp;#39;Number of words spoken during video recording&amp;#39;, type = &amp;#39;scatter&amp;#39;, 
+                      mode = &amp;quot;markers+lines&amp;quot;, text = ~paste(&amp;#39;Video: &amp;#39;, title, &amp;#39;\n&amp;#39;, &amp;#39;Number of words: &amp;#39;, n_words_spoken),
+                      line = list(color = &amp;#39;#004080&amp;#39;, width = 4)) %&amp;gt;%
+            layout(xaxis = list(title = &amp;quot;Publication date&amp;quot;),
+                   yaxis = list (title = &amp;quot;Number of words&amp;quot;),
+                   font =  list(size = 14),
+                   hovermode = &amp;#39;compare&amp;#39;,
+                   legend = list(orientation = &amp;#39;h&amp;#39;)) 
+    })
+    
+}
+
+shinyApp(ui, server)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;este-e-o-resultado&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Este é o resultado:&lt;/h3&gt;
+&lt;p&gt;Em &lt;strong&gt;(I)&lt;/strong&gt; temos um gráfico de linha que segue de acordo com o tempo do início até o presente momento do canal. Cada ponto se trata de um vídeo sendo o gráfico responsivo ao cursor do mouse, também com a legenda clicável. Toda vez que o usuário passar o cursor sobre um ponto, automaticamente será gerado um wordcloud &lt;strong&gt;(II)&lt;/strong&gt; deste vídeo (no caso, o que o Youtuber falou). Em &lt;strong&gt;(III)&lt;/strong&gt; temos os Top vídeos mais curtidos, odiados e comentados. O wordcloud em &lt;strong&gt;(IV)&lt;/strong&gt; foi gerado a partir dos títulos dos vídeos do canal. Por fim, fiz uma contagem de palavras ditas ao longo do tempo (deveria ter plotado o tempo de vídeo….será?). Me parece que o número de views declina no decorrer do tempo ao passo que a quantidade de palavras ditas aumenta. D:. Pode ser uma relação errônea.&lt;/p&gt;
+&lt;p&gt;O dashboard online pode ser acessado neste Link :D&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://daviinada.shinyapps.io/youtubeapp/&#34; class=&#34;uri&#34;&gt;https://daviinada.shinyapps.io/youtubeapp/&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/youtubeApp/dashboard.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
@@ -27,7 +2505,157 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/project/shiny_app_ngs/</guid>
-      <description>h1.title { text-align: center; } h4.author { text-align: center; } h4.date { text-align: center; }  body{ /* Normal */ font-size: 14px; td { /* Table */ font-size: 14px; } h1.title { font-size: 24px; } h1 { /* Header 1 */ font-size: 24px; } h2 { /* Header 2 */ font-size: 16px; } h3 { /* Header 3 */ font-size: 14px; } code.r{ /* Code block */ font-size: 14px; } pre { /* Code block - determines code spacing between lines */ font-size: 14px; }  1.</description>
+      <description>&lt;style type1 text/css&#39;&gt;
+h1.title {
+  text-align: center;
+}
+h4.author { 
+  text-align: center;
+}
+h4.date { 
+  text-align: center;
+}
+&lt;/style&gt;
+&lt;style type=&#39;text/css&#39;&gt;
+body{ /* Normal  */
+  font-size: 14px;
+  
+td {  /* Table  */
+  font-size: 14px;
+}
+h1.title {
+  font-size: 24px;
+
+}
+h1 { /* Header 1 */
+  font-size: 24px;
+
+}
+h2 { /* Header 2 */
+    font-size: 16px;
+}
+h3 { /* Header 3 */
+  font-size: 14px;
+
+}
+code.r{ /* Code block */
+    font-size: 14px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+&lt;/style&gt;
+&lt;div id=&#34;introducao&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;1.Introdução&lt;/h1&gt;
+&lt;p align=&#34;justify&#34;&gt;
+&lt;p&gt;No contexto da bioinformática, muitas análises são conduzidas em linha de comando, dificultando assim a sua aplicação por pessoas sem o conhecimento adequado em computação. No intuito de possibilitar que outros usuários possam ter acesso ao processo de análise e expandi-las para outros estudos, desenvolvemos uma ferramenta em interface gráfica usando a ferramenta R Shiny.&lt;/p&gt;
+Esta ferramenta encontra-se alocada em um servidor WEB (no domínio &lt;a href=&#34;http://cetics.butantan.gov.br/shiny/ngs_shiny_app2/&#34; class=&#34;uri&#34;&gt;http://cetics.butantan.gov.br/shiny/ngs_shiny_app2/&lt;/a&gt;), e seu código encontra-se armazenado no repositório do GitLab (também alocado em &lt;a href=&#34;http://cetics.butantan.gov.br&#34; class=&#34;uri&#34;&gt;http://cetics.butantan.gov.br&lt;/a&gt;). O código estatá disponível para download após a ferramenta ser publicada em revista científica.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ferramenta-de-analise&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;2.Ferramenta de análise&lt;/h1&gt;
+&lt;div id=&#34;upload-dos-dados&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2.1.Upload dos dados&lt;/h2&gt;
+&lt;p align=&#34;justify&#34;&gt;
+A ferramenta permite analisar até dois experimentos diferentes em pararelo. Os dados de entrada são compostos pelo arquivo de alinhamento das sequências (tratamento e controle em formato .bed, comprimidos em formato .zip), picos preditos pelo programa MACS2, genoma de referência (.fasta) e anotação genômica (.gff).
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Exemplo de formato para cada tipo de entrada:
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+Arquivo de alinhamento de sequências (.bed)
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/bed.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+Arquivo dos picos pretidos pelo MACS2 (.narrowPeak)
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/peaks.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+Arquivo de anotação do genoma (.gff)
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/gff.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+Arquivo de sequência nucleotídica do genoma (.fasta)
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/fasta.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+O usuário deve seguir cada etapa corretamente, afim de se obter os resultados da análise de regiões enriquecidas do genoma.
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_001.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;estimando-cobertura-e-conteudo-gc&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2.2. Estimando cobertura e conteúdo %GC&lt;/h2&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Após realizar o upload dos dados brutos, a ferramenta estima a cobertura genômica em janelas de tamanho definido pelo usuário, da mesma forma também é estimado o conteúdo GC.
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_003.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_004.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;aplicando-filtro-sobre-os-dados&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2.3. Aplicando filtro sobre os dados&lt;/h2&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Esta etapa é sucessidida pela aplicação de um filtro tanto sobre os dados de cobertura estimado, como também sobre dos dados dos picos preditos pelo programa MACS2.
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_005.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;visualizando-dados-integrados&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;2.4. Visualizando dados integrados&lt;/h2&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Tendo os dados filtrados em mãos, o usuário poderá gerar figuras de cada cromossomo de forma independente integrando as features de interesse tanto de um quanto de dois experimentos. Um menu dinâmico é criado conforme os dados experimentais.
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_006.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Ilustrando o canto inferior:
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_007.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+É possível ainda realizar um zoom sobre as regiões de interesse do cromossomo e destacar as características de interesse. Em todos os casos, é possível realizar o download tanto das figuras como também das informações contidas em uma tabela.
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_008.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Ilustrando o canto inferior:
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_009.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;cruzando-informacoes-entre-os-experimentos&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3.Cruzando informações entre os experimentos&lt;/h2&gt;
+&lt;p&gt;Na etapa final de análise da ferramenta, o usuário pode opcionalmente realizar uma análise cruzada de todos os dados, obtendo assim regiões enriquecidas em comum entre dois experimentos distintos conduzidos para um mesmo genoma de referência.&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_010.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;p align=&#34;justify&#34;&gt;
+Ilustrando o canto inferior:
+&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;img src = &#34;/img/ngs_shiny/Selection_011.png&#34; height=&#34;1200&#34; width=&#34;1000&#34;&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
@@ -36,7 +2664,495 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/project/titanic/</guid>
-      <description>body{ /* Normal */ font-size: 14px; td { /* Table */ font-size: 14px; } h1.title { font-size: 24px; } h1 { /* Header 1 */ font-size: 24px; } h2 { /* Header 2 */ font-size: 16px; } h3 { /* Header 3 */ font-size: 14px; } code.r{ /* Code block */ font-size: 14px; } pre { /* Code block - determines code spacing between lines */ font-size: 14px; }  library(caret) library(mice) library(dplyr) library(ggplot2) library(stringr) library(purrr) library(corrplot) library(viridis) library(RColorBrewer) 1.</description>
+      <description>&lt;style type=&#39;text/css&#39;&gt;
+body{ /* Normal  */
+  font-size: 14px;
+  
+td {  /* Table  */
+  font-size: 14px;
+}
+h1.title {
+  font-size: 24px;
+
+}
+h1 { /* Header 1 */
+  font-size: 24px;
+
+}
+h2 { /* Header 2 */
+    font-size: 16px;
+}
+h3 { /* Header 3 */
+  font-size: 14px;
+
+}
+code.r{ /* Code block */
+    font-size: 14px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+&lt;/style&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(caret)
+library(mice)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(purrr)
+library(corrplot)
+library(viridis)
+library(RColorBrewer)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;tratamento-inicial-dos-dados&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;1.Tratamento inicial dos dados&lt;/h1&gt;
+&lt;p&gt;Unindo o conjunto de treino e teste para estimar pseudo valores. Existem muitos dados faltantes, e para estimar um valor mais próximo do real para os mesmos, precisaremos do máximo de informação possível.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;setwd(&amp;#39;/home/davi/Desktop/titanic&amp;#39;)
+train &amp;lt;- read.csv(file=&amp;#39;train.csv&amp;#39;, sep=&amp;#39;,&amp;#39;, stringsAsFactors = FALSE) 
+train$dataTag &amp;lt;- &amp;#39;train&amp;#39;
+
+test &amp;lt;-  read.csv(file=&amp;#39;test.csv&amp;#39;, sep=&amp;#39;,&amp;#39;, stringsAsFactors = FALSE) 
+test$dataTag  &amp;lt;- &amp;#39;test&amp;#39;
+test$Survived &amp;lt;- NA
+
+concat_data &amp;lt;- train %&amp;gt;% bind_rows(test)
+
+head(concat_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   PassengerId Survived Pclass
+## 1           1        0      3
+## 2           2        1      1
+## 3           3        1      3
+## 4           4        1      1
+## 5           5        0      3
+## 6           6        0      3
+##                                                  Name    Sex Age SibSp
+## 1                             Braund, Mr. Owen Harris   male  22     1
+## 2 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female  38     1
+## 3                              Heikkinen, Miss. Laina female  26     0
+## 4        Futrelle, Mrs. Jacques Heath (Lily May Peel) female  35     1
+## 5                            Allen, Mr. William Henry   male  35     0
+## 6                                    Moran, Mr. James   male  NA     0
+##   Parch           Ticket    Fare Cabin Embarked dataTag
+## 1     0        A/5 21171  7.2500              S   train
+## 2     0         PC 17599 71.2833   C85        C   train
+## 3     0 STON/O2. 3101282  7.9250              S   train
+## 4     0           113803 53.1000  C123        S   train
+## 5     0           373450  8.0500              S   train
+## 6     0           330877  8.4583              Q   train&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(concat_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   PassengerId      Survived          Pclass          Name          
+##  Min.   :   1   Min.   :0.0000   Min.   :1.000   Length:1309       
+##  1st Qu.: 328   1st Qu.:0.0000   1st Qu.:2.000   Class :character  
+##  Median : 655   Median :0.0000   Median :3.000   Mode  :character  
+##  Mean   : 655   Mean   :0.3838   Mean   :2.295                     
+##  3rd Qu.: 982   3rd Qu.:1.0000   3rd Qu.:3.000                     
+##  Max.   :1309   Max.   :1.0000   Max.   :3.000                     
+##                 NA&amp;#39;s   :418                                        
+##      Sex                 Age            SibSp            Parch      
+##  Length:1309        Min.   : 0.17   Min.   :0.0000   Min.   :0.000  
+##  Class :character   1st Qu.:21.00   1st Qu.:0.0000   1st Qu.:0.000  
+##  Mode  :character   Median :28.00   Median :0.0000   Median :0.000  
+##                     Mean   :29.88   Mean   :0.4989   Mean   :0.385  
+##                     3rd Qu.:39.00   3rd Qu.:1.0000   3rd Qu.:0.000  
+##                     Max.   :80.00   Max.   :8.0000   Max.   :9.000  
+##                     NA&amp;#39;s   :263                                     
+##     Ticket               Fare            Cabin          
+##  Length:1309        Min.   :  0.000   Length:1309       
+##  Class :character   1st Qu.:  7.896   Class :character  
+##  Mode  :character   Median : 14.454   Mode  :character  
+##                     Mean   : 33.295                     
+##                     3rd Qu.: 31.275                     
+##                     Max.   :512.329                     
+##                     NA&amp;#39;s   :1                           
+##    Embarked           dataTag         
+##  Length:1309        Length:1309       
+##  Class :character   Class :character  
+##  Mode  :character   Mode  :character  
+##                                       
+##                                       
+##                                       
+## &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Formatando os dados. Precisamos marcas as regiões com dados faltantes e também definir os tipos de cada variável (categórico, numérico ou string) do nosso conjunto de dados.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data$Cabin[which(concat_data$Cabin == &amp;#39;&amp;#39;)] &amp;lt;- NA
+concat_data$Embarked[which(concat_data$Embarked == &amp;#39;&amp;#39;)] &amp;lt;- NA
+
+concat_data$Survived &amp;lt;- as.factor(concat_data$Survived) 
+concat_data$Pclass  &amp;lt;- as.factor(concat_data$Pclass)
+concat_data$Sex &amp;lt;- as.factor(concat_data$Sex)
+concat_data$Ticket &amp;lt;- as.factor(concat_data$Ticket)
+concat_data$Cabin &amp;lt;- as.factor(concat_data$Cabin)
+concat_data$Embarked &amp;lt;- as.factor(concat_data$Embarked)
+concat_data$dataTag  &amp;lt;- as.factor(concat_data$dataTag)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Tem um NA tambem, pertence a Pclass 3, vou substituir pela media dessa classe 
+which(is.na(concat_data$Fare))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 1044&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data[1044, ]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##      PassengerId Survived Pclass               Name  Sex  Age SibSp Parch
+## 1044        1044     &amp;lt;NA&amp;gt;      3 Storey, Mr. Thomas male 60.5     0     0
+##      Ticket Fare Cabin Embarked dataTag
+## 1044   3701   NA  &amp;lt;NA&amp;gt;        S    test&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Substituindo
+concat_data$Fare[1044] &amp;lt;- mean( concat_data$Fare[which(concat_data$Pclass == 3)], na.rm = TRUE)
+
+# Observei 2 NA&amp;#39;s em Embarked
+concat_data[ which(is.na(concat_data$Embarked)), ]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##     PassengerId Survived Pclass                                      Name
+## 62           62        1      1                       Icard, Miss. Amelie
+## 830         830        1      1 Stone, Mrs. George Nelson (Martha Evelyn)
+##        Sex Age SibSp Parch Ticket Fare Cabin Embarked dataTag
+## 62  female  38     0     0 113572   80   B28     &amp;lt;NA&amp;gt;   train
+## 830 female  62     0     0 113572   80   B28     &amp;lt;NA&amp;gt;   train&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Onde sera que eles embarcaram?
+# Por serem classe 1, provavelmente embarcaram em S ou C
+
+table(concat_data$Embarked, concat_data$Pclass)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    
+##       1   2   3
+##   C 141  28 101
+##   Q   3   7 113
+##   S 177 242 495&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data$Embarked[ which(is.na(concat_data$Embarked)) ] &amp;lt;- factor(&amp;quot;S&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;definindo-novas-variaveis&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;2.Definindo novas variáveis&lt;/h1&gt;
+&lt;p&gt;A partir dos nomes, irei separar o sobrenome e o pronome de tratamento para ajudar a indentificar melhor todos os subgrupos de passageiros.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;length(concat_data$Name) # n nomes&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 1309&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# preciso tratar melhor, fazer split na virgula e no ponto para capturar o sobrenome e o pronome de tratamento
+names &amp;lt;- strsplit(concat_data$Name, &amp;#39;,&amp;#39;)
+names_no_space &amp;lt;- lapply(names, function(x) gsub(&amp;#39; &amp;#39;, &amp;#39;&amp;#39;,x))
+
+# Sobrenpome
+surname &amp;lt;- lapply(names_no_space , function(x) x[[1]] )
+surname &amp;lt;- unlist(surname)
+
+treat_pron &amp;lt;- lapply(names_no_space , function(x) x[[2]])
+treat_pron &amp;lt;- lapply(treat_pron, function(x) strsplit(x, &amp;#39;\\.&amp;#39;, perl = TRUE)[[1]]) 
+treat_pron &amp;lt;- map(treat_pron, 1) %&amp;gt;% unlist()
+
+# Adicionando as novas colunas
+
+concat_data$surname &amp;lt;- as.factor(surname)
+concat_data$treat_pron &amp;lt;- as.factor(treat_pron)
+
+head(concat_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   PassengerId Survived Pclass
+## 1           1        0      3
+## 2           2        1      1
+## 3           3        1      3
+## 4           4        1      1
+## 5           5        0      3
+## 6           6        0      3
+##                                                  Name    Sex Age SibSp
+## 1                             Braund, Mr. Owen Harris   male  22     1
+## 2 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female  38     1
+## 3                              Heikkinen, Miss. Laina female  26     0
+## 4        Futrelle, Mrs. Jacques Heath (Lily May Peel) female  35     1
+## 5                            Allen, Mr. William Henry   male  35     0
+## 6                                    Moran, Mr. James   male  NA     0
+##   Parch           Ticket    Fare Cabin Embarked dataTag   surname
+## 1     0        A/5 21171  7.2500  &amp;lt;NA&amp;gt;        S   train    Braund
+## 2     0         PC 17599 71.2833   C85        C   train   Cumings
+## 3     0 STON/O2. 3101282  7.9250  &amp;lt;NA&amp;gt;        S   train Heikkinen
+## 4     0           113803 53.1000  C123        S   train  Futrelle
+## 5     0           373450  8.0500  &amp;lt;NA&amp;gt;        S   train     Allen
+## 6     0           330877  8.4583  &amp;lt;NA&amp;gt;        Q   train     Moran
+##   treat_pron
+## 1         Mr
+## 2        Mrs
+## 3       Miss
+## 4        Mrs
+## 5         Mr
+## 6         Mr&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Vamos ver a distribuição da idade. Menores de idade possuem o pronome de tratamento Master.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt; colorRampPalette(brewer.pal(9, &amp;quot;Set1&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## function (n) 
+## {
+##     x &amp;lt;- ramp(seq.int(0, 1, length.out = n))
+##     if (ncol(x) == 4L) 
+##         rgb(x[, 1L], x[, 2L], x[, 3L], x[, 4L], maxColorValue = 255)
+##     else rgb(x[, 1L], x[, 2L], x[, 3L], maxColorValue = 255)
+## }
+## &amp;lt;bytecode: 0x7546de8&amp;gt;
+## &amp;lt;environment: 0x7545ad0&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data %&amp;gt;%
+    select(Age, treat_pron) %&amp;gt;%
+    na.omit() %&amp;gt;%
+    ggplot(aes(y=Age, x=treat_pron)) +
+    geom_boxplot( fill= &amp;#39;deepskyblue3&amp;#39;) +
+    theme(legend.text = element_text(size=12),
+                          axis.text.x  = element_text(size=10, angle = 0),
+                          axis.title=element_text(size=12),
+                          axis.text = element_text(size=12),
+                          axis.line = element_line(colour = &amp;quot;black&amp;quot;),
+                          panel.border = element_blank()) +
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;estimando-pseudo-valores-para-idade&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;3.Estimando pseudo valores para idade&lt;/h1&gt;
+&lt;div id=&#34;metodo-ii&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3.1.Método II&lt;/h2&gt;
+&lt;p&gt;Minha primeira estrategia será utilizar a idade média de cada classe para preencher os dados faltantes, ao invés de simplesmente usar uma média global.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;class_with_na &amp;lt;- concat_data$treat_pron[is.na(concat_data$Age)]  
+
+as.character(class_with_na) %&amp;gt;% table()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## .
+##     Dr Master   Miss     Mr    Mrs     Ms 
+##      1      8     50    176     27      1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mean_age_by_class &amp;lt;- concat_data %&amp;gt;%
+    filter(str_detect(treat_pron, &amp;quot;Dr|Miss|Mr|Mrs|Ms|Master&amp;quot;)) %&amp;gt;%
+    dplyr::group_by(treat_pron) %&amp;gt;%
+    dplyr::summarize(mean_age = mean(Age, na.rm = TRUE))
+
+mean_age_by_class&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 2
+##   treat_pron mean_age
+##   &amp;lt;fctr&amp;gt;        &amp;lt;dbl&amp;gt;
+## 1 Dr            43.6 
+## 2 Master         5.48
+## 3 Miss          21.8 
+## 4 Mr            32.3 
+## 5 Mrs           37.0 
+## 6 Ms            28.0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;for(i in 1:nrow(concat_data)){
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Dr&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 43.6
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Miss&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 21.8
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Mr&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 32.3
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Mrs&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 37.0
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Ms&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 28.0
+    }
+    
+    if(is.na(concat_data$Age[i]) &amp;amp; concat_data$treat_pron[i] == &amp;#39;Master&amp;#39;){
+        concat_data$Age[i] &amp;lt;- 5.48
+    }
+    
+}
+
+summary(concat_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   PassengerId   Survived   Pclass      Name               Sex     
+##  Min.   :   1   0   :549   1:323   Length:1309        female:466  
+##  1st Qu.: 328   1   :342   2:277   Class :character   male  :843  
+##  Median : 655   NA&amp;#39;s:418   3:709   Mode  :character               
+##  Mean   : 655                                                     
+##  3rd Qu.: 982                                                     
+##  Max.   :1309                                                     
+##                                                                   
+##       Age            SibSp            Parch            Ticket    
+##  Min.   : 0.17   Min.   :0.0000   Min.   :0.000   CA. 2343:  11  
+##  1st Qu.:21.80   1st Qu.:0.0000   1st Qu.:0.000   1601    :   8  
+##  Median :30.00   Median :0.0000   Median :0.000   CA 2144 :   8  
+##  Mean   :29.90   Mean   :0.4989   Mean   :0.385   3101295 :   7  
+##  3rd Qu.:36.00   3rd Qu.:1.0000   3rd Qu.:0.000   347077  :   7  
+##  Max.   :80.00   Max.   :8.0000   Max.   :9.000   347082  :   7  
+##                                                   (Other) :1261  
+##       Fare                     Cabin      Embarked  dataTag   
+##  Min.   :  0.000   C23 C25 C27    :   6   C:270    test :418  
+##  1st Qu.:  7.896   B57 B59 B63 B66:   5   Q:123    train:891  
+##  Median : 14.454   G6             :   5   S:916               
+##  Mean   : 33.280   B96 B98        :   4                       
+##  3rd Qu.: 31.275   C22 C26        :   4                       
+##  Max.   :512.329   (Other)        : 271                       
+##                    NA&amp;#39;s           :1014                       
+##       surname       treat_pron 
+##  Andersson:  11   Mr     :757  
+##  Sage     :  11   Miss   :260  
+##  Asplund  :   8   Mrs    :197  
+##  Goodwin  :   8   Master : 61  
+##  Davies   :   7   Dr     :  8  
+##  Brown    :   6   Rev    :  8  
+##  (Other)  :1258   (Other): 18&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;metodo-ii-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3.2.Método II&lt;/h2&gt;
+&lt;p&gt;A segunda estratégia consiste em realizar uma regressão da idade usando random forest.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Ordenar por sobrenome
+concat_data &amp;lt;- concat_data %&amp;gt;%
+    arrange(surname)
+
+train_na &amp;lt;- concat_data %&amp;gt;%
+    select(Age, Pclass, SibSp, Parch, Fare, treat_pron,Sex) %&amp;gt;%
+    na.omit()
+
+age_model &amp;lt;- train(Age ~ Pclass + Sex  + SibSp + Parch +
+                         Fare + surname + treat_pron , 
+                     data = train_na,
+                     method = &amp;#39;rf&amp;#39;,
+                     tuneGrid = data.frame(mtry = c(2,3,4,5,6,8,10)),
+                     trControl = trainControl(method = &amp;#39;cv&amp;#39;, number = 10,
+                                             verboseIter = TRUE))
+
+plot(age_model)
+print(age_model)
+summary(age_model)
+
+pred_age &amp;lt;- predict(age_model, concat_data)
+concat_data$Age[which(is.na(concat_data$Age))] &amp;lt;- pred_age[which(is.na(concat_data$Age))]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;metodo-iii&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;3.3.Método III&lt;/h2&gt;
+&lt;p&gt;Terceira tentativa: fazer regressão linear multipla&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;age_model2 &amp;lt;- lm(Age ~ Pclass  + SibSp + Parch + treat_pron, 
+                   data = train_na)
+summary(age_model2)
+plot(age)
+
+pred_age &amp;lt;- predict(age_model2, concat_data)
+concat_data$Age[which(is.na(concat_data$Age))] &amp;lt;- pred_age[which(is.na(concat_data$Age))]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;explorando-os-dados&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;4.Explorando os dados&lt;/h1&gt;
+&lt;p&gt;Com os valores faltantes estimados, podemos analisar melhor os dados.&lt;/p&gt;
+&lt;p&gt;Idade x morte x sexo&lt;/p&gt;
+&lt;p&gt;Do total de homens, a maioria morreu. Do total de mulheres, a maioria sobreviveu.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data %&amp;gt;%
+    select(Age, Sex, Survived) %&amp;gt;%
+    na.omit()%&amp;gt;%
+    ggplot(aes(y=Age, x=Sex , fill=Survived, size= Age)) +
+    geom_boxplot(alpha = 1) +
+    scale_fill_manual(values = c(&amp;#39;#330033&amp;#39;, &amp;#39;#008080&amp;#39;)) +
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Dos que sobreviveram, boa parte tinha entre 20 a 30 anos, seja homem ou mulher&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data %&amp;gt;%
+    select(Age, Sex, Survived, treat_pron) %&amp;gt;%
+    na.omit()%&amp;gt;%
+    ggplot(aes(y=Age, x=treat_pron , fill=Survived)) +
+    geom_boxplot(alpha = 0.8)+
+    geom_hline(yintercept  = c(20, 30, 40), color = &amp;#39;red&amp;#39;, linetype= 3) +
+    scale_fill_manual(values = c(&amp;#39;#330033&amp;#39;, &amp;#39;#008080&amp;#39;)) +
+    theme_bw() &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data %&amp;gt;%
+    select(Age, Sex, Survived, treat_pron) %&amp;gt;%
+    na.omit()%&amp;gt;%
+    ggplot(aes(y=Age, x=treat_pron , col=Survived) ) +
+    geom_point(alpha = 0.5, size=3, position = position_jitterdodge()) +
+    scale_color_manual(values = c(&amp;#39;#330033&amp;#39;, &amp;#39;#008080&amp;#39;)) + 
+    theme_bw() &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Classe vs Tarifa
+# A classe 1 ten yna tarifa consideravelmente mais cara (sao os passageiros ricos)
+concat_data %&amp;gt;%
+    ggplot(aes(x=Pclass, y=Fare)) +
+    geom_boxplot(fill=&amp;#39;cornflowerblue&amp;#39;) +
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Os mais privilegiados morreram menos que os demais?&lt;/p&gt;
+&lt;p&gt;Com os dados observados até então, parece que as pessoas da classe 3 morreram mais (50%). Seria uma questao de localizacao do navio?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;concat_data %&amp;gt;%
+    na.omit() %&amp;gt;%
+    ggplot(aes(x=Pclass, fill=Survived)) +
+    geom_bar(position = &amp;#39;fill&amp;#39;, alpha=0.8) +
+    scale_fill_manual(values = c(&amp;#39;#330033&amp;#39;, &amp;#39;#008080&amp;#39;)) +
+    theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Conforme a figura, podemos ver que a classe 1, se situa mais ao centro das classes 2 e 3. A classe 3 se situa na ponta traseira do navio.&lt;/p&gt;
+&lt;p&gt;Será que o navio afundou primeiramente pela parte traseira? Se sim, essa observação parece ser bem plausível.&lt;/p&gt;
+&lt;p align=&#34;center&#34;&gt;
+&lt;p&gt;&lt;img src = &#34;/img/titanic_areas.jpg&#34;, width = 1000, height = 600&gt;&lt;/p&gt;
+&lt;/p&gt;
+&lt;p&gt;Vamos ver se existe alguma relação linear entre os dados&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dist_df_vars &amp;lt;- concat_data %&amp;gt;%
+    select(Pclass, Age, SibSp, Parch, Fare)
+dist_df_vars$Pclass &amp;lt;- as.numeric(dist_df_vars$Pclass)
+
+vars_cor &amp;lt;- cor(dist_df_vars, method = &amp;#39;pearson&amp;#39;)
+corrplot(vars_cor, method = &amp;#39;ellipse&amp;#39;, type=&amp;quot;upper&amp;quot;, order=&amp;quot;hclust&amp;quot;, addCoef.col = &amp;quot;black&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/project/titanic_files/figure-html/unnamed-chunk-17-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;treinando-e-classificando-os-dados&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;5.Treinando e classificando os dados&lt;/h1&gt;
+&lt;p&gt;Hora de aplicar os métodos de classificação sobre os dados de treinamento. Antes disso, precisamos separar novamente os dados em duas partes, a parte de treinamento e a de teste.&lt;/p&gt;
+&lt;p&gt;Faremos testes usando &lt;em&gt;Random forest&lt;/em&gt; e Regressão logística para classificar quem sobreviveu e quem não sobreviveu ao desastre.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;train &amp;lt;- concat_data %&amp;gt;% filter(dataTag == &amp;#39;train&amp;#39;) 
+test &amp;lt;- concat_data %&amp;gt;% filter(dataTag == &amp;#39;test&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;random-forest&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;5.1.Random Forest&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;final_model &amp;lt;- train(Survived ~ Pclass + Sex + Age + SibSp + Parch +
+                         Fare + surname + treat_pron, 
+                     data= train,
+                     method= &amp;#39;rf&amp;#39;,
+                     tuneGrid= data.frame(mtry= c(2,3,4,5,6,8,10)),
+                     trControl= trainControl(method= &amp;#39;cv&amp;#39;, number= 10,
+                                             verboseIter= TRUE))
+
+pred_surv &amp;lt;- predict(final_model, test)
+
+to_submit &amp;lt;- data.frame(PassengerId = test$PassengerId, Survived = pred_surv)
+write.csv(file=&amp;#39;to_submit.csv&amp;#39;, to_submit, row.names = F)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;print(final_model)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(final_model)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;regressao-logistica&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;5.2.Regressão logística&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;logist_regression &amp;lt;- glm(Survived ~ Pclass + Sex + Age + SibSp + Fare, 
+      data = train, family = &amp;#39;binomial&amp;#39;)
+
+pred_surv &amp;lt;- predict(logist_regression, test, type = &amp;#39;response&amp;#39;)
+
+pred_cutoff_90 &amp;lt;- ifelse(pred_surv &amp;gt;= 0.90, 1, 0)
+pred_cutoff_60 &amp;lt;- ifelse(pred_surv &amp;gt;= 0.60, 1, 0)
+
+to_submit &amp;lt;- data.frame(PassengerId = test$PassengerId, Survived = pred_cutoff_60)
+write.csv(file=&amp;#39;to_submit.csv&amp;#39;, to_submit, row.names = F)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(logist_regression)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## glm(formula = Survived ~ Pclass + Sex + Age + SibSp + Fare, family = &amp;quot;binomial&amp;quot;, 
+##     data = train)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.7782  -0.5967  -0.4199   0.6163   2.5135  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&amp;gt;|z|)    
+## (Intercept)  3.959967   0.446512   8.869  &amp;lt; 2e-16 ***
+## Pclass2     -1.100803   0.292908  -3.758 0.000171 ***
+## Pclass3     -2.262839   0.290373  -7.793 6.55e-15 ***
+## Sexmale     -2.695011   0.194883 -13.829  &amp;lt; 2e-16 ***
+## Age         -0.042567   0.007844  -5.427 5.74e-08 ***
+## SibSp       -0.399149   0.106066  -3.763 0.000168 ***
+## Fare         0.002389   0.002328   1.026 0.304703    
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1186.66  on 890  degrees of freedom
+## Residual deviance:  784.86  on 884  degrees of freedom
+## AIC: 798.86
+## 
+## Number of Fisher Scoring iterations: 5&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;resultados-da-submissao-no-kaggle&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;6.Resultados da submissão no Kaggle&lt;/h1&gt;
+&lt;p&gt;A métrica de avaliação de desemenho usada foi a acurácia. Que mede o total de acertos sobre o total de observações. Após diversos testes e diferentes combinações de parâmetros de classificação, o melhor resultado obtido foi de &lt;strong&gt;0.78468&lt;/strong&gt;&lt;/p&gt;
+Score obtido
+&lt;p align=&#34;center&#34;&gt;
+&lt;p&gt;&lt;img src = &#34;/img/titanic_result1.png&#34;, width = 1000, height = 600&gt;&lt;/p&gt;
+&lt;/p&gt;
+Ranking
+&lt;p align=&#34;center&#34;&gt;
+&lt;p&gt;&lt;img src = &#34;/img/titanic_result2.png&#34;, width = 1000, height = 600&gt;&lt;/p&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+</description>
     </item>
     
   </channel>

@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.31" />
+  <meta name="author" content="Davi Toshio Inada">
+  <meta name="description" content="Analista de dados, Bioinformata">
+
+  
+  <link rel="alternate" hreflang="pt-br" href="/project/youtube_scraper_markdown/">
+
+  
+  
+
+
+  
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-110300289-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Página profissional">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Página profissional">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/project/youtube_scraper_markdown/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Página profissional">
+  <meta property="og:url" content="/project/youtube_scraper_markdown/">
+  <meta property="og:title" content="Análise de dados do Youtube | Página profissional">
+  <meta property="og:description" content="">
+  <meta property="og:locale" content="pt-br">
+  
+  
+  
+  
+
+  
+
+  <title>Análise de dados do Youtube | Página profissional</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Alterar navegação</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Página profissional</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Sobre</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#skills">
+            
+            <span>Perfil profissional</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#experience">
+            
+            <span>Experiência</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#publications">
+            
+            <span>Publicações</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#certificados">
+            
+            <span>Certificados</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#aplicacoes">
+            
+            <span>Aplicações</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contato</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article article-project" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+
+    <div class="pub-title">
+      <h1 itemprop="name">Análise de dados do Youtube</h1>
+      <span class="pub-authors" itemprop="author">&nbsp;</span>
+      <span class="pull-right">
+        
+
+      </span>
+    </div>
+
+    
+
+    <div class="article-style" itemprop="articleBody">
+      <style>
+body {
+text-align: justify}
+</style>
+<style type1 text/css'>
+h1.title {
+  text-align: center;
+}
+h4.author { 
+  text-align: center;
+}
+h4.date { 
+  text-align: center;
+}
+</style>
+<style type='text/css'>
+body{ /* Normal  */
+  font-size: 14px;
+  
+td {  /* Table  */
+  font-size: 14px;
+}
+h1.title {
+  font-size: 24px;
+
+}
+h1 { /* Header 1 */
+  font-size: 24px;
+
+}
+h2 { /* Header 2 */
+    font-size: 16px;
+}
+h3 { /* Header 3 */
+  font-size: 14px;
+
+}
+code.r{ /* Code block */
+    font-size: 14px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+</style>
+<p align="center">
+<img src="/img/youtubeApp/youtube_logo.png" />
+</p>
+<div id="introducao" class="section level2">
+<h2>1.Introdução</h2>
+<p align="justify">
+<p>Abordarei neste tópico uma forma de explorar informações contidas em um determinado canal do Youtube. Como exemplo, estarei demonstrando a obtenção e análise dos dados proveniente do canal “Nerdologia”, dos autores Atila Iamarino e Filipe Figueiredo. Os dados manipulados servem como base para a apresentação gráfica em um dashboard dinâmico, desenvolvido em Shiny (linguagem R). Por hora, proponho a análise quantitativa de métricas como visualizações, likes, dislikes e comentários. Bem como a análise textual das legendas geradas automaticamente pelo sistema do Youtube (quando habilitado pelo(s) autor(es) do canal).</p>
+Infelizmente o acesso ao texto completo dos comentários é limitado pela API do Youtube, portanto eles não foram analisados (motivos financeiros). A motivação para este estudo é meramente e unicamente por uma questão de curiosidade e pelo exercício da criatividade. Bem como uma forma divertida de se aperfeiçoar cada vez mais nas ferramentas da linguagem R (programação, métodos de exploração de dados, desenvolvimento de dashboards, etc.).
+</p>
+</div>
+<div id="metodologia" class="section level2">
+<h2>2.Metodologia</h2>
+<p>Primeiramente foi realizada a extração dos dados brutos. Para as métricas quantitativas, utilizei a API do Youtube (necessita de cadastro prévio) via pacote <strong>tuber</strong> do R. As legendas automáticas foram baixadas usando o pacote <strong>RCurl</strong> juntamente com a ferramenta online <strong>diycaptions</strong> ( <a href="http://diycaptions.com" class="uri">http://diycaptions.com</a>).</p>
+<p>Os dados textuais foram processados pelas funções do pacote <strong>tm</strong> e visualizados usando a ferramenta <strong>wordcloud</strong>. No caso das métricas quantitativas do canal, os dados foram visualizados pela ferramenta <strong>plotly</strong>. A visualização foi realizada dentro de um dashboard desenvolvido em shiny.</p>
+<p align='center'>
+<img src="/img/youtubeApp/worflow.jpg" />
+<p/>
+<p>Carregando as bibliotecas</p>
+<pre class="r"><code>library(rvest)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(plotly)
+library(tuber)
+library(stringr)
+library(tm)
+library(wordcloud)  
+library(RCurl)
+library(VennDiagram)
+library(kableExtra)</code></pre>
+<div id="extraindo-metricas-do-canal" class="section level3">
+<h3>2.1.Extraindo métricas do canal</h3>
+<p>Primeiramente precisamos fazer a autenticação da nossa conta para poder acessar os dados do Youtube. É preciso realizar um cadastro prévio no site e fazer a requisição de chave de acesso (<a href="https://developers.google.com/youtube/v3/" class="uri">https://developers.google.com/youtube/v3/</a>).</p>
+<pre class="r"><code>client_id &lt;- &#39;xxxxxxxx&#39; 
+key &lt;- &#39;xxxxxxxx&#39;
+
+yt_oauth(client_id, key)</code></pre>
+Agora podemos extrair os dados dos canal alvo, usando o ID dele. Caso não saiba onde encontrar esta informação, é aquela série de caracteres na URL (conforme destacado na figura).
+<p align="center">
+<img src="/img/youtubeApp/nerdologia_canal.jpg" />
+</p>
+<pre class="r"><code>all_vid_nerdologia &lt;- get_all_channel_video_stats(channel_id= &#39;UClu474HMt895mVxZdlIHXEA&#39;, mine= FALSE)</code></pre>
+<p>Precisamos formatar ele adequadamente, formatando os tipos de variáveis bem como fazendo uma limpeza na variável dos títulos.</p>
+<pre class="r"><code># Dates
+date_split_list &lt;- strsplit(x= as.character(all_vid_nerdologia$publication_date), split= &#39;T&#39;)
+date_split_list &lt;- lapply(date_split_list, function(x){x[1]}) %&gt;% unlist()
+all_vid_nerdologia[&#39;publication_date&#39;] &lt;- date_split_list
+all_vid_nerdologia$publication_date &lt;- as.Date(all_vid_nerdologia$publication_date)
+
+# Variable class
+all_vid_nerdologia$viewCount &lt;-  as.numeric(all_vid_nerdologia$viewCount)
+all_vid_nerdologia$likeCount &lt;- as.numeric(all_vid_nerdologia$likeCount)
+all_vid_nerdologia$dislikeCount &lt;- as.numeric(all_vid_nerdologia$dislikeCount)
+all_vid_nerdologia$favoriteCount &lt;- as.numeric(all_vid_nerdologia$favoriteCount)
+all_vid_nerdologia$commentCount &lt;- as.numeric(all_vid_nerdologia$commentCount)
+
+# Cleanning data title
+all_vid_nerdologia$title &lt;- gsub(&#39;\\s\\|\\s.*$&#39;, &#39;&#39;, all_vid_nerdologia$title)</code></pre>
+<div id="top-10-videos-com-mais-likes" class="section level4">
+<h4>Top 10 vídeos com mais Likes</h4>
+<pre class="r"><code>all_vid_nerdologia %&gt;%
+    arrange(desc(likeCount)) %&gt;%
+    head(10) %&gt;%
+    select(title, likeCount, dislikeCount, commentCount) %&gt;%
+    kable(&quot;html&quot;) %&gt;% 
+    kable_styling(&quot;striped&quot;, full_width= F) %&gt;%
+    column_spec(1:4, bold= T) %&gt;%
+    row_spec(1:10, bold= T, color= &quot;white&quot;, background= &quot;#3399ff&quot;)</code></pre>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+title
+</th>
+<th style="text-align:right;">
+likeCount
+</th>
+<th style="text-align:right;">
+dislikeCount
+</th>
+<th style="text-align:right;">
+commentCount
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+Suicídio
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+114725
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+695
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+5853
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+Buraco Negro
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+113815
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+422
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+4076
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+Tempo
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+104740
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+303
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+3456
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+CAOS E EFEITO BORBOLETA
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+101124
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+423
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+2719
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+AS MARCAS TE MANIPULAM
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+101039
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+305
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+2441
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+QUAL O SOCO MAIS FORTE?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+101037
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+595
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+6967
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+SER INVISÍVEL É POSSÍVEL?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+100276
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+221
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+2531
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+LEVANTE ZUMBI
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+99738
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+294
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+3454
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+O que somos nós?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+98443
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+308
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+4006
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+Mistérios do Fundo do Mar
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+97193
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+577
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #3399ff;">
+2506
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="top-10-videos-com-mais-dislikes" class="section level4">
+<h4>Top 10 vídeos com mais Dislikes</h4>
+<pre class="r"><code>all_vid_nerdologia %&gt;%
+    arrange(desc(dislikeCount)) %&gt;%
+    head(10) %&gt;%
+    select(title, dislikeCount, likeCount, commentCount) %&gt;%
+    kable(&quot;html&quot;) %&gt;% 
+    kable_styling(&quot;striped&quot;, full_width= F) %&gt;%
+    column_spec(1:4, bold= T) %&gt;%
+    row_spec(1:10, bold= T, color= &quot;white&quot;, background= &quot;#ff3333&quot;)</code></pre>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+title
+</th>
+<th style="text-align:right;">
+dislikeCount
+</th>
+<th style="text-align:right;">
+likeCount
+</th>
+<th style="text-align:right;">
+commentCount
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+Sexismo
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+13984
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+93561
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+15642
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+Quem tem mais poder?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+4093
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+91474
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+14424
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+Existe cura gay?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+2787
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+83583
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+6110
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+Aquecimento Global
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+1854
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+49424
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+3921
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+Como funciona a Astrologia
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+1793
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+74924
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+5447
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+Maioridade Penal
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+1721
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+68294
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+3179
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+Por que o Merthiolate não arde mais?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+1657
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+59323
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+2362
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+Motor perpétuo? Carro a água?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+1629
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+52140
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+3355
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+Coxinhas vs. Petralhas
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+1312
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+59094
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+3632
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+Batman vs Superman
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+1175
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+66649
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #ff3333;">
+2337
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="top-10-videos-com-mais-comentarios" class="section level4">
+<h4>Top 10 vídeos com mais comentários</h4>
+<pre class="r"><code>all_vid_nerdologia %&gt;%
+    arrange(desc(commentCount)) %&gt;%
+    head(10) %&gt;%
+    select(title, commentCount, dislikeCount, likeCount) %&gt;%
+    kable(&quot;html&quot;) %&gt;% 
+    kable_styling(&quot;striped&quot;, full_width= F) %&gt;%
+    column_spec(1:4, bold= T) %&gt;%
+    row_spec(1:10, bold= T, color= &quot;white&quot;, background= &quot;#4d9900&quot;)</code></pre>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+title
+</th>
+<th style="text-align:right;">
+commentCount
+</th>
+<th style="text-align:right;">
+dislikeCount
+</th>
+<th style="text-align:right;">
+likeCount
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+Sexismo
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+15642
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+13984
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+93561
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+Quem tem mais poder?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+14424
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+4093
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+91474
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+QUAL O SOCO MAIS FORTE?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+6967
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+595
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+101037
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+É só uma teoria
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+6120
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+690
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+92609
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+Existe cura gay?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+6110
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+2787
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+83583
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+Suicídio
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+5853
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+695
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+114725
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+Como funciona a Astrologia
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+5447
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+1793
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+74924
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+Fomos à Lua?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+5132
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+1120
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+64036
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+COMO MATAR O WOLVERINE
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+4979
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+488
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+89501
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+POSSESSÃO, ABDUÇÃO OU PARALISIA DO SONO?
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+4901
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+355
+</td>
+<td style="text-align:right;font-weight: bold;font-weight: bold;color: white;background-color: #4d9900;">
+90767
+</td>
+</tr>
+</tbody>
+</table>
+<p>Agora, deixarei salvo o objeto da tabela processada, para carregar dentro do meu dashboard.</p>
+<pre class="r"><code>save(file= &#39;all_vid_nerdologia.RData&#39;, all_vid_nerdologia)</code></pre>
+</div>
+</div>
+<div id="extraindo-dados-textuais-das-legendas-e-formatando" class="section level3">
+<h3>2.1.Extraindo dados textuais das legendas e formatando</h3>
+<p>A função do pacote tuber que realiza a extração das legendas não está funcionando mais, por isso eu optei por um modo semi-rudimentar para fazer isso (porque demora um pouco :/). Tive que colocar um delay de 30 segundos em cada requisição pois se formos muito rápido acabamos tendo a conexão interrompinda.</p>
+<pre class="r"><code>url_request &lt;- paste0(&#39;http://diycaptions.com/php/get-automatic-captions-as-txt.php?id=&#39;,  all_vid_nerdologia$id, &#39;&amp;language=asr&#39;)     
+
+html_page &lt;- list()
+
+for(i in 1:length(url_request) ){
+    
+    html_page[i] &lt;- getURL(url_request[i])
+    
+    Sys.sleep(30)
+}
+
+save(file= &#39;html_page.RObj&#39;, html_page)</code></pre>
+<p>Precisarei da minha lista de texto ordenado pela data quanto for retornar um index do plot</p>
+<pre class="r"><code>all_vid_nerdologia[&#39;index&#39;] &lt;- 1:nrow(all_vid_nerdologia)
+all_vid_nerdologia &lt;- all_vid_nerdologia %&gt;% arrange(publication_date)
+html_page_text_sorted &lt;- html_page_text[all_vid_nerdologia$index]
+save(file=&#39;html_page_text_sorted.RData&#39;, html_page_text_sorted)</code></pre>
+<p>Agora farei o pré-tratamento dos dados textuais e a limpeza propriamente dita</p>
+<pre class="r"><code># Removing tags blocks
+html_page_text &lt;- lapply(html_page, function(x){
+    
+    split_1 &lt;- strsplit(x[[1]], &#39;&lt;br&gt;&lt;br&gt;&#39;)[[1]][2]
+    strsplit(split_1[[1]], &#39;\t\t&lt;/div&gt;&#39;)[[1]][1]
+    
+})
+
+# Saving object for individual process
+# save(file = &#39;html_page_text.RData&#39;, html_page_text)
+
+# Generating corpus text for all avaiable data
+text_df_total &lt;- data.frame(doc_id= all_vid_nerdologia$id, text= unlist(html_page_text), stringsAsFactors= FALSE , drop=FALSE)
+
+text_corpus_df &lt;- Corpus(DataframeSource(text_df_total))
+
+text_corpus_df_filtered &lt;- text_corpus_df %&gt;%
+    tm_map(stripWhitespace)  %&gt;%    
+    tm_map(removePunctuation) %&gt;%                              
+    tm_map(removeNumbers)   %&gt;%                               
+    tm_map(removeWords, c(stopwords(&quot;portuguese&quot;))) %&gt;%  
+    tm_map(removeNumbers) %&gt;%  
+    tm_map(stripWhitespace) %&gt;%    
+    tm_map(content_transformer(tolower))
+
+# Creanting a term matrix
+corpus_tf &lt;- TermDocumentMatrix(text_corpus_df_filtered)
+
+corpus_m &lt;- as.matrix(corpus_tf)
+
+corpus_m_sorted &lt;- sort(rowSums(as.matrix(corpus_m)), decreasing= TRUE)
+
+df_total &lt;- data.frame(word= names(corpus_m_sorted), freq= as.numeric(corpus_m_sorted))
+
+df_total$word &lt;- as.character(df_total$word)
+
+df_total &lt;- df_total[which(nchar(df_total$word) &gt; 4), ]</code></pre>
+<p>O gráfico de frequência total das palavras também deverá aparecer. Porém, lá na ferramenta irei adicionar mecanismos de controle de filtro.</p>
+<pre class="r"><code>wordcloud(df_total$word, df_total$freq, min.freq= 10, max.words= 150, random.order= FALSE, rot.per= 0.35, colors=brewer.pal(8, &quot;Dark2&quot;))</code></pre>
+<p align='center'>
+<img src="/img/youtubeApp/word_cloud.png" />
+<p/>
+<p>Farei também uma word cloud para os títulos dos vídeos postados</p>
+<pre class="r"><code>text_df_total &lt;- data.frame(doc_id= all_vid_nerdologia$title, text= all_vid_nerdologia$title, stringsAsFactors= FALSE , drop=FALSE)
+
+text_corpus_df &lt;- Corpus(DataframeSource(text_df_total))
+
+text_corpus_df_filtered &lt;- text_corpus_df %&gt;%
+    tm_map(stripWhitespace)  %&gt;%    
+    tm_map(removePunctuation) %&gt;%                              
+    tm_map(removeNumbers)   %&gt;%                               
+    tm_map(removeWords, c(stopwords(&quot;portuguese&quot;))) %&gt;%  
+    tm_map(removeNumbers) %&gt;%  
+    tm_map(stripWhitespace) %&gt;%    
+    tm_map(content_transformer(tolower))
+
+# Creanting a term matrix
+corpus_tf &lt;- TermDocumentMatrix(text_corpus_df_filtered)
+
+corpus_m &lt;- as.matrix(corpus_tf)
+
+corpus_m_sorted &lt;- sort(rowSums(as.matrix(corpus_m)), decreasing= TRUE)
+
+df_total &lt;- data.frame(word= names(corpus_m_sorted), freq= as.numeric(corpus_m_sorted))
+
+df_total$word &lt;- as.character(df_total$word)
+
+df_total_titulo &lt;- df_total[which(nchar(df_total$word) &gt; 2), ]
+
+wordcloud(df_total_titulo$word, df_total_titulo$freq, min.freq= 2, max.words= 100, random.order= FALSE, rot.per= 0.35, colors=brewer.pal(8, &quot;Dark2&quot;))</code></pre>
+<p><img src="/project/youtube_scraper_markdown_files/figure-html/unnamed-chunk-14-1.png" width="100%" height="100%" /></p>
+<p>O gráfico do dashboard deve ser similar a este, porém, responsivo com mais informações e opções de filtro.</p>
+<pre class="r"><code>all_vid_nerdologia %&gt;%
+    gather(key= type_counts, value= counts, 
+           c(likeCount, dislikeCount, commentCount, viewCount)) %&gt;%
+    filter(str_detect(&#39;likeCount|dislikeCount|commentCount&#39;, type_counts)) %&gt;%
+    ggplot(aes(x= publication_date, y= as.numeric(counts), col= type_counts)) +
+    geom_line(size=1, alpha=0.7) +
+    geom_point(size=1) +
+    scale_x_date() +
+    theme_bw() +
+    scale_color_manual(values = c(&#39;#440154FF&#39;, &#39;#39568CFF&#39;, &#39;#29AF7FFF&#39;))</code></pre>
+<p><img src="/project/youtube_scraper_markdown_files/figure-html/unnamed-chunk-15-1.png" width="100%" height="60%" /></p>
+</div>
+</div>
+<div id="criando-um-dashboard-dinamico" class="section level2">
+<h2>Criando um dashboard dinâmico</h2>
+<p>Para prover uma visualização diferenciada dos dados, optei por criar um dashboard dinâmico, reativo ao cursor do mouse e que também aceita diferentes parâmetros para gerar os resultados. Assim, podemos abranger um pouco mais do nosso aprendizado. :D</p>
+<p align="center">
+<img src="/img/youtubeApp/ideia.jpg" />
+</p>
+<p>No dashboard, os dados da métrica e os dados textuais são carregados pré-processados. No caso, ele irá apenas realizar a apresentação dinâmica dos resultados.</p>
+<p>Este é o código, também disponível no github (por favor, não fiquei com raiva pela desorganização).</p>
+<pre class="r"><code>library(shinydashboard)
+library(highcharter)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(tm)
+library(wordcloud)  
+library(VennDiagram)
+library(kableExtra)
+
+load(&#39;all_vid_nerdologia.RData&#39;)
+load(&#39;html_page_text.RData&#39;)
+load(&#39;html_page_text_sorted.RData&#39;)
+
+ui &lt;- dashboardPage(
+    # Header ----
+    dashboardHeader(title = &quot;Youtube metrics&quot;),
+    
+    # Sidebar content ----
+    dashboardSidebar(collapsed = TRUE,
+                     sidebarMenu(
+                         menuItem(&quot;Dashboard&quot;, tabName = &quot;dashboard&quot;, icon = icon(&quot;dashboard&quot;))
+                     )
+    ),
+    
+    # Body content ----
+    dashboardBody(
+        
+        includeCSS(&quot;www/custom.css&quot;),
+        tabItems(
+            # First tab content
+            tabItem(tabName= &quot;dashboard&quot;,
+                    
+                    fluidRow(
+                        column(width= 7,
+                               tags$blockquote((&quot;Metrics from video captions&quot;)),
+                               plotlyOutput(outputId = &#39;metrics_total_plot&#39;, height= &#39;400px&#39;)
+                               
+                        ),
+                        column(width= 5,
+                               wellPanel(
+                                   plotOutput(outputId= &#39;cursor_wc_plot&#39;, height= &#39;400px&#39;)
+                               )
+                        )
+                    ),
+                    
+                    fluidRow(
+                        column(3,
+                               tags$blockquote((&quot;Top 1 videos&quot;)),
+                               valueBoxOutput(&quot;likebox&quot;, width = 15),
+                               valueBoxOutput(&quot;dislikebox&quot;, width = 15),
+                               valueBoxOutput(&quot;commentbox&quot;, width = 15)
+                        ),
+                        column(4,
+                               tags$blockquote(&quot;Most frequent words in video titles&quot;, align=&quot;left&quot;),
+                               plotOutput(outputId= &#39;title_wc_plot&#39;, width=500, height=400)
+                        ),
+                        column(5,
+                               tags$blockquote(&quot;Estimated number of words spoken in video&quot;, align=&quot;left&quot;),
+                               plotlyOutput(outputId = &#39;numb_spoken_words&#39;, height= &#39;400px&#39;)   
+                        )
+                    )
+                    
+            )
+        )
+    )
+)
+
+server &lt;- function(input, output){
+    
+    # Plot wordcloud total ----
+    output$metrics_total_plot &lt;- renderPlotly({
+        
+        all_vid_nerdologia %&gt;%
+            arrange(publication_date) %&gt;%
+            plot_ly(source = &quot;source&quot;) %&gt;%
+            add_trace(x = ~publication_date, y = ~viewCount, 
+                      name = &#39;View count&#39;, type = &#39;scatter&#39;, 
+                      mode =&quot;markers+lines&quot;, text = ~paste(&#39;Video: &#39;, title),
+                      line = list(color = &#39;#440154FF &#39;, width = 2)) %&gt;%
+            add_trace(x = ~publication_date, y = ~likeCount, 
+                      name = &#39;Like count&#39;, type = &#39;scatter&#39;,
+                      mode =&quot;markers+lines&quot;, text = ~paste(&#39;Video: &#39;, title),
+                      line = list(color = &#39;#39568CFF&#39;, width = 2)) %&gt;%
+            add_trace(x = ~publication_date, y = ~dislikeCount,
+                      name = &#39;Dislike count&#39;, type = &#39;scatter&#39;, 
+                      mode = &quot;markers+lines&quot;, text = ~paste(&#39;Video: &#39;, title),
+                      line = list(color = &#39;#29AF7FFF&#39;, width = 2)) %&gt;%
+            add_trace(x = ~publication_date, y = ~commentCount,
+                      name = &#39;Comment count&#39;, type = &#39;scatter&#39;, 
+                      mode = &quot;markers+lines&quot;, text = ~paste(&#39;Video: &#39;, title),
+                      line = list(color = &#39;#FDE725FF&#39;, width = 2)) %&gt;%
+            layout(xaxis = list(title = &quot;&quot;),
+                   yaxis = list (title = &quot;Metric&#39;s count&quot;),
+                   font =  list(size = 12),
+                   hovermode = &#39;compare&#39;,
+                   legend = list(orientation = &#39;h&#39;)) 
+    })
+    
+    # Plot over cursor selected word cloud ----
+    output$cursor_wc_plot &lt;- renderPlot({
+        
+        eventdata &lt;- event_data(&quot;plotly_hover&quot;, source = &quot;source&quot;)
+        
+        validate(need(!is.null(eventdata), &quot;Pass the mouse over the point :)&quot;))
+        
+        cursor_id &lt;- as.numeric(eventdata$pointNumber)[1] + 1
+        
+        all_vid_nerdologia &lt;- all_vid_nerdologia %&gt;%
+            arrange(publication_date)
+        
+        text_df_cursor &lt;- data.frame(doc_id= all_vid_nerdologia$id[ cursor_id ], 
+                                     text= unlist(html_page_text_sorted[ cursor_id ]), 
+                                     stringsAsFactors= FALSE , drop=FALSE)
+        
+        cursor_corpus_df &lt;- Corpus(DataframeSource(text_df_cursor))
+        
+        cursor_corpus_df_filtered &lt;- cursor_corpus_df %&gt;%
+            tm_map(stripWhitespace)  %&gt;%    
+            tm_map(removePunctuation) %&gt;%                              
+            tm_map(removeNumbers)   %&gt;%                               
+            tm_map(removeWords, c(stopwords(&quot;portuguese&quot;))) %&gt;%  
+            tm_map(removeNumbers) %&gt;%  
+            tm_map(stripWhitespace) %&gt;%    
+            tm_map(content_transformer(tolower))
+        
+        # Creanting a term matrix
+        corpus_tf &lt;- TermDocumentMatrix(cursor_corpus_df_filtered)
+        
+        cursor_corpus_m &lt;- as.matrix(corpus_tf)
+        
+        cursor_corpus_m_sorted &lt;- sort(rowSums(as.matrix(cursor_corpus_m)), decreasing= TRUE)
+        
+        df_cursor_final &lt;- data.frame(word= names(cursor_corpus_m_sorted), freq= as.numeric(cursor_corpus_m_sorted))
+        
+        df_cursor_final$word &lt;- as.character(df_cursor_final$word)
+        
+        df_cursor_final &lt;- df_cursor_final[which(nchar(df_cursor_final$word) &gt; 3), ]
+        
+        wordcloud(df_cursor_final$word, df_cursor_final$freq, min.freq = 2, max.words= 50,
+                  random.order= FALSE, colors=brewer.pal(8, &quot;Dark2&quot;), scale=c(4, 0.5))
+    })
+    
+    # Metrics top videos box ----
+    # Like box
+    output$likebox &lt;- renderValueBox({
+        toplike &lt;- all_vid_nerdologia %&gt;%
+            arrange(desc(likeCount)) %&gt;%
+            head(10)
+        
+        valueBox(value = tags$p(toplike$title[1], style = &quot;font-size: 80%;&quot;),
+                 subtitle = paste0(&quot;Most liked video with: &quot;, toplike$likeCount[1], &quot; likes&quot;), 
+                 icon = icon(&quot;thumbs-up&quot;, lib = &quot;glyphicon&quot;),
+                 color = &quot;blue&quot; 
+        )
+    })
+    
+    # Dislike box
+    output$dislikebox &lt;- renderValueBox({
+        topdislike &lt;- all_vid_nerdologia %&gt;%
+            arrange(desc(dislikeCount)) %&gt;%
+            head(10)
+        
+        valueBox(value = tags$p(topdislike$title[1], style = &quot;font-size: 80%;&quot;),
+                 subtitle = paste0(&quot;Most disliked video with: &quot;, topdislike$dislikeCount[1], &quot; dislikes&quot;),
+                 icon = icon(&quot;thumbs-down&quot;, lib = &quot;glyphicon&quot;),
+                 color = &quot;red&quot; 
+        )
+    })
+    
+    # Comments box
+    output$commentbox &lt;- renderValueBox({
+        topcomment &lt;- all_vid_nerdologia %&gt;%
+            arrange(desc(commentCount)) %&gt;%
+            head(10)
+        
+        valueBox(value = tags$p(topcomment$title[1], style = &quot;font-size: 80%;&quot;),
+                 subtitle = paste0(&quot;Most Commented video with: &quot;, topcomment$commentCount[1], &quot; comments&quot;),
+                 icon = icon(&quot;comment&quot;, lib = &quot;font-awesome&quot;),
+                 color = &quot;orange&quot; 
+        )
+    })
+    
+    # Word cloud topic&#39;s titles plot ----
+    output$title_wc_plot &lt;- renderPlot({
+        
+        title_df &lt;- data.frame(doc_id= all_vid_nerdologia$title, text= all_vid_nerdologia$title, stringsAsFactors= FALSE , drop=FALSE)
+        
+        title_corpus &lt;- Corpus(DataframeSource(title_df))
+        
+        title_corpus_filtered &lt;- title_corpus %&gt;%
+            tm_map(stripWhitespace)  %&gt;%    
+            tm_map(removePunctuation) %&gt;%                              
+            tm_map(removeNumbers)   %&gt;%                               
+            tm_map(removeWords, c(stopwords(&quot;portuguese&quot;))) %&gt;%  
+            tm_map(removeNumbers) %&gt;%  
+            tm_map(stripWhitespace) %&gt;%    
+            tm_map(content_transformer(tolower))
+        
+        # Creanting a term matrix
+        corpus_tf &lt;- TermDocumentMatrix(title_corpus_filtered)
+        
+        corpus_m &lt;- as.matrix(corpus_tf)
+        
+        corpus_m_sorted &lt;- sort(rowSums(as.matrix(corpus_m)), decreasing= TRUE)
+        
+        df_total &lt;- data.frame(word= names(corpus_m_sorted), freq= as.numeric(corpus_m_sorted))
+        
+        df_total$word &lt;- as.character(df_total$word)
+        
+        df_total_titulo &lt;- df_total[which(nchar(df_total$word) &gt; 2), ]
+        
+        wordcloud(df_total_titulo$word, df_total_titulo$freq, min.freq= 2,
+                  max.words= 100, random.order= FALSE,
+                  rot.per= 0.15, colors=brewer.pal(8, &quot;Dark2&quot;),
+                  scale=c(5, .7))
+        
+    })
+    
+    # Plot number of spoken words
+    output$numb_spoken_words &lt;- renderPlotly({
+        all_vid_nerdologia %&gt;%
+            arrange(publication_date) %&gt;%
+            mutate(n_words_spoken =  str_count(html_page_text_sorted, &quot;\\S+&quot;)) %&gt;%
+            plot_ly() %&gt;%
+            add_trace(x = ~publication_date, y = ~n_words_spoken, 
+                      name = &#39;Number of words spoken during video recording&#39;, type = &#39;scatter&#39;, 
+                      mode = &quot;markers+lines&quot;, text = ~paste(&#39;Video: &#39;, title, &#39;\n&#39;, &#39;Number of words: &#39;, n_words_spoken),
+                      line = list(color = &#39;#004080&#39;, width = 4)) %&gt;%
+            layout(xaxis = list(title = &quot;Publication date&quot;),
+                   yaxis = list (title = &quot;Number of words&quot;),
+                   font =  list(size = 14),
+                   hovermode = &#39;compare&#39;,
+                   legend = list(orientation = &#39;h&#39;)) 
+    })
+    
+}
+
+shinyApp(ui, server)</code></pre>
+<div id="este-e-o-resultado" class="section level3">
+<h3>Este é o resultado:</h3>
+<p>Em <strong>(I)</strong> temos um gráfico de linha que segue de acordo com o tempo do início até o presente momento do canal. Cada ponto se trata de um vídeo sendo o gráfico responsivo ao cursor do mouse, também com a legenda clicável. Toda vez que o usuário passar o cursor sobre um ponto, automaticamente será gerado um wordcloud <strong>(II)</strong> deste vídeo (no caso, o que o Youtuber falou). Em <strong>(III)</strong> temos os Top vídeos mais curtidos, odiados e comentados. O wordcloud em <strong>(IV)</strong> foi gerado a partir dos títulos dos vídeos do canal. Por fim, fiz uma contagem de palavras ditas ao longo do tempo (deveria ter plotado o tempo de vídeo….será?). Me parece que o número de views declina no decorrer do tempo ao passo que a quantidade de palavras ditas aumenta. D:. Pode ser uma relação errônea.</p>
+<p>O dashboard online pode ser acessado neste Link :D</p>
+<p><a href="https://daviinada.shinyapps.io/youtubeapp/" class="uri">https://daviinada.shinyapps.io/youtubeapp/</a></p>
+<div class="figure">
+<img src="/img/youtubeApp/dashboard.png" />
+
+</div>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/dashboard">Dashboard</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/text-mining">Text Mining</a>
+  
+</div>
+
+
+
+
+    
+    
+    
+
+    
+      
+      
+      
+      
+
+      
+      
+      
+      
+    
+
+  </div>
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="/project/shiny_app_ngs/"><span
+      aria-hidden="true">&larr;</span> Genomic Tool for Enriched Region Detection</a></li>
+    
+
+    
+    <li class="next"><a href="/project/house_price_advanced_regression_kernel/">House price advanced regression <span
+      aria-hidden="true">&rarr;</span></a></li>
+    
+  </ul>
+</nav>
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Davi Toshio &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> 
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> 
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+
