@@ -104,7 +104,7 @@
     
     <url>
     
-      <loc>/categories/dashboard/</loc>
+      <loc>/tags/dashboard/</loc>
       <priority>0</priority>
     </url>
     
@@ -113,7 +113,7 @@
     
     <url>
     
-      <loc>/tags/dashboard/</loc>
+      <loc>/categories/dashboard/</loc>
       <priority>0</priority>
     </url>
     
@@ -159,7 +159,7 @@
     
     <url>
     
-      <loc>/categories/r/</loc>
+      <loc>/tags/r/</loc>
       <lastmod>2017-08-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -169,7 +169,7 @@
     
     <url>
     
-      <loc>/tags/r/</loc>
+      <loc>/categories/r/</loc>
       <lastmod>2017-08-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
